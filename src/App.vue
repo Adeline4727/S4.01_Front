@@ -1,11 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Button from './components/Button.vue'
-import InputRecherche from './components/InputRecherche.vue'
+import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-<header>
+    <header>
+        <NavBar />
+    
 
   
   <img src="/imgLBC.png" alt="img">
@@ -36,12 +37,15 @@ import InputRecherche from './components/InputRecherche.vue'
       </nav>
 
       <RouterView />
+
 </template>
 
 <style scoped>
 *{
   margin:0;
   padding:0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
   header{
     display: flex
@@ -60,13 +64,5 @@ import InputRecherche from './components/InputRecherche.vue'
   header div{
     margin-right: 3%;
     margin-left: 3%;
-  }
-  .separtationDiv{
-    margin-left:5%;
-  }
-  
-  
-  .allignementVerticale{
-    margin-top:15px;
   }
 </style>

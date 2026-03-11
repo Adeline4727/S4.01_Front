@@ -8,14 +8,17 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <div class="about">
-    <h1>A propos</h1>
-    <h3> {{x}} </h3>
+    
 
     
-<h1>Bienvenue</h1>
+    <h3>vous etes :</h3>
     <nav>
-        
-        <RouterLink to="/createCompte">creer un compte</RouterLink>
+        <div class="decoBoutton">
+        <RouterLink class="pasDEco " to="/">Professionnel</RouterLink>
+    </div>
+    <div class="decoBoutton">
+        <RouterLink class="pasDEco " to="/">Particulier</RouterLink>
+    </div>
       </nav>
 
       <RouterView />
@@ -24,11 +27,32 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
+
+
+.pasDEco{
+    text-decoration: none;
+    color: black;
+    padding: 10% 10% 10% 10%;
+}
+nav{
     display: flex;
+    justify-content: center; 
+
+}
+.decoBoutton{
+    padding: 10% 10% 10% 10%;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 10%;
+    border: grey 1px solid;
+    background-color: grey;
+    height: 35%;
+    width: 15%;
+    border-radius: 35px;
+    display: flex;
+    justify-content: center; /* Centre parfaitement de gauche à droite */
     align-items: center;
-  }
+    
+
 }
 </style>
