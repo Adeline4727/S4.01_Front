@@ -23,5 +23,17 @@ a.nav-item {
     justify-content: center;
     color: black;
     text-decoration: none;
+    padding: 0 0.75rem;
+    width: 100%;
+}
+
+a.nav-item ion-icon {
+    font-size: 5rem;
+}
+
+a.nav-item span {
+    font-size: 0.625rem;
+    width: 100%;
+    text-align: center;
 }
 </style>
