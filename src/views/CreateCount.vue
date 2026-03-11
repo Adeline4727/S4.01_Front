@@ -14,7 +14,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <h3>vous etes :</h3>
     <nav>
         <div class="decoBoutton">
-        <RouterLink class="pasDEco " to="/">Professionnel</RouterLink>
+        <RouterLink class="pasDEco " to="/createComptePro">Professionnel</RouterLink>
     </div>
     <div class="decoBoutton">
         <RouterLink class="pasDEco " to="/">Particulier</RouterLink>
@@ -24,6 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterView />
 
   </div>
+  
 </template>
 
 <style>
