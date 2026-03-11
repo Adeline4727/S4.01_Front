@@ -20,7 +20,7 @@ import InputRecherche from './components/InputRecherche.vue'
   </div>
   <div class="separtationDiv allignementVerticale">
     <p>&#128512;</p>
-    <p>se connecter</p>
+    <p> <RouterLink to="/connection">se connecter</RouterLink></p>
   </div>
 
   <div class="allignementVerticale">
