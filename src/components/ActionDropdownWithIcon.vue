@@ -1,18 +1,20 @@
 <script setup>
+import { ref } from "vue";
+
 const props = defineProps({
     icon: String,
-    label: String,
-    isActive: Boolean = false
+    label: String
 })
 
-const emit = defineEmits(['update:isActive'])
+const isActive = ref(false);
 
 function activate() {
-    emit('update:isActive', !props.isActive)
+    isActive.value = !isActive.value;
 }
 function close() {
-    emit('update:isActive', false)
+    isActive.value = false;
 }
+
 
 </script>
 <template>
@@ -41,6 +43,7 @@ function close() {
 
     .action-dropdown-with-icon button {
         width: 100%;
+        height: 45px;
         font-size: 1rem;
         padding: 0.75rem 2.75rem;
         outline: none;
