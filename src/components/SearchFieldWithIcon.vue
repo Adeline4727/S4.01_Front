@@ -15,13 +15,13 @@ defineProps({
 <style>
     .searchbar-with-icon {
         position: relative;
-        min-width: calc(fit-content + 4rem);
+        min-width: 256px;
     }
 
     .searchbar-with-icon input {
-        width: 100%;
         font-size: 1rem;
-        padding: 0.75rem 2.5rem;
+        padding: 0.75rem;
+        padding-left: 2.5rem;
         outline: none;
         border: 1px solid #888;
         border-radius: 1rem;
@@ -31,14 +31,14 @@ defineProps({
         position: absolute;
         z-index: 100;
         font-size: 1.5rem;
-        top: 0.5625rem;
+        top: 20%;
         left: 0.75rem;
     }
     
     .searchbar-with-icon .cv {
         position: absolute;
         font-size: 1.125rem;
-        top: 0.875rem;
-        right: 0.5rem;
+        top: 30%;
+        right: 1.5rem;
     }
 </style>

@@ -5,31 +5,36 @@ import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
-const ddActive = ref(false); 
 </script>
 
 
 <template>
     <div id="recherche">
         <div class="search-zone">
-            <SearchFieldWithIcon placeholder="Choisir une localisation" icon="location-outline" />
-            <ActionDropdownWithIcon label="Prix" icon="logo-euro" v-model:isActive="ddActive">
-                <div>
-                    <label>Prix minimum</label>
-                    <SearchFieldWithIcon placeholder="Prix minimum" icon="logo-euro" />
+            <SearchFieldWithIcon placeholder="Choisir une destination" icon="location-outline" hasChevron="true" />
+            <ActionDropdownWithIcon icon="calendar-outline" label="Dates" hasChevron v-model:isActive="ddActive">
+                <div class="field">
+                    <label for="arrival">Arrivée</label>
+                    <input type="date" name="arrival">
                 </div>
-                <div>
-                    <label>Prix maximum</label>
-                    <SearchFieldWithIcon placeholder="Prix maximum" icon="logo-euro" />
+                <span>au</span>
+                <div class="field">
+                    <label for="departure">Départ</label>
+                    <input type="date" name="departure">
                 </div>
+            </ActionDropdownWithIcon>
+            <ActionDropdownWithIcon icon="people-outline" label="Voyageurs" hasChevron v-model:isActive="ddActive">
+                <button>-</button>
+                <input type="number" name="" id="">
+                <button>+</button>
             </ActionDropdownWithIcon>
         </div>
         <h2>Annonces : Toute la France</h2>
         <b>4 annonces</b>
-        <AnnonceLite title="Annonce" price="42,00" category="Test" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-        <AnnonceLite title="Annonce" price="42,00" category="Test" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
-        <AnnonceLite title="Annonce" price="42,00" category="Test" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
-        <AnnonceLite title="Annonce" price="42,00" category="Test" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
+        <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
+        <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
+        <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
+        <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
     </div>
 </template>
 
@@ -43,6 +48,5 @@ const ddActive = ref(false);
 
     #recherche .search-zone {
         display: flex;
-        gap: 1rem;
     }
 </style>

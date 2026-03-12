@@ -15,6 +15,7 @@ import { addIcons } from 'ionicons'
 <style scoped>
     div {
         align-items: center;
+        width: 100%;
     }
     input {
         font-size: 1rem;
