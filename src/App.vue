@@ -11,8 +11,6 @@ import NavBar from './components/NavBar.vue'
   
   <!-- <img src="/imgLBC.png" alt="img">
   <Button>ajouter une annonce </Button>
-
-
   
   <InputRecherche> </InputRecherche >
   <div class="separtationDiv allignementVerticale">
