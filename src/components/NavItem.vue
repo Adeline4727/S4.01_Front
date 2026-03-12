@@ -9,14 +9,14 @@ defineProps({
 </script>
 
 <template>
-    <a class="nav-item" :href="target">
+    <RouterLink class="nav-item" :href="target">
         <ion-icon :name="icon" size="large"></ion-icon>
         <span>{{ label }}</span>
-    </a>
+    </RouterLink>
 </template>
 
 <style>
-a.nav-item {
+.nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,13 +27,14 @@ a.nav-item {
     width: 100%;
 }
 
-a.nav-item ion-icon {
+.nav-item ion-icon {
     font-size: 5rem;
 }
 
-a.nav-item span {
+.nav-item span {
     font-size: 0.625rem;
     width: 100%;
     text-align: center;
+    text-wrap: none;
 }
 </style>
