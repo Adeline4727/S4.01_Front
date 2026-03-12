@@ -4,34 +4,15 @@ import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-    <header>
-        <NavBar />
-    
-
-  
-  <!-- <img src="/imgLBC.png" alt="img">
-  <Button>ajouter une annonce </Button>
-  
-  <InputRecherche> </InputRecherche >
-  <div class="separtationDiv allignementVerticale">
-    <p>❤</p>
-    <p> mes favoris </p>
-  </div>
-  <div class="separtationDiv allignementVerticale">
-    <p>&#128512;</p>
-    <p> <RouterLink to="/connection">se connecter</RouterLink></p>
-  </div>
-
-  <div class="allignementVerticale">
-    <p>&#128512;</p>
-    <p>mes recherches</p>
-  </div> -->
-  
+  <header>
+    <NavBar />
   </header>
   
    <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
+        
       </nav>
 
       <RouterView />
@@ -46,7 +27,10 @@ import NavBar from './components/NavBar.vue'
   font-family: sans-serif;
 }
   header{
-    display: flex
+    display: flex;
+    width: 1200px;
+    text-align: center;
+    margin: 0 auto;
   }
   header img{
     width: 250px;

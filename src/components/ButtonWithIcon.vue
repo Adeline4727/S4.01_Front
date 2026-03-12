@@ -22,8 +22,9 @@ a.button-with-icon {
     justify-content: center;
     color: white;
     background-color: #f27b42;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 1rem;
+    min-width: 210px;
 }
 
 a.button-with-icon span {
