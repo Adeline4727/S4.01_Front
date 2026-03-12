@@ -22,7 +22,9 @@ import {
         </RouterLink>
         <!-- <img src="/imgLBC.png" alt="img"> -->
         
-        <ButtonWithIcon icon="add-circle-outline"><b>Déposer une annonce</b></ButtonWithIcon>
+        <RouterLink to="/DeposAnnonce">
+            <ButtonWithIcon icon="add-circle-outline"><b>Déposer une annonce</b></ButtonWithIcon>
+        </RouterLink>
 
         <SearchBar> </SearchBar>
         

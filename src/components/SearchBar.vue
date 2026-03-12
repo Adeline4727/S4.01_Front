@@ -18,11 +18,11 @@ import { addIcons } from 'ionicons'
         width: 100%;
     }
     input {
+        box-shadow: none;
         font-size: 1rem;
         border-radius: 1rem;
         width: 350px;
         height: 2.5rem;
-        border: 1px solid black;
         padding-left: 15px;
         padding-right: 45px;
         outline: none;
