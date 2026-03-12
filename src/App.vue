@@ -9,12 +9,12 @@ import NavBar from './components/NavBar.vue'
     
 
   
-  <img src="/imgLBC.png" alt="img">
+  <!-- <img src="/imgLBC.png" alt="img">
   <Button>ajouter une annonce </Button>
 
 
   
-  <InputRecherche > </InputRecherche >
+  <InputRecherche> </InputRecherche >
   <div class="separtationDiv allignementVerticale">
     <p>❤</p>
     <p> mes favoris </p>
@@ -27,10 +27,10 @@ import NavBar from './components/NavBar.vue'
   <div class="allignementVerticale">
     <p>&#128512;</p>
     <p>mes recherches</p>
-  </div>
-  
+  </div> -->
   
   </header>
+  
    <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
