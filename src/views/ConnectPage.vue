@@ -4,6 +4,7 @@ import { ref } from 'vue'
 let x=  ref(42)
 const isLogin = ref(true)
 import { RouterLink, RouterView } from 'vue-router'
+import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 
 </script>
 
@@ -54,7 +55,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style>
 #connection-container {
-  display: flex;;
+  display: flex;
   justify-content: center;
   margin-top: 10vh;
   font-family: sans-serif;
