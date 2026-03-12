@@ -15,7 +15,6 @@ defineProps({
 <style>
     .searchbar-with-icon {
         position: relative;
-        min-width: 256px;
     }
 
     .searchbar-with-icon input {
@@ -39,6 +38,6 @@ defineProps({
         position: absolute;
         font-size: 1.125rem;
         top: 30%;
-        right: 1.5rem;
+        right: 0.5rem;
     }
 </style>

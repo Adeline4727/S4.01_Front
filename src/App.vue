@@ -8,11 +8,14 @@ import NavBar from './components/NavBar.vue'
     <NavBar />
   </header>
   
-  <!-- <nav>
-    <RouterLink to="/about">About</RouterLink>
-  </nav> -->
+   <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
+        
+      </nav>
 
-  <RouterView />
+      <RouterView />
 
 </template>
 

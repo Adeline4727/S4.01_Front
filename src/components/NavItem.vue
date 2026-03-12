@@ -24,7 +24,7 @@ defineProps({
     color: black;
     text-decoration: none;
     padding: 0 0.75rem;
-    width: 100%;
+    width: max-content;
 }
 
 .nav-item ion-icon {
@@ -32,7 +32,7 @@ defineProps({
 }
 
 .nav-item span {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     width: 100%;
     text-align: center;
     text-wrap: none;

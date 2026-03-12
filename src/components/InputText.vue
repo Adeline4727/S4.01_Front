@@ -29,4 +29,9 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+
+.test{
+  color: blue;
+}
 </style>
