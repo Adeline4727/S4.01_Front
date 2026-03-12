@@ -27,7 +27,7 @@ import {
             <NavItem target="/mes-recherches" label="Mes recherches" icon="notifications-outline" />
             <NavItem target="/favoris" label="Favoris" icon="heart-outline" />
             <NavItem target="/messages" label="Mesages" icon="chatbubble-ellipses-outline" />
-            <NavItem target="/se-connecter" label="Se connecter" icon="person-outline" />
+            <NavItem target="/connection" label="Se connecter" icon="person-outline" />
         </div>
     </nav>
 </template>
