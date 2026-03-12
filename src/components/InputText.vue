@@ -8,28 +8,25 @@ defineProps({
 </script>
 
 <template>
-    <div class="centre" id="top-deplacement">
-  <label :for="nomInput">
-    <slot></slot>
-  </label>
-</div>
-  <input type="text" :name="nomInput" :id="nomInput"  class="centre">
+  <div class="input-group">
+    <label :for="nomInput">
+      <slot></slot>
+    </label>
+    <input type="text" :name="nomInput" :id="nomInput">
+  </div>
 </template>
 
 <style scoped>
-
-
-.centre{
-    position:absolute;
-  left:48%;
-
-  
+.input-group {
+  display: flex;
+  flex-direction: column; /* Place le label au-dessus de l'input */
+  gap: 5px; /* Espace entre le label et l'input */
 }
 
-input{
-    margin-top:45px;
-}
-#top-deplacement{
-    margin-top:18px;
+input {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>

@@ -13,11 +13,14 @@ import { addIcons } from 'ionicons'
 
 
 <style scoped>
+    div {
+        align-items: center;
+    }
     input {
         font-size: 1rem;
         border-radius: 1rem;
         width: 350px;
-        height: 3.5rem;
+        height: 2.5rem;
         border: 1px solid black;
         padding-left: 15px;
         padding-right: 45px;
@@ -27,6 +30,7 @@ import { addIcons } from 'ionicons'
     }
 
     .btn-loupe {
+        vertical-align: middle;
         font-size: 1.125rem;
         border: none;
         border-radius: 0.875rem;
@@ -34,7 +38,7 @@ import { addIcons } from 'ionicons'
         cursor: pointer;
         margin-left: -3.5rem;
         color: white;
-        background-color: #EA7737;
+        background-color: #f27b42;
     }
 
     img {

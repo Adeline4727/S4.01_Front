@@ -21,8 +21,8 @@ a.button-with-icon {
     align-items: center;
     justify-content: center;
     color: white;
-    background-color: darkorange;
-    padding: 1rem;
+    background-color: #f27b42;
+    padding: 0.5rem;
     border-radius: 1rem;
 }
 

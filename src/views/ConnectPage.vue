@@ -42,7 +42,7 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
       </form>
 
       <form v-else class="form-content">
-        <RouterLink to="/createCompteParticulier">
+        <RouterLink to="/CreationAccountParticular">
           <Button class="particulier-btn">Compte particulier</Button>
         </RouterLink>
         <RouterLink to="/createComptePro">
