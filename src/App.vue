@@ -9,7 +9,6 @@ import NavBar from './components/NavBar.vue'
   </header>
   
    <nav>
-        <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
         
