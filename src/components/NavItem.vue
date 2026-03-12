@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <RouterLink class="nav-item" :href="target">
+    <RouterLink class="nav-item" :to="target">
         <ion-icon :name="icon" size="large"></ion-icon>
         <span>{{ label }}</span>
     </RouterLink>
