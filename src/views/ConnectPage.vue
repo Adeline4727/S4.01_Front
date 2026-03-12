@@ -54,7 +54,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style>
 #connection-container {
-  display: flex;
+  display: flex;;
   justify-content: center;
   margin-top: 10vh;
   font-family: sans-serif;
