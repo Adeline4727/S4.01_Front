@@ -4,6 +4,7 @@ import { ref } from 'vue'
 let x=  ref(42)
 const isLogin = ref(true)
 import { RouterLink, RouterView } from 'vue-router'
+import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 
 </script>
 
