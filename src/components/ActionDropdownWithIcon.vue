@@ -10,37 +10,47 @@ const emit = defineEmits(['update:isActive'])
 function activate() {
     emit('update:isActive', !props.isActive)
 }
+function close() {
+    emit('update:isActive', false)
+}
 
 </script>
 <template>
-    <div class="searchbar-with-icon">
+    <div class="action-dropdown-with-icon">
         <button @click="activate">{{ label }}</button>
         <ion-icon class="icon" :name="icon"></ion-icon>
-        <ion-icon class="cv" name="chevron-down"></ion-icon>
-        <div v-if="isActive" class="sbwi-content">
-            <h3>{{ label }}</h3>
-            <slot></slot>
+        <ion-icon class="cv" name="chevron-forward"></ion-icon>
+        <div v-if="isActive" class="adwi-content">
+            <div class="adwi-header">
+                <h3>{{ label }}</h3>
+                <span class="close-btn" @click="close">
+                    <ion-icon name="close-outline"></ion-icon>
+                </span>
+            </div>
+            <div>
+                <slot></slot>
+            </div>
         </div>
     </div>
 </template>
 <style>
-    .searchbar-with-icon {
+    .action-dropdown-with-icon {
         position: relative;
+        min-width: calc(fit-content + 4rem);
     }
 
-    .searchbar-with-icon button {
-        position: absolute;
+    .action-dropdown-with-icon button {
         width: 100%;
         font-size: 1rem;
-        padding: 0.75rem;
-        padding-left: 2.5rem;
+        padding: 0.75rem 2.5rem;
         outline: none;
         border: 1px solid #888;
         border-radius: 1rem;
         background-color: white;
+        cursor: pointer;
     }
 
-    .searchbar-with-icon .icon {
+    .action-dropdown-with-icon .icon {
         position: absolute;
         z-index: 100;
         font-size: 1.5rem;
@@ -48,10 +58,49 @@ function activate() {
         left: 0.75rem;
     }
     
-    .searchbar-with-icon .cv {
+    .action-dropdown-with-icon .cv {
         position: absolute;
         font-size: 1.125rem;
         top: 0.875rem;
-        right: -2.5rem;
+        right: 0.5rem;
+    }
+
+    .adwi-content {
+        background-color: white;
+        position: absolute;
+        top: 3rem;
+        padding: 1rem 1.5rem;
+        padding-right: 4rem;
+        padding-bottom: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 16px rgba(0, 0, 0, 0.33);
+    }
+
+    .adwi-header {
+        display: flex;
+        gap: 12rem;
+        margin-right: -3rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-btn {
+        font-size: 1.5rem;
+        width: 2.125rem;
+        border-radius: 50%;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .close-btn ion-icon {
+        margin-top: 0.375rem;
+    }
+
+    .close-btn:hover {
+        background-color: #F5F5F5;
+    }
+
+    .adwi-content input {
+        padding-right: 0;
     }
 </style>
