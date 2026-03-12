@@ -79,6 +79,7 @@ const selectCity = (city) => {
         outline: none;
         vertical-align: middle;
         background-color: #E4E4E4;
+        border: 1px solid #E4E4E4;
     }
 
     .btn-loupe {
