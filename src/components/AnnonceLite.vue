@@ -7,7 +7,7 @@ defineProps({
     price: Float32Array,
     category: String,
     city: String,
-    // publishDate: String = '',
+    publishDate: String,
     isNew: Boolean = false, isPro: Boolean = false
 })
 
