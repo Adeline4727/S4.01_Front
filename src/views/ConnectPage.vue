@@ -41,8 +41,12 @@ import { RouterLink, RouterView } from 'vue-router'
       </form>
 
       <form v-else class="form-content">
-        <Button class="particulier-btn">Compte particulier</Button>
-        <Button class="professionnel-btn">Compte professionnel</Button>
+        <RouterLink to="/createCompteParticulier">
+          <Button class="particulier-btn">Compte particulier</Button>
+        </RouterLink>
+        <RouterLink to="/createComptePro">
+          <Button class="professionnel-btn" to="/createComptePro">Compte professionnel</Button>
+        </RouterLink>
       </form>
     </div>
   </div>
@@ -58,8 +62,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
 .card {
   width: 500px;
-  border: 2px solid black;
   background: white;
+  -webkit-box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30); 
+  box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30);
 }
 
 #title {
@@ -68,12 +73,10 @@ import { RouterLink, RouterView } from 'vue-router'
   color: white;
   padding: 10px;
   text-align: center;
-  border-bottom: 2px solid black;
 }
 
 .tabs {
   display: flex;
-  border-bottom: 2px solid black;
 }
 
 .tabs button {
@@ -89,7 +92,6 @@ import { RouterLink, RouterView } from 'vue-router'
 /* Style pour l'onglet non-sélectionné (plus sombre ou bordure) */
 .tabs button:not(.active) {
   background-color: #e67e22; 
-  border-left: 1px solid black;
 }
 
 .form-content {
@@ -108,7 +110,6 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 input {
-  border: 2px solid black;
   border-radius: 15px;
   padding: 5px 10px;
   width: 60%;
@@ -116,7 +117,6 @@ input {
 
 .submit-btn {
   background-color: #ff8c37;
-  border: 2px solid black;
   border-radius: 10px;
   padding: 5px 20px;
   margin-top: 10px;
