@@ -4,109 +4,114 @@ import { ref } from 'vue';
 
 defineProps({
     title: String,
-    category: String,
     price: Float32Array,
-    capacity: Int8Array,
+    // category: String,
+    owner: String,
     city: String,
-    isNew: Boolean = false, isPro: Boolean = false
+    publishDate: String,
+    isPro: Boolean = false
 })
 
 const liked = ref(false)
 </script>
 
 <template>
-    <div class="annonce-lite">
+    <div class="annonce-card">
+        <div class="annonce-proprio">
+            <div class="profile-pic-proprio">
+                <span>{{ owner.charAt(0) }}</span>
+            </div>
+            <span>{{ owner }}</span>
+        </div>
         <div class="annonce-image">
             <!-- Template for an actual image -->
             <ion-icon class="camera-icon" name="camera-outline"></ion-icon>
-            <span v-if="isNew" class="a-la-une">À la une</span>
             <LikeButton v-model:liked="liked" />
         </div>
         <div class="annonce-infos">
             <div class="annonce-top-part">
                 <h3 class="annonce-title">{{ title }}</h3>
-                <div>
-                    <span class="annonce-capacity">{{ capacity }} pers.</span>
-                    <span class="separator">&bull;</span>
-                    <span class="annonce-category">{{ category }}</span>
-                </div>
+                <h3 class="annonce-price">{{ price }} €</h3>
             </div>
             <div class="annonce-bottom-part">
                 <span v-if="isPro" class="annonce-pro">Pro</span>
                 <span class="annonce-city">{{ city }}</span>
-                <span class="annonce-price">à partir de <b>{{ price }} €</b> / nuit</span>
+                <span v-if="publishDate!=''" class="annonce-date">{{ publishDate }}</span>
             </div>
         </div>
     </div>
 </template>
 
 <style>
-    .annonce-lite {
-        width: 100%;
-        height: 160px;
+    .annonce-card {
+        padding: 1rem;
+        width: 224px;
         display: flex;
+        flex-direction: column;
         gap: 1rem;
         cursor: pointer;
     }
-
-    .annonce-lite:hover .annonce-title {
-        color: chocolate;
+    .annonce-card .annonce-proprio {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .annonce-card .profile-pic-proprio {
+        width: 1.5rem;
+        height: 1.5rem;
+        text-align: center;
+        border-radius: 1.5rem;
+        background-color: navy;
+        color: white;
+    }
+    .annonce-card .profile-pic-proprio span {
+        height: 100%;
+        line-height: 1.5rem;
     }
 
-    .annonce-image {
-        height: 100%;
+    /* .annonce-card:hover .annonce-title {
+        color: chocolate;
+    } */
+
+    .annonce-card .annonce-image {
+        height: 280px;
         width: 224px;
         background-color: #CACACA;
         position: relative;
         text-align: center;
+        vertical-align: center;
         border-radius: 1rem 1rem 1rem 0;
     }
-    .annonce-image ion-icon.camera-icon {
+    .annonce-card .annonce-image ion-icon.camera-icon {
         color: #1F1F1F;
         font-size: 8rem;
         height: 100%;
         vertical-align: middle;
     }
-    .a-la-une {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        width: max-content;
-        color: white;
-        background-color: blueviolet;
-        padding: 0.125rem 0.5rem;
-        border-radius: 1rem;
-    }
-    .like-button {
+    .annonce-card .like-button {
         position: absolute;
         top: 0.5rem;
         right: 0.5rem;
     }
-    .annonce-lite h3 {
-        margin: 0;
-    }
-    .annonce-infos {
-        padding: 1.125rem 0;
+    
+    .annonce-card .annonce-infos {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
+    .annonce-card .annonce-infos h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
 
-    .annonce-infos span {
-        font-size: 0.875rem;
+    .annonce-card .annonce-infos span {
+        font-size: 0.75rem;
         display: block;
         width: fit-content;
         margin: 0.25rem 0;
     }
 
-    .annonce-top-part div {
-        display: flex;
-        gap: 0.25rem;
-    }
-
-    .annonce-pro {
+    .annonce-card .annonce-pro {
         font-weight: bold;
         padding: 0.125rem 0.5rem;
         border: 1px solid black;

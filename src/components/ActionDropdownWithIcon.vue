@@ -42,7 +42,7 @@ function close() {
     .action-dropdown-with-icon button {
         width: 100%;
         font-size: 1rem;
-        padding: 0.75rem 2.5rem;
+        padding: 0.75rem 2.75rem;
         outline: none;
         border: 1px solid #888;
         border-radius: 1rem;
@@ -54,7 +54,7 @@ function close() {
         position: absolute;
         z-index: 100;
         font-size: 1.5rem;
-        top: 0.5625rem;
+        top: 0.625rem;
         left: 0.75rem;
     }
     
@@ -65,13 +65,16 @@ function close() {
         right: 0.5rem;
     }
 
+    .action-dropdown-with-icon h3 {
+        margin: 0;
+        padding: 0;
+    }
+
     .adwi-content {
         background-color: white;
         position: absolute;
         top: 3rem;
-        padding: 1rem 1.5rem;
-        padding-right: 4rem;
-        padding-bottom: 2rem;
+        padding: 0.5rem 1.5rem 1rem 1.5rem;
         border-radius: 1rem;
         box-shadow: 0 0.5rem 16px rgba(0, 0, 0, 0.33);
     }
@@ -79,14 +82,14 @@ function close() {
     .adwi-header {
         display: flex;
         gap: 12rem;
-        margin-right: -3rem;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: 0.25rem;
     }
 
     .close-btn {
         font-size: 1.5rem;
-        width: 2.125rem;
+        width: 2.25rem;
         border-radius: 50%;
         cursor: pointer;
         text-align: center;
@@ -98,9 +101,5 @@ function close() {
 
     .close-btn:hover {
         background-color: #F5F5F5;
-    }
-
-    .adwi-content input {
-        padding-right: 0;
     }
 </style>

@@ -40,6 +40,7 @@ import {
         align-items: center;
         justify-content: space-around;
         padding: 2rem;
+        width: 100%;
     }
 
     nav .nav-items {
