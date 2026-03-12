@@ -2,37 +2,61 @@
 import { ref } from 'vue'
 let x=  ref(42)
 import { RouterLink, RouterView } from 'vue-router'
+import InputText from '@/components/InputText.vue'
 
 </script>
 
 
 <template>
-  <div class="about">
-    <h1>A propos</h1>
-    <h3> {{x}} </h3>
-
-    <h1>Bienvenue au Pro</h1>
-
-    <nav>
-        
-        <RouterLink to="/createCompte">creer un compte</RouterLink>
-      </nav>
-      <label >numero de siret</label>
-  <input type="text" name="" id="">
-  <label >nom de l'entreprise</label>
-  <input type="text" name="" id="">
+  <h1>Bienvenue au Pro</h1>
   
-      <RouterView />
+    
+    
 
-  </div>
+      
+    <InputText nomInput="numero_siret" class="">numero de siret</InputText>
+
+  <div>
+    <RouterLink class="boutton_Suivant centrage" to="/createCompteProSuite">suivant</RouterLink>
+  </div>    
+    
+    <RouterView />
+  
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+
+h1{
+  text-align:center;
 }
+
+
+.boutton_Suivant{
+  
+  display: inline-block; 
+    text-decoration: none;
+  color: white;
+  background-color: blue;
+  border-radius: 5px;
+  
+  
+  width: 180px; 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+  
+  text-align: center;
+  
+
+
+
+}
+
+.centrage{
+  position:absolute;
+  left:48%;
+  margin-top:25%;
+}
+
+
 </style>
