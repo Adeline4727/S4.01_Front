@@ -77,7 +77,7 @@ const selectSuggestion = (suggestion) => {
         <div v-if="step == 1">
             <h1>Commençons par l'essentiel !</h1>
             <p class="comment">* champs obligatoire</p>
-            <div class="input-group">
+            <div class="input-group">s
               <label>Quel est le titre de l'annonce</label>
               <input class="input-element"/>
             </div>
@@ -85,10 +85,31 @@ const selectSuggestion = (suggestion) => {
         </div>
         <div v-else-if="step == 2">
             <h1>Où se situe votre bien ?</h1>
-            <input class="input-element"/>
-            <div class="map">
-                <MapComponent :latitude="45.98094177246094" :longitude="6.16481876373291"></MapComponent>
+            
+            <div class="address-container">
+                <input 
+                    v-model="query" 
+                    @input="searchAddress" 
+                    class="input-element" 
+                    placeholder="Saisissez votre adresse..."/>
+                <ul v-if="suggestions.length > 0" class="suggestions-list">
+                    <li 
+                        v-for="s in suggestions" 
+                        :key="s.properties.id" 
+                        @click="selectSuggestion(s)"
+                    >
+                        {{ s.properties.label }}
+                    </li>
+                </ul>
             </div>
+
+            <div class="map">
+                <MapComponent 
+                    :latitude="selectedAddress ? selectedAddress.geometry.coordinates[1] : 45.8992" 
+                    :longitude="selectedAddress ? selectedAddress.geometry.coordinates[0] : 6.1293"
+                ></MapComponent>
+            </div>
+
             <Button @click="step-=1">Retour</Button>
             <Button @click="step+=1">Continuer</Button>
         </div>
@@ -237,8 +258,8 @@ const selectSuggestion = (suggestion) => {
         height: 20px;
         font-size: 12px;
     }
-    /*---------------------------*/
 
+    /*-------------API--------------*/
     .address-container {
         position: relative; /* Important pour le positionnement de la liste */
         width: 100%;
@@ -270,5 +291,5 @@ const selectSuggestion = (suggestion) => {
         background-color: #f0f0f0;
     }
 
-    /*---------------------------*/
+    /*------------API---------------*/
 </style>
