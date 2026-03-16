@@ -4,6 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
+import MapComponent from '@/components/MapComponent.vue';
 
 </script>
 
@@ -50,7 +51,7 @@ import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
                 </div>
             </article>
             <article class="map">
-                <p>OpenStreetMap</p>
+                <MapComponent />
             </article>
         </section>
         </div>
@@ -58,7 +59,8 @@ import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
 <style>
     #recherche {
-        margin: 4rem 15%;
+        margin: 4rem 10%;
+        position: relative;
     }
 
     #recherche .search-zone {
@@ -82,5 +84,14 @@ import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
         gap: 1.5rem;
         flex-direction: column;
         padding: 1.5rem 0;
+    }
+
+    #recherche article.map {
+        width: 48%;
+        margin-top: 1.5rem;
+        position: sticky;
+        top: 2rem;
+        height: calc(100vh - 4rem);
+        z-index: 1;
     }
 </style>

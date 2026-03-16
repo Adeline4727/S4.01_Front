@@ -54,7 +54,8 @@ import {
         gap: 0.5rem;
     }
 
-    nav .nav-items NavItem {
-        width: 100%;
+    nav a {
+        text-decoration: none;
     }
+
 </style>

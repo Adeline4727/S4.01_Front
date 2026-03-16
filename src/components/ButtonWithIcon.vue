@@ -15,6 +15,7 @@ defineProps({
 
 <style>
 a.button-with-icon {
+    text-decoration: none;
     cursor: pointer;
     display: flex;
     gap: 0.75rem;

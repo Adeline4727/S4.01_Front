@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { addIcons } from 'ionicons';
+import { RouterLink } from 'vue-router';
 
 // --- NOUVEAU : Logique d'autocomplétion ---
 const searchQuery = ref('');
@@ -44,9 +45,9 @@ const selectCity = (city) => {
             v-model="searchQuery"
             @input="onSearchInput"
         >
-        <button class="btn-loupe">
+        <RouterLink to="recherche" class="btn-loupe">
             <ion-icon name="search-outline"></ion-icon>
-        </button>
+        </RouterLink>
 
         <ul v-if="cities.length > 0" class="suggestions-list">
             <li 
