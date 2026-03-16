@@ -40,7 +40,7 @@ const liked = ref(false)
     </div>
 </template>
 
-<style>
+<style scoped>
     .annonce-lite {
         width: 100%;
         height: 160px;

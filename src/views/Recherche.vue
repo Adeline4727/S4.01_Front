@@ -48,6 +48,10 @@ import MapComponent from '@/components/MapComponent.vue';
                     <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
                     <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
                     <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
+                    <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
+                    <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
+                    <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
+                    <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
                 </div>
             </article>
             <article class="map">

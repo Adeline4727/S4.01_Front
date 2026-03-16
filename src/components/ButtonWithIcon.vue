@@ -13,7 +13,7 @@ defineProps({
     </a>
 </template>
 
-<style>
+<style scoped>
 a.button-with-icon {
     text-decoration: none;
     cursor: pointer;

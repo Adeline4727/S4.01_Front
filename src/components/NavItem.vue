@@ -15,7 +15,7 @@ defineProps({
     </RouterLink>
 </template>
 
-<style>
+<style scoped>
 .nav-item {
     display: flex;
     flex-direction: column;

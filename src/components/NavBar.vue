@@ -38,13 +38,13 @@ import {
 </template>
 
 
-<style>
+<style scoped>
     nav {
         display: flex;
         gap: 1rem;
         align-items: center;
         justify-content: space-around;
-        padding: 2rem;
+        padding: 0.5rem;
         text-align: center;
         width: 100%;
     }
