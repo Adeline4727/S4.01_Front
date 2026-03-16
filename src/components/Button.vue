@@ -31,7 +31,7 @@
         width: 220px;
         margin-left:3%;
         margin-right:3%;
-        height:75px;
+        height:50px;
       }
       .imgclasse{
          

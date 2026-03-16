@@ -24,7 +24,7 @@ import InputText from '@/components/InputText.vue'
   
 </template>
 
-<style>
+<style scoped>
 
 h1{
   text-align:center;

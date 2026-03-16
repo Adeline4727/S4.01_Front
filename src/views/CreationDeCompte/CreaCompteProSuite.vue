@@ -41,7 +41,7 @@ import InputText from '@/components/InputText.vue'
   
 </template>
 
-<style>
+<style scoped>
 
 
 
