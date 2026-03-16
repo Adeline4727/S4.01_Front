@@ -13,14 +13,17 @@ import { RouterLink, RouterView } from 'vue-router'
           <label>Quel est le titre de l'annonce</label>
           <input class="input-element"/>
         </div>
+        <Button>Suivant</Button>
     </form>
 </template>
 
-<style>
+<style scoped>
     #depos-annonce-form{
         justify-content: center;
         margin-top: 10vh;
         font-family: sans-serif;
+        text-align: center;
+        width: 100%;
         text-align: center;
     }
     .input-group {

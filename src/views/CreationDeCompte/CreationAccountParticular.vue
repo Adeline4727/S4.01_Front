@@ -29,7 +29,7 @@ let x = ref(42)
   <RouterView />
 </template>
 
-<style>
+<style scoped>
 
 .page-layout {
   padding: 50px;
