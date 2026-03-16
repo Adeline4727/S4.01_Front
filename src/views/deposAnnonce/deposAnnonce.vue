@@ -7,9 +7,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
 const types = [
 
-{name:"maison"},
-{name:"appartement"},
-{name:"Autres"},
+    {name:"maison"},
+    {name:"appartement"},
+    {name:"Autres"},
 
 ]
 
