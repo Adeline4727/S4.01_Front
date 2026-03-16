@@ -13,6 +13,26 @@ const types = [
 
 ]
 
+const photos = ref([])
+
+const handleFileUpload = (event) => {
+  const files = Array.from(event.target.files)
+  
+  files.forEach(file => {
+    const photoObject = {
+      file: file,
+      url: URL.createObjectURL(file) 
+    }
+    photos.value.push(photoObject)
+  })
+}
+
+const removePhoto = (index) => {
+
+  URL.revokeObjectURL(photos.value[index].url)
+  photos.value.splice(index, 1)
+}
+
 </script>
 
 <template>
@@ -35,12 +55,19 @@ const types = [
         <div v-else-if="step == 3">
             <h1>Ajoutez des photos</h1>
             <input id="file-upload" type="file" accept="image/*" multiple @change="handleFileUpload" />
+            <div class="preview-container">
+                <div v-for="(photo, index) in photos" :key="index" class="photo-item">
+                    <img :src="photo.url" alt="Aperçu de l'annonce">
+                    
+                    <button @click.prevent="removePhoto(index)" class="delete-btn">X</button>
+                </div>
+            </div>
             <Button @click="step-=1">Retour</Button>
             <Button @click="step+=1">Continuer</Button>
         </div>
         <div v-else-if="step == 4">
             <h1>Dites-nous en plus</h1>
-            <p class="comment">Choisissez votre type de bien*</p>
+            <h3>Choisissez votre type de bien*</h3>
             <div v-for="type in types">
                 <input type="radio" name="type" :id="type.name">
                 <label :for="type.name">{{type.name}}</label>
@@ -125,9 +152,42 @@ const types = [
     .input-element{
         margin: 5px;
     }
-    .class{
+    .comment{
         font-style: italic;
         color: gray;
         size: 10px;
+    }
+    .preview-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .photo-item {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+    .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+    .delete-btn {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
     }
 </style>
