@@ -1,11 +1,13 @@
 <script setup>
 import { addIcons } from 'ionicons'
 
-defineProps({
-    target: String,
-    label: String,
-    icon: String
-})
+// defineProps({
+//     target: String,
+//     label: String,
+//     icon: String
+// })
+
+defineProps(['target', 'label', 'icon'])
 </script>
 
 <template>

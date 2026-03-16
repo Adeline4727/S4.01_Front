@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from 'vue'
-let x=  ref(42)
+import { ref } from 'vue';
 import MapComponent from '@/components/MapComponent.vue';
 
 </script>
@@ -26,7 +25,8 @@ import MapComponent from '@/components/MapComponent.vue';
     <h3>Description</h3>
 
 
-    <MapComponent></MapComponent>
+    
+    
 
 
 
