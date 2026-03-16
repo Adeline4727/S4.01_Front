@@ -19,7 +19,7 @@ const types = [
     <form id="depos-annonce-form">
         <div v-if="step == 1">
             <h1>Commençons par l'essentiel !</h1>
-            <p>* champs obligatoire</p>
+            <p class="comment">* champs obligatoire</p>
             <div class="input-group">
               <label>Quel est le titre de l'annonce</label>
               <input class="input-element"/>
@@ -40,7 +40,7 @@ const types = [
         </div>
         <div v-else-if="step == 4">
             <h1>Dites-nous en plus</h1>
-            <p>Choisissez votre type de bien*</p>
+            <p class="comment">Choisissez votre type de bien*</p>
             <div v-for="type in types">
                 <input type="radio" name="type" :id="type.name">
                 <label :for="type.name">{{type.name}}</label>
@@ -51,7 +51,7 @@ const types = [
                     <div class="input-group">
                         <label>Surface habitable *</label>
                         <input class="input-element"/>
-                        <p>Comptez les surfaces intérieures habitables d'une hauteur sous plafond de plus de 1,80m.</p>
+                        <p class="comment">Comptez les surfaces intérieures habitables d'une hauteur sous plafond de plus de 1,80m.</p>
                     </div>
                     <div class="input-group">
                         <label>Capacité</label>
@@ -124,5 +124,10 @@ const types = [
     }
     .input-element{
         margin: 5px;
+    }
+    .class{
+        font-style: italic;
+        color: gray;
+        size: 10px;
     }
 </style>
