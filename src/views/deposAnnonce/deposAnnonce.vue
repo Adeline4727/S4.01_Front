@@ -39,21 +39,26 @@ const query = ref('')
 const suggestions = ref([]) 
 const selectedAddress = ref(null)
 
+let timer = null
 const searchAddress = async () => {
-  if (query.value.length < 3) {
-    suggestions.value = []
-    return
-  }
+    clearTimeout(timer)
+  timer = setTimeout(async () => {
 
-  try {
-    const response = await fetch(
-      `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query.value)}&limit=5&autocomplete=1`
-    )
-    const data = await response.json()
-    suggestions.value = data.features
-  } catch (error) {
-    console.error("Erreur API Adresse :", error)
-  }
+      if (query.value.length < 3) {
+        suggestions.value = []
+        return
+      }
+    
+      try {
+        const response = await fetch(
+          `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query.value)}&limit=5&autocomplete=1`
+        )
+        const data = await response.json()
+        suggestions.value = data.features
+      } catch (error) {
+        console.error("Erreur API Adresse :", error)
+      }
+  },300)
 }
 
 const selectSuggestion = (suggestion) => {
@@ -61,6 +66,8 @@ const selectSuggestion = (suggestion) => {
   selectedAddress.value = suggestion
   suggestions.value = []
 }
+
+
 
 //-----------API-----------
 </script>
@@ -80,7 +87,7 @@ const selectSuggestion = (suggestion) => {
             <h1>Où se situe votre bien ?</h1>
             <input class="input-element"/>
             <div class="map">
-                <MapComponent></MapComponent>
+                <MapComponent :latitude="45.98094177246094" :longitude="6.16481876373291"></MapComponent>
             </div>
             <Button @click="step-=1">Retour</Button>
             <Button @click="step+=1">Continuer</Button>
@@ -230,4 +237,38 @@ const selectSuggestion = (suggestion) => {
         height: 20px;
         font-size: 12px;
     }
+    /*---------------------------*/
+
+    .address-container {
+        position: relative; /* Important pour le positionnement de la liste */
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .suggestions-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 0 0 8px 8px;
+        list-style: none;
+        padding: 0;
+        z-index: 1000; /* Passe au-dessus des autres éléments */
+        text-align: left;
+    }
+
+    .suggestions-list li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+    }
+
+    .suggestions-list li:hover {
+        background-color: #f0f0f0;
+    }
+
+    /*---------------------------*/
 </style>
