@@ -12,7 +12,6 @@ import InputText from '@/components/InputText.vue'
   
     
     
-
   <div class="formulaire">
     
         <div class="espacement">

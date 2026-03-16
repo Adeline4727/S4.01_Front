@@ -1,41 +1,51 @@
 <template>
-  <div ref="mapContainer" style="height: 500px; width: 100%">
-    <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="true">
-      <l-tile-layer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        layer-type="base"
-        name="OpenStreetMap"
-      ></l-tile-layer>
-
-      <l-marker :lat-lng="center">
-        <l-popup>Salut ! C'est Paris.</l-popup>
-      </l-marker>
-    </l-map>
-  </div>
+  <div ref="mapContainer" class="map-container"></div>
 </template>
+
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted } from 'vue';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-// 1. On importe le CSS et la vraie librairie Leaflet pure
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-
-// 2. Référence vers la div HTML
+// Référence vers l'élément HTML
 const mapContainer = ref(null);
 
-// 3. On initialise la carte uniquement quand le composant est monté à l'écran
-onMounted(() => {
-  // Création de la carte centrée sur Paris
-  const map = L.map(mapContainer.value).setView([48.8566, 2.3522], 12);
+const props = defineProps({
+  longitude: {
+    type: Number,
+    required: true // Empêche d'oublier de passer la valeur
+  },
+  latitude: {
+    type: Number,
+    required: true
+  }
+})
 
-  // Ajout du fond de carte OpenStreetMap
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap"
+onMounted(() => {
+  // 1. Coordonnées statiques (Paris)
+  const latitude = props.latitude;
+  const longitude = props.longitude;
+
+  // 2. Initialisation de la carte dans la div
+  const map = L.map(mapContainer.value).setView([latitude, longitude], 13);
+
+  // 3. Chargement des images de la carte (Tiles)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  // Ajout du marqueur et de sa popup
-  L.marker([48.8566, 2.3522]).addTo(map)
-    .bindPopup("Salut ! C'est Paris.")
+  // 4. Ajout d'un marqueur rouge classique
+  L.marker([latitude, longitude]).addTo(map)
+    .bindPopup('Paris, France')
     .openPopup();
 });
 </script>
+
+<style scoped>
+.map-container {
+  height: 500px; /* Hauteur obligatoire */
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+</style>
