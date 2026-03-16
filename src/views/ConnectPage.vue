@@ -1,6 +1,7 @@
 <script setup>
 import Button from '@/components/Button.vue';
 import { ref } from 'vue'
+let x=  ref(42)
 const isLogin = ref(true)
 import { RouterLink, RouterView } from 'vue-router'
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
@@ -52,7 +53,7 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
   </div>
 </template>
 
-<style scoped>
+<style>
 #connection-container {
   display: flex;
   justify-content: center;

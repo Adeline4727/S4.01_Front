@@ -31,5 +31,4 @@ import Carrousel from '@/components/Carrousel.vue';
 
 
 <style scoped>
-
 </style>

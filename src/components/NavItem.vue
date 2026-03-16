@@ -1,11 +1,13 @@
 <script setup>
 import { addIcons } from 'ionicons'
 
-defineProps({
-    target: String,
-    label: String,
-    icon: String
-})
+// defineProps({
+//     target: String,
+//     label: String,
+//     icon: String
+// })
+
+defineProps(['target', 'label', 'icon'])
 </script>
 
 <template>
@@ -15,7 +17,7 @@ defineProps({
     </RouterLink>
 </template>
 
-<style scoped>
+<style>
 .nav-item {
     display: flex;
     flex-direction: column;

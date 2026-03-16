@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
-import Footer_ from './components/Footer.vue'
 </script>
 
 <template>
@@ -9,27 +8,23 @@ import Footer_ from './components/Footer.vue'
     <NavBar />
   </header>
   
-  <nav>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
-  </nav>
+   <nav>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
+        
+      </nav>
 
-  <RouterView />
-
-  <footer>
-    <Footer_ />
-  </footer>
+      <RouterView />
 
 </template>
 
 <style scoped>
-  * {
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-  }
-
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
   header{
     display: flex;
     width: 1200px;
@@ -50,8 +45,5 @@ import Footer_ from './components/Footer.vue'
   header div{
     margin-right: 3%;
     margin-left: 3%;
-  }
-  footer {
-    margin: 8rem 0 0 0;
   }
 </style>

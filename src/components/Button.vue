@@ -9,12 +9,15 @@
 </script>
 
 <template>
-   <button v-if="estImage(donnee)" 
-   class="imgclasse">  <slot> </slot> </button>
+   <boutton v-if="estImage(donnee)" 
+   class="imgclasse">  <slot> </slot> </boutton>
 
     <button v-else class="pclasse"> <p >
       <slot> </slot> </p>
      </button>
+
+     
+     
 
 </template>
 
@@ -28,7 +31,7 @@
         width: 220px;
         margin-left:3%;
         margin-right:3%;
-        height:50px;
+        height:75px;
       }
       .imgclasse{
          

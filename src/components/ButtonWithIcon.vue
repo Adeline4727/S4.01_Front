@@ -1,9 +1,14 @@
 <script setup>
 import { addIcons } from 'ionicons'
 
-defineProps({
-    icon: String
-})
+// On ajoute 'target: String' ici !
+// defineProps({
+//     icon: String,
+//     target: String
+// })
+
+
+defineProps(['icon', 'target'])
 </script>
 
 <template>
@@ -13,9 +18,9 @@ defineProps({
     </a>
 </template>
 
-<style scoped>
+<style>
+/* Ton style reste identique */
 a.button-with-icon {
-    text-decoration: none;
     cursor: pointer;
     display: flex;
     gap: 0.75rem;
