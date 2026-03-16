@@ -9,8 +9,8 @@
 </script>
 
 <template>
-   <boutton v-if="estImage(donnee)" 
-   class="imgclasse">  <slot> </slot> </boutton>
+   <button v-if="estImage(donnee)" 
+   class="imgclasse">  <slot> </slot> </button>
 
     <button v-else class="pclasse"> <p >
       <slot> </slot> </p>

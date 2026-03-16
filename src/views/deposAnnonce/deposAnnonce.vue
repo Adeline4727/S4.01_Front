@@ -1,5 +1,6 @@
 <script setup>
 import Button from '@/components/Button.vue';
+import MapComponent from '@/components/MapComponent.vue';
 import { ref } from 'vue'
 const isLogin = ref(true)
 const step = ref(1)
@@ -32,7 +33,36 @@ const removePhoto = (index) => {
   URL.revokeObjectURL(photos.value[index].url)
   photos.value.splice(index, 1)
 }
+//-----------API-----------
 
+const query = ref('')
+const suggestions = ref([]) 
+const selectedAddress = ref(null)
+
+const searchAddress = async () => {
+  if (query.value.length < 3) {
+    suggestions.value = []
+    return
+  }
+
+  try {
+    const response = await fetch(
+      `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query.value)}&limit=5&autocomplete=1`
+    )
+    const data = await response.json()
+    suggestions.value = data.features
+  } catch (error) {
+    console.error("Erreur API Adresse :", error)
+  }
+}
+
+const selectSuggestion = (suggestion) => {
+  query.value = suggestion.properties.label
+  selectedAddress.value = suggestion
+  suggestions.value = []
+}
+
+//-----------API-----------
 </script>
 
 <template>
@@ -49,6 +79,9 @@ const removePhoto = (index) => {
         <div v-else-if="step == 2">
             <h1>Où se situe votre bien ?</h1>
             <input class="input-element"/>
+            <div class="map">
+                <MapComponent></MapComponent>
+            </div>
             <Button @click="step-=1">Retour</Button>
             <Button @click="step+=1">Continuer</Button>
         </div>
@@ -156,6 +189,13 @@ const removePhoto = (index) => {
         font-style: italic;
         color: gray;
         size: 10px;
+    }
+    .map{
+        width: 50%;
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
     .preview-container {
         display: flex;
