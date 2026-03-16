@@ -57,7 +57,7 @@ import MapComponent from '@/components/MapComponent.vue';
         </div>
 </template>
 
-<style>
+<style scoped>
     #recherche {
         margin: 4rem 10%;
         position: relative;
@@ -92,6 +92,5 @@ import MapComponent from '@/components/MapComponent.vue';
         position: sticky;
         top: 2rem;
         height: calc(100vh - 4rem);
-        z-index: 1;
     }
 </style>

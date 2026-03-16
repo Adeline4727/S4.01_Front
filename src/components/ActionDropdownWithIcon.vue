@@ -35,7 +35,7 @@ function close() {
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     .action-dropdown-with-icon {
         position: relative;
         min-width: calc(fit-content + 4rem);
@@ -82,6 +82,7 @@ function close() {
         padding: 0.5rem 1.5rem 1rem 1.5rem;
         border-radius: 1rem;
         box-shadow: 0 0.5rem 16px rgba(0, 0, 0, 0.33);
+        z-index: 100;
     }
 
     .adwi-header {
