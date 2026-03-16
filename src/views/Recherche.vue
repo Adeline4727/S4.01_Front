@@ -41,7 +41,7 @@ import MapComponent from '@/components/MapComponent.vue';
             <article class="annonces">
                 <div>
                     <h2>Annonces : Toute la France</h2>
-                    <b>4 annonces</b>
+                    <b>8 annonces</b>
                 </div>
                 <div class="list-annonces">
                     <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />

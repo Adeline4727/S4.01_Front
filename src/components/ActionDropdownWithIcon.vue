@@ -42,7 +42,8 @@ function close() {
     }
 
     .action-dropdown-with-icon button {
-        width: 100%;
+        min-width: 100%;
+        width: max-content;
         height: 45px;
         font-size: 1rem;
         padding: 0.75rem 2.75rem;
@@ -71,6 +72,7 @@ function close() {
     .action-dropdown-with-icon h3 {
         margin: 0;
         padding: 0;
+        width: max-content;
     }
 
     .adwi-content {

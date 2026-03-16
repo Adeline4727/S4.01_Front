@@ -6,14 +6,15 @@ import AnnonceCard from './AnnonceCard.vue';
 
 <template>
     <div class="carrousel">
-        <div class="">
-            <slot></slot>
-        </div>
+        <slot></slot>
     </div>
 </template>
 
-<style>
+<style scoped>
     .carrousel {
+        display: flex;
+        align-items: center;
+        justify-content: start;
         overflow-x: scroll;
     }
 </style>

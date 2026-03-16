@@ -1,7 +1,6 @@
 <script setup>
 import { addIcons } from 'ionicons'
 
-// On ajoute 'target: String' ici !
 // defineProps({
 //     icon: String,
 //     target: String

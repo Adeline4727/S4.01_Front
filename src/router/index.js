@@ -75,6 +75,14 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/deposAnnonce/deposAnnonce.vue'),
     },
+    {
+      path: '/account/private/home',
+      name: 'accountHome',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/MyAccount.vue'),
+    },
     
   ],
 })
