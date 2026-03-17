@@ -1,8 +1,14 @@
 <script setup>
+import { ref } from 'vue'
 import AnnonceCard from '@/components/AnnonceCard.vue';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import Carrousel from '@/components/Carrousel.vue';
-
+import axios from 'axios'
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api"
+const annonces = ref([])
+axios.get(url+"Annonces/GetAnnonces").then( response => {
+    annonces.value = response.data
+})
 </script>
 
 <template>
@@ -17,15 +23,8 @@ import Carrousel from '@/components/Carrousel.vue';
         <h2>En ce moment sur Leboncoin</h2>
         <article>
             <h3>Ventes immobilières</h3>
-            <Carrousel>
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                <AnnonceCard title="Annonce" category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
+            <Carrousel v-for="annonce in annonces">
+                <AnnonceCard title={{ annonce.titreAnnonce }} category="Test" capacity="8" owner="Jean Dupont" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
             </Carrousel>
         </article>
     </section>
