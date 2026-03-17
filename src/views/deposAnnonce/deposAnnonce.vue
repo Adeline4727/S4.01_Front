@@ -77,7 +77,7 @@ const selectSuggestion = (suggestion) => {
         <div v-if="step == 1">
             <h1>Commençons par l'essentiel !</h1>
             <p class="comment">* champs obligatoire</p>
-            <div class="input-group">s
+            <div class="input-group">
               <label>Quel est le titre de l'annonce</label>
               <input class="input-element"/>
             </div>
