@@ -2,6 +2,8 @@ import {ref, computed} from 'vue';
 import {defineStore} from 'pinia';
 import axios from 'axios';
 
+const url = "";
+
 export const useAnnoncesStore = defineStore('annonces', () => {
 
     const annoncePlaceholder = ref(

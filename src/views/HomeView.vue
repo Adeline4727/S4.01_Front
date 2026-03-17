@@ -31,4 +31,7 @@ import Carrousel from '@/components/Carrousel.vue';
 
 
 <style scoped>
+* {
+  font-family: sans-serif;
+}
 </style>
