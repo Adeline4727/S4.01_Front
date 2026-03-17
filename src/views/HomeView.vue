@@ -42,6 +42,8 @@ import Carrousel from '@/components/Carrousel.vue';
         width: 75%;
         padding: 10px;
         margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
