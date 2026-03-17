@@ -85,14 +85,14 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
   padding: 10px;
   border: none;
   cursor: pointer;
-  background-color: #ff8c37;
+  background-color: #e67e22; 
   color: white;
   font-weight: bold;
 }
 
 /* Style pour l'onglet non-sélectionné (plus sombre ou bordure) */
 .tabs button:not(.active) {
-  background-color: #e67e22; 
+  background-color: #ff8c37;
 }
 
 .form-content {

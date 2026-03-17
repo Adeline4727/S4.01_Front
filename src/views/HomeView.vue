@@ -8,7 +8,9 @@ import Carrousel from '@/components/Carrousel.vue';
 <template>
     <div class="deposAnnonceElement">
         <h1>C'est le moment de vendre !</h1>
-        <ButtonWithIcon icon="add-circle-outline">Déposer une annonce</ButtonWithIcon>
+        <RouterLink to="/DeposAnnonce">
+            <ButtonWithIcon icon="add-circle-outline"><b>Déposer une annonce</b></ButtonWithIcon>
+        </RouterLink>
     </div>
 
     <section>
@@ -33,12 +35,15 @@ import Carrousel from '@/components/Carrousel.vue';
 <style scoped>
     *{
         margin: 0;
+        text-decoration: none;
     }
     .deposAnnonceElement{
         border-radius: 15px;
         width: 75%;
         padding: 10px;
         margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
