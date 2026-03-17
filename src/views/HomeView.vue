@@ -4,7 +4,7 @@ import AnnonceCard from '@/components/AnnonceCard.vue';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import Carrousel from '@/components/Carrousel.vue';
 import axios from 'axios'
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api"
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
 const annonces = ref([])
 axios.get(url+"Annonces/GetAnnonces").then( response => {
     annonces.value = response.data
@@ -23,8 +23,8 @@ axios.get(url+"Annonces/GetAnnonces").then( response => {
         <h2>En ce moment sur Leboncoin</h2>
         <article>
             <h3>Ventes immobilières</h3>
-            <Carrousel v-for="annonce in annonces">
-                <AnnonceCard :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.CompteUtilisateur" :price="annonce.prix" :city="annonce.Adresse.ville" :publishDate="annonce.Date" />
+            <Carrousel>
+                <AnnonceCard v-for="annonce in annonces" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.CompteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
             </Carrousel>
         </article>
     </section>
