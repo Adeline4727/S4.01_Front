@@ -53,7 +53,7 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
   </div>
 </template>
 
-<style>
+<style scoped>
 #connection-container {
   display: flex;
   justify-content: center;
