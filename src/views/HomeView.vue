@@ -24,7 +24,7 @@ axios.get(url+"Annonces/GetAnnonces").then( response => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <AnnonceCard v-for="annonce in annonces" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.CompteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                <AnnonceCard v-for="annonce in annonces" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
             </Carrousel>
         </article>
     </section>
