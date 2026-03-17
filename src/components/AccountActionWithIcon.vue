@@ -25,13 +25,19 @@ defineProps({
 <style scoped>
     .account-action-with-icon {
         width: 100%;
+        height: fit-content;
         font-family: sans-serif;
         border: 1px solid lightgray;
         border-radius: 1rem;
     }
+    
+    .account-action-with-icon:hover {
+        background-color: whitesmoke;
+    }
 
     .account-action-with-icon a {
         display: flex;
+        height: 100%;
         align-items: center;
         gap: 1rem;
         padding: 1.5rem;

@@ -40,7 +40,7 @@ const selectCity = (city) => {
     <div class="search-container">
         <input 
             type="text" 
-            placeholder="Annecy, appartement T2 etc ..."
+            placeholder="Rechercher..."
             v-model="searchQuery"
             @input="onSearchInput"
         >
@@ -61,42 +61,41 @@ const selectCity = (city) => {
 </template>
 
 <style scoped>
-    /* ajout de position relative pour mettre la liste déroulante */
     .search-container {
         align-items: center;
-        width: 100%;
-        position: relative; 
+        position: relative;
+        margin-right: 2rem;
     }
 
     input {
-        box-shadow: none;
+        width: 100%;
         font-size: 1rem;
+        font-family: sans-serif;
         border-radius: 1rem;
-        width: 350px;
-        height: 2.5rem;
-        padding-left: 15px;
-        padding-right: 45px;
+        padding: 1rem;
         outline: none;
         vertical-align: middle;
         background-color: #E4E4E4;
-        border: 1px solid #E4E4E4;
+        border: none;
     }
 
     .btn-loupe {
+        right: -1.75rem;
+        top: 8%;
+        position: absolute;
         vertical-align: middle;
-        font-size: 1.125rem;
+        font-size: 1.25rem;
         border: none;
         border-radius: 0.875rem;
-        padding: 0.5rem 0.75rem;
+        width: 2.5rem;
+        height: 2.5rem;
         cursor: pointer;
-        margin-left: -3.5rem;
         color: white;
-        background-color: #f27b42;
+        background-color: #ec5a13;
     }
 
-    img {
-        width: 25px;
-        display: block;
+    .btn-loupe:hover {
+        background-color: #ec5a13e5;
     }
 
     /*style liste deroulante*/

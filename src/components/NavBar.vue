@@ -22,7 +22,7 @@ import {
         </RouterLink>
         <!-- <img src="/imgLBC.png" alt="img"> -->
         
-        <RouterLink to="/DeposAnnonce">
+        <RouterLink class="deposer-une-annonce" to="/DeposAnnonce">
             <ButtonWithIcon icon="add-circle-outline"><b>Déposer une annonce</b></ButtonWithIcon>
         </RouterLink>
 
@@ -44,6 +44,7 @@ import {
         align-items: center;
         justify-content: space-around;
         padding: 0.5rem;
+        margin: 0 3%;
         text-align: center;
         width: 100%;
     }
@@ -59,5 +60,24 @@ import {
 
     nav .logo {
         color: #ec5a13; /* chocolate; */
+    }
+
+    @media screen and (max-width: 768px) {
+        .deposer-une-annonce, .nav-items, .nav-item {
+            display: none;
+        }
+
+        nav {
+            flex-direction: column;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .search-container {
+            width: 100%;
+            margin: 0 2rem;
+        }
     }
 </style>

@@ -27,6 +27,10 @@ defineProps({
         width: 100%;
         font-family: sans-serif;
     }
+    
+    .account-action-list-element:hover {
+        background-color: whitesmoke;
+    }
 
     .account-action-list-element a {
         display: flex;
