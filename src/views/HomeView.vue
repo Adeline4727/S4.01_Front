@@ -6,7 +6,7 @@ import Carrousel from '@/components/Carrousel.vue';
 </script>
 
 <template>
-    <div>
+    <div class="deposAnnonceElement">
         <h1>C'est le moment de vendre !</h1>
         <ButtonWithIcon icon="add-circle-outline">Déposer une annonce</ButtonWithIcon>
     </div>
@@ -31,7 +31,22 @@ import Carrousel from '@/components/Carrousel.vue';
 
 
 <style scoped>
-* {
-  font-family: sans-serif;
-}
+    *{
+        margin: 0;
+    }
+    .deposAnnonceElement{
+        border-radius: 15px;
+        width: 75%;
+        padding: 10px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+        background-image: url("public/background2.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
 </style>
