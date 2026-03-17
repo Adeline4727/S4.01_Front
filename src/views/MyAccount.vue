@@ -3,6 +3,7 @@ import AccountActionListElement from '@/components/AccountActionListElement.vue'
 import AccountActionListWithIcon from '@/components/AccountActionListWithIcon.vue';
 import AccountActionWithIcon from '@/components/AccountActionWithIcon.vue';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
+import FieldInput from '@/components/FieldInput.vue';
 const hasPhoto = false;
 </script>
 <template>
@@ -16,6 +17,7 @@ const hasPhoto = false;
                 </span>
                 <span class="name">
                     <RouterLink to="#">Baptiste Poupeau</RouterLink>
+                    <!-- <FieldInput name="pseudo" label="Votre nom" required="true" /> -->
                 </span>
             </div>
             <span>
@@ -95,7 +97,7 @@ const hasPhoto = false;
             grid-template-columns: 1fr;
         }
         .mes-infos > div {
-            width: 95%;
+            width: 92.5%;
         }
         .infos-compte > div {
             padding-right: 0;
@@ -130,6 +132,7 @@ const hasPhoto = false;
     .profile-pic > span {
         display: block;
         font-size: 2rem;
+        width: 6rem;
         margin-top: 30%;
     }
 

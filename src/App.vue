@@ -35,6 +35,7 @@ import Footer_ from './components/Footer.vue';
     max-width: 1200px;
     text-align: center;
     margin: 0 auto;
+    position: sticky;
   }
   
   header img{
