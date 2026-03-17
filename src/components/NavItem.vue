@@ -25,7 +25,7 @@ defineProps(['target', 'label', 'icon'])
     justify-content: center;
     color: black;
     text-decoration: none;
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
     width: max-content;
 }
 

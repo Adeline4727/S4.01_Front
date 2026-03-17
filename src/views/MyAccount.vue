@@ -64,7 +64,7 @@ const hasPhoto = false;
     }
 
     section {
-        margin: 3rem 12rem;
+        margin: 3rem 10%;
     }
 
     template > section:first-child {
@@ -87,6 +87,19 @@ const hasPhoto = false;
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 3.5rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .mes-infos {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        .mes-infos > div {
+            width: 95%;
+        }
+        .infos-compte > div {
+            padding-right: 0;
+        }
     }
 
     .infos-compte, .infos-compte > div {
