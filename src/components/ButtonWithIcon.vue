@@ -18,7 +18,7 @@ defineProps(['icon', 'target'])
 </template>
 
 <style>
-/* Ton style reste identique */
+
 a.button-with-icon {
     cursor: pointer;
     display: flex;
