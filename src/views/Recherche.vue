@@ -6,16 +6,8 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 import MapComponent from '@/components/MapComponent.vue';
 import axios from 'axios'
-
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
-const annonces = ref([])
-axios.get(url+"Annonces/GetAnnonces").then( response => {
-    console.log(response.data)
-    annonces.value = response.data
-})
-console.log("314")
-console.log(annonces.value)
-console.log("314")
+import {useAnnoncesStore} from "@/stores/annonces"
+const store = useAnnoncesStore()
 </script>
 
 
@@ -45,13 +37,15 @@ console.log("314")
             </ActionDropdownWithIcon>
             <ActionDropdownWithIcon icon="menu" label="Filtres" hasChevron v-model:isActive="ddActive">
                 <p>UwU</p>
+                <p>OwO</p>
+                <p>x)</p>
             </ActionDropdownWithIcon>
         </div>
         <section>
             <article class="annonces">
                 <div>
                     <h2>Annonces : Toute la France</h2>
-                    <b><!-- {{JSON.parse(annonces.value).length}} annonce{{JSON.parse(annonces.value).length > 1 ? "s" : ""}} --></b>
+                    <b>{{store.annonces?.length || 0}} annonce{{store.annonces?.length > 1 ? "s" : ""}}</b>
                 </div>
                 <div class="list-annonces">
                     <AnnonceLite v-for="annonce in annonces" :title="annonce.title" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
