@@ -1,17 +1,15 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView} from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import Footer_ from './components/Footer.vue';
+
+import {computed} from 'vue';
 </script>
 
 <template>
   <header>
     <NavBar />
   </header>
-  
-  <nav>
-    <RouterLink to="/ShowAnnonce">ShowAnnonce</RouterLink>
-  </nav>
 
   <RouterView />
 

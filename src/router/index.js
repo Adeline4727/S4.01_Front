@@ -92,6 +92,7 @@ const router = createRouter({
       component: () => import('../views/Messagerie/Messagerie.vue'),
     },
     
+    
   ],
 })
 
