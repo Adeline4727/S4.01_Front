@@ -30,7 +30,7 @@ const props = defineProps({
     <CarteInfoDetailsAnnonce></CarteInfoDetailsAnnonce>
     <ButtonShare></ButtonShare>
     <LikeButton></LikeButton>
-    <MapComponent></MapComponent>
+    <MapComponent latitude="" longitude=""></MapComponent>
 
   </div>
 </template>
