@@ -20,13 +20,6 @@ import {computed} from 'vue';
 </template>
 
 <style scoped>
-  * {
-      margin:0;
-      padding:0;
-      box-sizing: border-box;
-      font-family: sans-serif;
-    }
-
 
   header{
     display: flex;

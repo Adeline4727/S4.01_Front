@@ -46,9 +46,7 @@ onMounted(() => {
         border-radius: 15px;
         width: 75%;
         padding: 10px;
-        margin: 0 auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        margin: 50px auto;
         display: flex;
         flex-direction: column;
         align-items: center;
