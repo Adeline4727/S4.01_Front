@@ -24,7 +24,9 @@ axios.get(url+"Annonces/GetAnnonces").then( response => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <AnnonceCard v-for="annonce in annonces" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                <RouterLink v-for="annonce in annonces" to="/ShowAnnonce" :annonce="annonce">
+                    <AnnonceCard :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                </RouterLink>
             </Carrousel>
         </article>
     </section>
@@ -40,9 +42,7 @@ axios.get(url+"Annonces/GetAnnonces").then( response => {
         border-radius: 15px;
         width: 75%;
         padding: 10px;
-        margin: 0 auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        margin: 50px auto;
         display: flex;
         flex-direction: column;
         align-items: center;
