@@ -1,40 +1,36 @@
 <script setup>
-import { ref } from 'vue'
-let x=  ref(42)
+
+import { ref, computed, useTemplateRef, onMounted } from 'vue'
+import BandeauDispoAnnonce from '@/components/BandeauDispoAnnonce.vue'
+import VerifDispoAnnonce from '@/components/VerifDispoAnnonce.vue'
+import InfosPrincipalesAnnonce from '@/components/InfosPrincipalesAnnonce.vue'
 import MapComponent from '@/components/MapComponent.vue';
+import PhotosAnnonce from '@/components/PhotosAnnonce.vue';
+import CarteInfoDetailsAnnonce from '@/components/CarteInfoDetailsAnnonce.vue';
+import ButtonShare from '@/components/ButtonShare.vue';
+import LikeButton from '@/components/LikeButton.vue';
+
+const props = defineProps({
+  annonce : {
+    required : true,
+  },
+})
 
 </script>
 
 
 <template>
   <div class="about">
-    <img src="" alt="" >
-    <h1>titre de l'annonce</h1>
-    <h2>type de logement</h2>
-
-
-    <h3>les information clés</h3>
-
-    <p>type de bien</p>
-
-    <p>surface</p>
-
-    <p>nombre de piece</p>
-
-    <p>nombre de chambre</p>
-
-    <h3>Description</h3>
-
-
-    <MapComponent></MapComponent>
-
-
-
-
-
-
     
-    
+
+    <BandeauDispoAnnonce></BandeauDispoAnnonce>
+    <PhotosAnnonce></PhotosAnnonce>
+    <VerifDispoAnnonce></VerifDispoAnnonce>
+    <InfosPrincipalesAnnonce></InfosPrincipalesAnnonce>
+    <CarteInfoDetailsAnnonce></CarteInfoDetailsAnnonce>
+    <ButtonShare></ButtonShare>
+    <LikeButton></LikeButton>
+    <MapComponent latitude="" longitude=""></MapComponent>
 
   </div>
 </template>
