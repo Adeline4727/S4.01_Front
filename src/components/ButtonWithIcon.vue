@@ -18,7 +18,21 @@ defineProps(['icon', 'target'])
 </template>
 
 <style>
+/*
 
+
+    cursor: pointer;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #ec5a13;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    min-width: 210px;
+
+*/
 a.button-with-icon {
     cursor: pointer;
     display: flex;
@@ -27,7 +41,7 @@ a.button-with-icon {
     justify-content: center;
     color: white;
     background-color: #ec5a13;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem;
     border-radius: 1rem;
     min-width: 210px;
 }

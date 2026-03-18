@@ -6,12 +6,12 @@ defineProps({
     utilisateur: String,
     lastMessageDate: String,
     lastMessage: String,
-    isActive: Boolean = false
+    isActive: Boolean
 })
 
 </script>
 <template>
-    <div class="contact-item">
+    <div :class="['contact-item', { active: isActive }]">
         <div class="annonce-image">
             <ion-icon class="camera-icon" name="camera-outline"></ion-icon>
         </div>
@@ -22,12 +22,6 @@ defineProps({
         </div>
     </div>
 </template>
-<script>
-const contactItem = document.querySelector(".contact-item");
-if (isActive.value == true) {
-    contactItem.classList.add("active");
-}
-</script>
 <style scoped>
     .contact-item {
         display: flex;
@@ -39,14 +33,14 @@ if (isActive.value == true) {
         font-family: sans-serif;
     }
 
+    .contact-item.active {
+        background-color: rgba(65, 105, 225, 0.33);
+        border-left: 4px solid #ec5a13;
+    }
     .contact-item:hover {
         background-color: #ec5a132a;
     }
 
-    .contact-item.active {
-        background-color: rgba(65, 105, 225, 0.33);
-        border-left: 2px solid #ec5a13;
-    }
 
     .annonce-image {
         height: 6rem;
