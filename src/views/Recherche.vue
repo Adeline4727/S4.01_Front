@@ -55,7 +55,7 @@ import MapComponent from '@/components/MapComponent.vue';
                 </div>
             </article>
             <article class="map">
-                <MapComponent />
+                <MapComponent latitude="" longitude=""></MapComponent>
             </article>
         </section>
         </div>
