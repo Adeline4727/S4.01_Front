@@ -36,7 +36,7 @@ onMounted(() => {
 
   // 4. Ajout d'un marqueur rouge classique
   L.marker([latitude, longitude]).addTo(map)
-    .bindPopup('Paris, France')
+    .bindPopup('Vous êtes ICI')
     .openPopup();
 });
 </script>

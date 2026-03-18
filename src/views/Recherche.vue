@@ -5,7 +5,17 @@ import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 import MapComponent from '@/components/MapComponent.vue';
+import axios from 'axios'
 
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
+const annonces = ref([])
+axios.get(url+"Annonces/GetAnnonces").then( response => {
+    console.log(response.data)
+    annonces.value = response.data
+})
+console.log("314")
+console.log(annonces.value)
+console.log("314")
 </script>
 
 
@@ -41,17 +51,10 @@ import MapComponent from '@/components/MapComponent.vue';
             <article class="annonces">
                 <div>
                     <h2>Annonces : Toute la France</h2>
-                    <b>8 annonces</b>
+                    <b><!-- {{JSON.parse(annonces.value).length}} annonce{{JSON.parse(annonces.value).length > 1 ? "s" : ""}} --></b>
                 </div>
                 <div class="list-annonces">
-                    <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
-                    <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
+                    <AnnonceLite v-for="annonce in annonces" :title="annonce.title" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </div>
             </article>
             <article class="map">

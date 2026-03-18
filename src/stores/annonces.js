@@ -6,9 +6,9 @@ const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebs
 
 export const useAnnoncesStore = defineStore('annonces', () => {
 
-const annonces = ref()
-axios.get(url+"GetAdresses").then( response => {
-annonces.value = response.data
+    const annonces = ref()
+    axios.get(url+"GetAdresses").then( response => {
+    annonces.value = response.data
 })
 
 return {annonces}

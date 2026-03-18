@@ -26,7 +26,7 @@ import MapComponent from '@/components/MapComponent.vue';
     <h3>Description</h3>
 
 
-    <MapComponent></MapComponent>
+    <MapComponent latitude="" longitude=""></MapComponent>
 
 
 
