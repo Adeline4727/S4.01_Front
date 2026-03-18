@@ -16,6 +16,12 @@ const props = defineProps({
   },
 })
 
+onMounted(() => {
+    axios.get(url + "Annonces/GetAnnonce/" + route.params.id).then(response => {
+        annonce.value = response.data
+    })
+})
+
 </script>
 
 

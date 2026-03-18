@@ -5,12 +5,15 @@ import axios from 'axios';
 const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/Annonces/";
 
 export const useAnnoncesStore = defineStore('annonces', () => {
+    const annonces = ref([])
 
-const annonces = ref()
-axios.get(url+"GetAnnonces").then( response => {
-annonces.value = response.data
-})
+    axios.get(url + "GetAnnonces").then(response => {
+        annonces.value = response.data
+    })
 
-return {annonces}
+    const getAnnonceById = computed(() => {
+        return (id) => annonces.value.find(a => a.id === Number(id))
+    })
 
+    return { annonces, getAnnonceById }
 })

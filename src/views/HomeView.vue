@@ -1,13 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import AnnonceCard from '@/components/AnnonceCard.vue';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import Carrousel from '@/components/Carrousel.vue';
-import axios from 'axios'
+import axios from 'axios';
+import { useAnnoncesStore } from '@/stores/annonces'
+const store = useAnnoncesStore()
 const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
 const annonces = ref([])
-axios.get(url+"Annonces/GetAnnonces").then( response => {
-    annonces.value = response.data
+onMounted(() => {
+    axios.get(url + "Annonces/GetAnnonces").then(response => {
+        annonces.value = response.data
+    })
 })
 </script>
 
@@ -24,7 +28,7 @@ axios.get(url+"Annonces/GetAnnonces").then( response => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <RouterLink v-for="annonce in annonces" to="/ShowAnnonce" :annonce="annonce">
+                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.idAnnonce} }" >
                     <AnnonceCard :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </RouterLink>
             </Carrousel>
