@@ -1,1 +1,1 @@
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/Annonces/";
+const url = "https://rowlet-village.fr/api/leboncoin/api/";
