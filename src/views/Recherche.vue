@@ -5,11 +5,14 @@ import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 import MapComponent from '@/components/MapComponent.vue';
-// import axios  from 'axios';
+import axios  from 'axios';
 
-// const apparttrier = ref()
-// axios.get("https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net").then(reponse => {
-//     apparttrier.value = reponse.data})
+const store = useAnnoncesStore()
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
+const annonces = ref([])
+onMounted(() => {
+    store.fetchAnnonces()
+})
 
 
 </script>
