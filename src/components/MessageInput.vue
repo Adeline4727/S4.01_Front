@@ -1,8 +1,10 @@
 <script setup>
+const props = defineProps(['message']);
+const emit = defineEmits(['update:message'])
 </script>
 <template>
     <div class="message-input">
-        <input type="text" placeholder="Votre message ici...">
+        <input type="text" placeholder="Votre message ici..." :value="props.message" @input="emit('update:message', $event.target.value)">
     </div>
 </template>
 <style scoped>

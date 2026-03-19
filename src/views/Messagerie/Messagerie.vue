@@ -5,6 +5,38 @@ import InputText from '@/components/InputText.vue';
 import Message from '@/components/Message.vue';
 import MessageInput from '@/components/MessageInput.vue';
 
+import { ref, onMounted, onUnmounted } from "vue";
+import * as signalR from "@microsoft/signalr";
+
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/chat-hub/";
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl(url)
+    .withAutomaticReconnect()
+    .build();
+
+const messages = ref([]);
+const message = ref("");
+
+const user = "Bappou"
+
+const sendMessage = async () => {
+    if (!message.value) return;
+
+    await connection.invoke("SendMessage", user, message.value);
+    message.value = "";
+};
+
+onMounted(async () => {
+    connection.on("ReceiveMessage", (user, message) => {
+        messages.value.push({ user, message });
+    });
+
+    await connection.start();
+});
+
+onUnmounted(() => {
+    connection.stop();
+});
 </script>
 <template>
     <section class="messagerie">
@@ -27,31 +59,11 @@ import MessageInput from '@/components/MessageInput.vue';
                 <Message fromWho="Bappou" me="true">
                     <p>Merci poto</p>
                 </Message>
-                <Message fromWho="BrindibouDu38">
-                    <p>On va aux putes ?</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
-                <Message fromWho="Bappou" me="true">
-                    <p>azé</p>
-                </Message>
+                <Message v-for="(msg, index) in messages" :key="index" :fromWho="user" />
             </div>
             <div class="send-message-bar">
-                <MessageInput />
-                <ButtonSend />
+                <MessageInput :v-model="message" />
+                <ButtonSend @click="sendMessage" />
             </div>
         </article>
         <article class="annonce-resume">

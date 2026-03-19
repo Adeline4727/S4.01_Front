@@ -6,6 +6,7 @@ defineProps({
     title: String,
     price: Float32Array,
     // category: String,
+    image: String,
     owner: String,
     city: String,
     publishDate: String,
@@ -24,8 +25,11 @@ const liked = ref(false)
             <span>{{ owner }}</span>
         </div>
         <div class="annonce-image">
-            <!-- Template for an actual image -->
-            <ion-icon class="camera-icon" name="camera-outline"></ion-icon>
+
+            <img v-if="image" :src="image" alt="image de l'annonce" class="img-fill">
+        
+            <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
+            
             <LikeButton v-model:liked="liked" />
         </div>
         <div class="annonce-infos">
