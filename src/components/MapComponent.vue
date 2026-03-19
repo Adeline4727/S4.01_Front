@@ -13,11 +13,13 @@ const mapContainer = ref(null);
 const props = defineProps({
   longitude: {
     type: Number,
-    required: true // Empêche d'oublier de passer la valeur
+    required: false,
+    default: 0
   },
   latitude: {
     type: Number,
-    required: true
+    required: false,
+    default: 0
   }
 })
 

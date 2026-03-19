@@ -14,7 +14,7 @@ export const useAnnoncesStore = defineStore('annonces', () => {
     }
 
     const getAnnonceById = computed(() => {
-        return (id) => annonces.value.find(a => a.annonceId === Number(id))
+        return (id) => annonces.value.find(a => a.annonceId == id)
     })
 
     return { annonces, getAnnonceById, fetchAnnonces }
