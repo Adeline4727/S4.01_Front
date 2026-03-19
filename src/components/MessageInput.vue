@@ -9,7 +9,7 @@ const emit = defineEmits(['update:message'])
 </template>
 <style scoped>
     :root {
-        --color-main: #ecbe12;
+        --color-main: #EC5A13;
     }
     input {
         width: 100%;

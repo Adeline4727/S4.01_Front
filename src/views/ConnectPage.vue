@@ -5,6 +5,7 @@ let x=  ref(42)
 const isLogin = ref(true)
 import { RouterLink, RouterView } from 'vue-router'
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
+import InputText from "@/components/InputText.vue";
 
 </script>
 
@@ -12,33 +13,28 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 <template>
   <div id="connection-container">
     <div class="card">
-      <h1 id="title">Connectez-vous ou Créez un compte</h1>
+      <h1 id="title">Connectez-vous ou créez votre compte leboncoin</h1>
       
-      <div class="tabs">
-        <button 
-          :class="{ active: isLogin }" 
-          @click="isLogin = true"
-        >
-          Connexion
-        </button>
-        <button 
-          :class="{ active: !isLogin }" 
-          @click="isLogin = false"
-        >
-          Créer un compte
-        </button>
-      </div>
+<!--      <div class="tabs">-->
+<!--        <button -->
+<!--          :class="{ active: isLogin }" -->
+<!--          @click="isLogin = true"-->
+<!--        >-->
+<!--          Connexion-->
+<!--        </button>-->
+<!--        <button -->
+<!--          :class="{ active: !isLogin }" -->
+<!--          @click="isLogin = false"-->
+<!--        >-->
+<!--          Créer un compte-->
+<!--        </button>-->
+<!--      </div>-->
 
       <form v-if="isLogin" class="form-content">
         <div class="input-group">
-          <label>mail :</label>
-          <input type="email" />
+          <InputText nom-input="email">Mail</InputText>
         </div>
-        <div class="input-group">
-          <label>mdp :</label>
-          <input type="password" />
-        </div>
-        <Button class="submit-btn">Connexion</Button>
+        <Button>Continuer</Button>
       </form>
 
       <form v-else class="form-content">
@@ -62,18 +58,19 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 }
 
 .card {
-  width: 500px;
+  width: 700px;
   background: white;
   -webkit-box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30); 
   box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30);
+  border-radius: 15px;
 }
 
 #title {
-  margin: 0;
-  background-color: #ff8c37;
-  color: white;
+  margin-left: 1vw;
+  //background-color: #ff8c37;
+  color: black;
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .tabs {
@@ -85,7 +82,7 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
   padding: 10px;
   border: none;
   cursor: pointer;
-  background-color: #e67e22; 
+  background-color: #e67e22;
   color: white;
   font-weight: bold;
 }
@@ -116,6 +113,7 @@ input {
   width: 60%;
 }
 
+/*
 .submit-btn {
   background-color: #ff8c37;
   border-radius: 10px;
@@ -123,4 +121,5 @@ input {
   margin-top: 10px;
   cursor: pointer;
 }
+*/
 </style>

@@ -9,12 +9,11 @@
 </script>
 
 <template>
-   <button v-if="estImage(donnee)" 
-   class="imgclasse">  <slot> </slot> </button>
+  <button v-if="estImage(donnee)" class="imgclasse">  <slot> </slot> </button>
 
-    <button v-else class="pclasse"> <p >
-      <slot> </slot> </p>
-     </button>
+  <button v-else class="pclasse">
+    <p> <slot> </slot> </p>
+  </button>
 
 </template>
 
@@ -22,14 +21,20 @@
 <style scoped>
       .pclasse{
         color: white;
-        background-color:#EA7737;
-        border: #EA7737 1px solid;
+        background-color: var(--main-color);
+        border: none;
         border-radius: 15px;
         width: 220px;
         margin-left:3%;
         margin-right:3%;
         height:50px;
+        font-size: 18px;
       }
+      .pclasse:hover {
+        background-color: #ec5a13e5;
+        cursor: pointer;
+      }
+
       .imgclasse{
          
         width:40px
