@@ -9,9 +9,7 @@ const store = useAnnoncesStore()
 const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
 const annonces = ref([])
 onMounted(() => {
-    axios.get(url + "Annonces/GetAnnonces").then(response => {
-        annonces.value = response.data
-    })
+    store.fetchAnnonces()
 })
 </script>
 

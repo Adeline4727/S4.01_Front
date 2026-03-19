@@ -4,6 +4,8 @@ import MapComponent from '@/components/MapComponent.vue';
 import { ref } from 'vue'
 const isLogin = ref(true)
 const step = ref(1)
+const longitude2 = ref(6.1293)
+const latitude2  = ref(45.8992)
 import { RouterLink, RouterView } from 'vue-router'
 
 const types = [
@@ -55,6 +57,8 @@ const searchAddress = async () => {
         )
         const data = await response.json()
         suggestions.value = data.features
+        
+        
       } catch (error) {
         console.error("Erreur API Adresse :", error)
       }
@@ -64,12 +68,16 @@ const searchAddress = async () => {
 const selectSuggestion = (suggestion) => {
   query.value = suggestion.properties.label
   selectedAddress.value = suggestion
+  longitude2.value= suggestion.geometry.coordinates[0]
+        latitude2.value = suggestion.geometry.coordinates[1]
   suggestions.value = []
+
 }
+//selectedAddress ? selectedAddress.geometry.coordinates[0] : 6.1293
 
 
 
-//-----------API-----------
+//----------- FIN API-----------
 </script>
 
 <template>
@@ -105,8 +113,9 @@ const selectSuggestion = (suggestion) => {
 
             <div class="map">
                 <MapComponent 
-                    :latitude="selectedAddress ? selectedAddress.geometry.coordinates[1] : 45.8992" 
-                    :longitude="selectedAddress ? selectedAddress.geometry.coordinates[0] : 6.1293"
+                :key="longitude2"
+                    :latitude="latitude2" 
+                    :longitude="longitude2" 
                 ></MapComponent>
             </div>
 

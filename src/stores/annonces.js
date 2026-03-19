@@ -7,13 +7,15 @@ const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebs
 export const useAnnoncesStore = defineStore('annonces', () => {
     const annonces = ref([])
 
-    axios.get(url + "GetAnnonces").then(response => {
-        annonces.value = response.data
-    })
+    const fetchAnnonces = () => {
+        axios.get(url + "GetAnnonces").then(response => {
+            annonces.value = response.data
+        })
+    }
 
     const getAnnonceById = computed(() => {
-        return (id) => annonces.value.find(a => a.id === Number(id))
+        return (id) => annonces.value.find(a => a.annonceId === Number(id))
     })
 
-    return { annonces, getAnnonceById }
+    return { annonces, getAnnonceById, fetchAnnonces }
 })
