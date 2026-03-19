@@ -41,27 +41,22 @@ import MapComponent from '@/components/MapComponent.vue';
             </ActionDropdownWithIcon>
             <ActionDropdownWithIcon icon="menu" label="Filtres" hasChevron v-model:isActive="ddActive">
                 <p>UwU</p>
+                <p>OwO</p>
+                <p>x)</p>
             </ActionDropdownWithIcon>
         </div>
         <section>
             <article class="annonces">
                 <div>
                     <h2>Annonces : Toute la France</h2>
-                    <b>8 annonces</b>
+                    <b>{{store.annonces?.length || 0}} annonce{{store.annonces?.length > 1 ? "s" : ""}}</b>
                 </div>
                 <div class="list-annonces">
-                    <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
-                    <AnnonceLite title="Annonce" category="Test" capacity="8" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="12" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="4" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isPro="true" />
-                    <AnnonceLite title="Annonce" category="Test" capacity="2" price="42,00" city="74940 Annecy" publishDate="03/14/1592 6:53" isNew="true" isPro="true"  />
+                    <AnnonceLite v-for="annonce in annonces" :title="annonce.title" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </div>
             </article>
             <article class="map">
-                <MapComponent />
+                <MapComponent latitude="" longitude=""></MapComponent>
             </article>
         </section>
         </div>

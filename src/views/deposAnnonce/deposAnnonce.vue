@@ -261,7 +261,7 @@ const selectSuggestion = (suggestion) => {
 
     /*-------------API--------------*/
     .address-container {
-        position: relative; /* Important pour le positionnement de la liste */
+        position: relative;
         width: 100%;
         max-width: 400px;
         margin: 0 auto;
@@ -277,7 +277,7 @@ const selectSuggestion = (suggestion) => {
         border-radius: 0 0 8px 8px;
         list-style: none;
         padding: 0;
-        z-index: 1000; /* Passe au-dessus des autres éléments */
+        z-index: 1000;
         text-align: left;
     }
 

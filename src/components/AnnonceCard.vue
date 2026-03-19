@@ -19,7 +19,7 @@ const liked = ref(false)
     <div class="annonce-card">
         <div class="annonce-proprio">
             <div class="profile-pic-proprio">
-                <span>{{ owner.charAt(0) }}</span>
+                <span>{{ owner?.charAt(0) }}</span>
             </div>
             <span>{{ owner }}</span>
         </div>
