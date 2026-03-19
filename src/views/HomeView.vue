@@ -9,9 +9,7 @@ const store = useAnnoncesStore()
 const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
 const annonces = ref([])
 onMounted(() => {
-    axios.get(url + "Annonces/GetAnnonces").then(response => {
-        annonces.value = response.data
-    })
+    store.fetchAnnonces()
 })
 </script>
 
@@ -28,8 +26,6 @@ onMounted(() => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-
-                <!-- <pre>{{ annonces }}</pre> -->
                 <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" >
                     <AnnonceCard :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </RouterLink>
