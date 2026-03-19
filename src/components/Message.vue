@@ -17,6 +17,7 @@ defineProps({
         display: flex;
         align-items: end;
         gap: 0.5rem;
+        margin: 0.5rem 0;
     }
 
     .profile-pic {

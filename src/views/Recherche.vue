@@ -5,9 +5,16 @@ import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 import MapComponent from '@/components/MapComponent.vue';
-import axios from 'axios'
-import {useAnnoncesStore} from "@/stores/annonces"
+import axios  from 'axios';
+
 const store = useAnnoncesStore()
+const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
+const annonces = ref([])
+onMounted(() => {
+    store.fetchAnnonces()
+})
+
+
 </script>
 
 

@@ -26,8 +26,8 @@ onMounted(() => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" >
-                    <AnnonceCard :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.idAnnonce} }" >
+                    <AnnonceCard :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </RouterLink>
             </Carrousel>
         </article>
