@@ -67,7 +67,7 @@ import InputText from "@/components/InputText.vue";
 
 #title {
   margin-left: 1vw;
-  //background-color: #ff8c37;
+  background-color: #ff8c37;
   color: black;
   padding: 10px;
   text-align: left;
