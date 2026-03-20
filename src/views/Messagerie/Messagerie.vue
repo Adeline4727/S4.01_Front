@@ -8,7 +8,7 @@ import MessageInput from '@/components/MessageInput.vue';
 import { ref, onMounted, onUnmounted } from "vue";
 import * as signalR from "@microsoft/signalr";
 
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/chat-hub/";
+const url = "https://rowlet-village.fr/api/leboncoin/api/chat-hub";
 const connection = new signalR.HubConnectionBuilder()
     .withUrl(url)
     .withAutomaticReconnect()

@@ -45,7 +45,7 @@ const selectCity = (city) => {
             @input="onSearchInput"
         >
         <button class="btn-loupe">
-            <ion-icon name="search-outline"></ion-icon>
+            <RouterLink to="recherche" class="btn-loupe-link"><ion-icon name="search-outline"></ion-icon></RouterLink>
         </button>
 
         <ul v-if="cities.length > 0" class="suggestions-list">
@@ -90,12 +90,17 @@ const selectCity = (city) => {
         width: 2.5rem;
         height: 2.5rem;
         cursor: pointer;
-        color: white;
         background-color: #ec5a13;
     }
 
     .btn-loupe:hover {
         background-color: #ec5a13e5;
+    }
+
+    .btn-loupe-link {
+        color: white;
+        height: 100%;
+        vertical-align: middle;
     }
 
     /*style liste deroulante*/
