@@ -26,7 +26,7 @@ onMounted(() => {
   <div v-if="annonce">
     <BandeauDispoAnnonce />
     <PhotosAnnonce />
-    <VerifDispoAnnonce />
+    <VerifDispoAnnonce :annonce="annonce"/>
     <InfosPrincipalesAnnonce :annonce="annonce" />
     <CarteInfoDetailsAnnonce />
     <!-- <ButtonShare /> -->

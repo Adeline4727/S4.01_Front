@@ -6,6 +6,7 @@ const url = "https://rowlet-village.fr/api/leboncoin/api/Annonces/";
 
 export const useAnnoncesStore = defineStore('annonces', () => {
     const annonces = ref([])
+    const annonce = ref([])
 
     const fetchAnnonces = () => {
         axios.get(url + "GetAnnonces").then(response => {
@@ -13,9 +14,11 @@ export const useAnnoncesStore = defineStore('annonces', () => {
         })
     }
 
-    const getAnnonceById = computed(() => {
-        return (id) => annonces.value.find(a => a.annonceId == id)
-    })
+    const getAnnonceById = (id) => {
+        axios.get(url + "GetAnnonceById?id=" + id).then(response => {
+            annonce.value = response.data
+        })
+    }
 
     return { annonces, getAnnonceById, fetchAnnonces }
 })

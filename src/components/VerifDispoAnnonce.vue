@@ -8,21 +8,34 @@ const props = defineProps({
     },
 })
 
+import { useAnnoncesStore } from '@/stores/annonces';
+const store = useAnnoncesStore();
+
 </script>
 
 <template>
-<div class="rectangle">
-<p class="text">Sélectionnez vos dates de séjour :</p>
-<p id="info"><div class="entoure">i</div> <div id="textInfo">La prochaine date d'arrivée disponible est le {{  }}</div></p><!--A compléter-->
-<!--Parcourir les réservations + joursSemaine correspond aux jours disponible-->
-<div class="datePickers">
-    <div class="text"> Arrivée <DatePicker/></div>
-    <div class="text"> Départ <DatePicker/></div>
-</div>
-<div class="trait"></div>
-<!-- <img src={{ annonce.proprietaireBien.photoProfil.lienurl }} alt=""> -->
-<!-- <h1>{{ annonce.proprietaireBien.compteUtilisateurAssocie.prenom }}</h1>Ajouter pseudo utilisateur -->
-</div>
+    <div class="rectangle">
+        <p class="text">Sélectionnez vos dates de séjour :</p>
+        <p id="info"><div class="entoure">i</div> <div id="textInfo">La prochaine date d'arrivée disponible est le {{  }}</div></p><!--A compléter-->
+        <!--Parcourir les réservations + joursSemaine correspond aux jours disponible-->
+        <div class="datePickers">
+            <div class="text"> Arrivée <DatePicker/></div>
+            <div class="text"> Départ <DatePicker/></div>
+        </div>
+        <div class="trait"></div>
+        <div class="carteProprio">
+            <img 
+            v-if="annonce.proprietaireBien?.photoProfil?.lienurl" 
+            :src="annonce.proprietaireBien?.photoProfil?.lienurl" 
+            alt="Photo de profil du propriétaire"
+            >
+            <div v-else class="avatarLettre">
+                {{ annonce.proprietaireBien?.particulierAssocie?.prenom?.charAt(0).toUpperCase() }}
+            </div>
+            <h1 class="nomProprio">{{ annonce.proprietaireBien.particulierAssocie.prenom }}</h1>
+            <!--Ajouter clic sur le profil-->
+        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -63,12 +76,33 @@ const props = defineProps({
 .text{
     padding: 20px;
 }
-#datePickers{
+.datePickers{
     display: flex;
 }
 .trait{
     height: 1px;
     margin: 20px;
-    border: solid 2px gray;
+    border: solid 1px gray;
+}
+.carteProprio{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.avatarLettre{
+    display: flex;
+    background-color: blueviolet;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size:xx-large;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.nomProprio{
+    margin-left: 30px;
 }
 </style>
