@@ -1,1 +1,1 @@
-const url = "https://rowlet-village.fr/api/leboncoin/api/";
+export const url = "https://rowlet-village.fr/api/leboncoin/api/";
