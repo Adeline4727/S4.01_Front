@@ -6,13 +6,30 @@ import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 import MapComponent from '@/components/MapComponent.vue';
 import axios  from 'axios';
+import { useRoute } from 'vue-router';
+import { useAnnoncesStore } from '@/stores/annonces';
+import { onMounted } from 'vue';
 
 const store = useAnnoncesStore()
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
+const route = useRoute();
+const villeRecherchee = ref('');
+villeRecherchee.value = route.params.ville; // ville car :ville dans la route
 const annonces = ref([])
 onMounted(() => {
     store.fetchAnnonces()
 })
+const filteredProducts = () => {
+      
+      return store.annonces.filter(item => {
+        const nomDeLaVille = villeRecherchee.value
+        const recherche = nomDeLaVille.toLowerCase();
+        const villeDeLAnnonce = item.adresseBien.villeAdresse.nomVille.toLowerCase();
+        const matchTexte = villeDeLAnnonce.includes(recherche);
+        //const matchPrix = item.price <= parseFloat(this.max) && item.price >= parseFloat(this.min);
+        
+        return matchTexte /*&& matchPrix*/;
+    });
+    }
 
 
 </script>
@@ -51,12 +68,13 @@ onMounted(() => {
         <section>
             <article class="annonces">
                 <div>
-                    <h2>Annonces : Toute la France</h2>
+                    <h2>Annonces Pour {{ villeRecherchee }}</h2>
                     <b>{{store.annonces?.length || 0}} annonce{{store.annonces?.length > 1 ? "s" : ""}}</b>
                 </div>
                 <div class="list-annonces">
-                    <AnnonceLite v-for="annonce in annonces" :title="annonce.title" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                    <AnnonceLite v-for="annonce in filteredProducts()" :title="annonce.titreAnnonce" :category="annonce.typeHebergementBien.libelleTypeHebergement" :capacity="annonce.capacitePersonne" :price="annonce.prix" :city="annonce.adresseBien.villeAdresse.nomVille" :publishDate="annonce.datePublication.valeur" />
                 </div>
+                <!-- <div>{{ store.annonces }}</div> -->
             </article>
             <article class="map">
                 <MapComponent latitude="" longitude=""></MapComponent>
