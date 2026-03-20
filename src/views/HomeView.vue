@@ -6,8 +6,6 @@ import Carrousel from '@/components/Carrousel.vue';
 import axios from 'axios';
 import { useAnnoncesStore } from '@/stores/annonces'
 const store = useAnnoncesStore()
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
-const annonces = ref([])
 onMounted(() => {
     store.fetchAnnonces()
 })
@@ -26,7 +24,7 @@ onMounted(() => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.idAnnonce} }" >
+                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" >
                     <AnnonceCard :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.compteUtilisateur" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
                 </RouterLink>
             </Carrousel>
