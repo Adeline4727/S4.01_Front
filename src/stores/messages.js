@@ -3,6 +3,10 @@ import {defineStore} from 'pinia';
 import axios from 'axios';
 
 const url = "https://rowlet-village.fr/api/leboncoin/api/chat-hub";
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl(url)
+    .withAutomaticReconnect()
+    .build();
 
 export const useMessagesStore = defineStore('messages', () => {
     const messages = ref([])
@@ -17,10 +21,10 @@ export const useMessagesStore = defineStore('messages', () => {
         return (id) => messages.value.find(m => m.messageId == id)
     })
 
-    const sendMessage = async (message) => {
+    const sendMessage = async (user, message) => {
         if (!message.value) return;
     
-        await connection.invoke("SendMessage", user, message.value);
+        await connection.invoke("SendMessage", user, message);
         message.value = "";
     };
 

@@ -7,24 +7,14 @@ import MessageInput from '@/components/MessageInput.vue';
 
 import { ref, onMounted, onUnmounted } from "vue";
 import * as signalR from "@microsoft/signalr";
+import { messages, getMessagesById, fetchMessages, sendMessage } from '@/stores/messages';
 
-const url = "https://rowlet-village.fr/api/leboncoin/api/chat-hub";
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl(url)
-    .withAutomaticReconnect()
-    .build();
+const url = "https://rowlet-village.fr/api/leboncoin/chat-hub";
 
-const messages = ref([]);
-const message = ref("");
 
-const user = "Bappou"
 
-const sendMessage = async () => {
-    if (!message.value) return;
-
-    await connection.invoke("SendMessage", user, message.value);
-    message.value = "";
-};
+const user = "Bappou";
+const message = ref("")
 
 onMounted(async () => {
     connection.on("ReceiveMessage", (user, message) => {
@@ -63,7 +53,7 @@ onUnmounted(() => {
             </div>
             <div class="send-message-bar">
                 <MessageInput :v-model="message" />
-                <ButtonSend @click="sendMessage" />
+                <ButtonSend @click="sendMessage(user, message)" />
             </div>
         </article>
         <article class="annonce-resume">
