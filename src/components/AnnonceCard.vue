@@ -85,6 +85,7 @@ const liked = ref(false)
         text-align: center;
         vertical-align: center;
         border-radius: 1rem 1rem 1rem 0;
+        overflow: hidden;
     }
     .annonce-card .annonce-image ion-icon.camera-icon {
         color: #1F1F1F;
@@ -120,6 +121,12 @@ const liked = ref(false)
         padding: 0.125rem 0.5rem;
         border: 1px solid black;
         border-radius: 1.5rem;
+    }
+    .annonce-card .img-fill{
+	    height: 100%;
+        margin: auto;
+        justify-content: center;
+        vertical-align: middle;
     }
 
 </style>
