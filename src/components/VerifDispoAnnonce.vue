@@ -1,6 +1,7 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
 import DatePicker from '@/components/DatePicker.vue';
+import ButtonVerifDispo from './ButtonVerifDispo.vue';
 
 const props = defineProps({
     annonce: {
@@ -22,6 +23,7 @@ const store = useAnnoncesStore();
             <div class="text"> Arrivée <DatePicker/></div>
             <div class="text"> Départ <DatePicker/></div>
         </div>
+        <ButtonVerifDispo></ButtonVerifDispo>
         <div class="trait"></div>
         <div class="carteProprio">
             <img 
@@ -29,10 +31,14 @@ const store = useAnnoncesStore();
             :src="annonce.proprietaireBien?.photoProfil?.lienurl" 
             alt="Photo de profil du propriétaire"
             >
-            <div v-else class="avatarLettre">
-                {{ annonce.proprietaireBien?.particulierAssocie?.prenom?.charAt(0).toUpperCase() }}
+            <div v-else>
+                <div class="avatarLettre" v-if="annonce.proprietaireBien?.particulierAssocie?.prenom">{{ annonce.proprietaireBien?.particulierAssocie?.prenom?.charAt(0).toUpperCase() }}</div>
+                <div class="avatarLettre" v-else-if="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel">{{ annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel?.charAt(0).toUpperCase() }}</div>
+                <div class="avatarLettre" v-else>A</div>
             </div>
-            <h1 class="nomProprio">{{ annonce.proprietaireBien.particulierAssocie.prenom }}</h1>
+            <h1 v-if="annonce.proprietaireBien?.particulierAssocie?.prenom"  class="nomProprio">{{ annonce.proprietaireBien.particulierAssocie.prenom }}</h1>
+            <h1 v-else-if="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel"  class="nomProprio">{{ annonce.proprietaireBien.professionnelAssocie.nomProfessionnel }}</h1>
+            <h1 v-else class="nomProprio">Anonyme</h1>
             <!--Ajouter clic sur le profil-->
         </div>
     </div>

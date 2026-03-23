@@ -6,7 +6,7 @@ const url = "https://rowlet-village.fr/api/leboncoin/api/Annonces/";
 
 export const useAnnoncesStore = defineStore('annonces', () => {
     const annonces = ref([])
-    const annonce = ref([])
+    const annonce = ref(null)
 
     const fetchAnnonces = () => {
         axios.get(url + "GetAnnonces").then(response => {
@@ -20,5 +20,5 @@ export const useAnnoncesStore = defineStore('annonces', () => {
         })
     }
 
-    return { annonces, getAnnonceById, fetchAnnonces }
+    return { annonces, annonce, getAnnonceById, fetchAnnonces }
 })

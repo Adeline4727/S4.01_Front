@@ -5,29 +5,25 @@ import { useAnnoncesStore } from '@/stores/annonces'
 import BandeauDispoAnnonce from '@/components/BandeauDispoAnnonce.vue'
 import VerifDispoAnnonce from '@/components/VerifDispoAnnonce.vue'
 import InfosPrincipalesAnnonce from '@/components/InfosPrincipalesAnnonce.vue'
-import MapComponent from '@/components/MapComponent.vue'
+//import MapComponent from '@/components/MapComponent.vue'
 import PhotosAnnonce from '@/components/PhotosAnnonce.vue'
 import CarteInfoDetailsAnnonce from '@/components/CarteInfoDetailsAnnonce.vue'
 // import ButtonShare from '@/components/ButtonShare.vue'
-import LikeButton from '@/components/LikeButton.vue'
+//import LikeButton from '@/components/LikeButton.vue'
 
 const route = useRoute()
 const store = useAnnoncesStore()
-const annonce = computed(() => store.getAnnonceById(route.params.id))
-
 onMounted(() => {
-    if (!store.annonces.length) {
-        store.fetchAnnonces()
-    }
+    store.getAnnonceById(route.params.id);
 })
 </script>
 
 <template>
-  <div v-if="annonce">
-    <BandeauDispoAnnonce />
-    <PhotosAnnonce />
-    <VerifDispoAnnonce :annonce="annonce"/>
-    <InfosPrincipalesAnnonce :annonce="annonce" />
+  <div v-if="store.annonce">
+    <BandeauDispoAnnonce :annonce="store.annonce"/>
+    <!-- <PhotosAnnonce /> -->
+    <VerifDispoAnnonce :annonce="store.annonce"/>
+    <InfosPrincipalesAnnonce :annonce="store.annonce" />
     <CarteInfoDetailsAnnonce />
     <!-- <ButtonShare /> -->
     <!-- <LikeButton /> -->
