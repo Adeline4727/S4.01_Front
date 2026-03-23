@@ -2,7 +2,7 @@ import {ref, computed} from 'vue';
 import {defineStore} from 'pinia';
 import axios from 'axios';
 
-const url = "https://rowlet-village.fr/api/leboncoin/api/chat-hub";
+const url = "https://rowlet-village.fr/api/leboncoin/api/chat-hub/";
 const connection = new signalR.HubConnectionBuilder()
     .withUrl(url)
     .withAutomaticReconnect()
