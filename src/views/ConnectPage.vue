@@ -1,11 +1,23 @@
 <script setup>
 import Button from '@/components/Button.vue';
 import { ref } from 'vue'
-let x=  ref(42)
-const isLogin = ref(true)
 import { RouterLink, RouterView } from 'vue-router'
-import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
 import InputText from "@/components/InputText.vue";
+import { useAuthStore } from "@/stores/auth.js";
+
+const store = useAuthStore()
+
+const mail = ref("test")
+const isMailValid = ref(false)
+
+async function setIfMailValid() {
+  try {
+    isMailValid.value = await store.doesMailExists(mail)
+    console.log(isMailValid.value)
+  } catch (e) {
+    console.log("Error: " + e)
+  }
+}
 
 </script>
 
@@ -30,20 +42,10 @@ import InputText from "@/components/InputText.vue";
 <!--        </button>-->
 <!--      </div>-->
 
-      <form v-if="isLogin" class="form-content">
-        <div class="input-group">
-          <InputText nom-input="email">Mail</InputText>
-        </div>
-        <Button>Continuer</Button>
-      </form>
-
-      <form v-else class="form-content">
-        <RouterLink to="/CreationAccountParticular">
-          <Button class="particulier-btn">Compte particulier</Button>
-        </RouterLink>
-        <RouterLink to="/createComptePro">
-          <Button class="professionnel-btn" to="/createComptePro">Compte professionnel</Button>
-        </RouterLink>
+      <form class="form-content">
+        <InputText nom-input="mail" v-model="mail">Mail</InputText>
+        <InputText nom-input="password" v-if="isMailValid.value">Mot de passe</InputText>
+        <Button @click="setIfMailValid">Continuer</Button>
       </form>
     </div>
   </div>
@@ -67,7 +69,7 @@ import InputText from "@/components/InputText.vue";
 
 #title {
   margin-left: 1vw;
-  //background-color: #ff8c37;
+  background-color: #ff8c37;
   color: black;
   padding: 10px;
   text-align: left;

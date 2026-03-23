@@ -3,8 +3,10 @@ defineProps({
   nomInput: {
     type: String,
     required: true
-  }
+  },
 })
+
+const model = defineModel()
 </script>
 
 <template>
@@ -12,7 +14,7 @@ defineProps({
     <label :for="nomInput">
       <slot></slot>
     </label>
-    <input type="text" :name="nomInput" :id="nomInput">
+    <input type="text" :name="nomInput" :id="nomInput" v-model="model">
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import url from './url.js'
+import { url } from './url.js'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -9,9 +9,15 @@ export const useAuthStore = defineStore('auth', {
         token: null
     }),
     actions: {
+        async doesMailExists(mail) {
+            // TODO: Do not show error in logs
+            return await axios.get(
+                url + "compteutilisateurs/getcompteutilisateurexistence?mail=" + mail.value.replaceAll("\@", "%40")
+            ).then(_ => {return true}).catch(_ => {return false})
+        },
         async login(credentials) {
             try {
-                const response = await axios.post(url + "", credentials);
+                const response = await axios.post(url + "Login/Login", credentials);
                 this.user = response.data.userDetails;
                 this.token = response.data.token;
                 localStorage.setItem('token', this.token);
