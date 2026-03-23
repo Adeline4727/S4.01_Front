@@ -8,7 +8,8 @@ defineProps({
     price: Float32Array,
     capacity: Int8Array,
     city: String,
-    isNew: Boolean = false, isPro: Boolean = false
+    publishDate: String, 
+  isNew: Boolean = false, isPro: Boolean = false
 })
 
 const liked = ref(false)
@@ -29,12 +30,14 @@ const liked = ref(false)
                     <span class="annonce-capacity">{{ capacity }} pers.</span>
                     <span class="separator">&bull;</span>
                     <span class="annonce-category">{{ category }}</span>
+                    
                 </div>
             </div>
             <div class="annonce-bottom-part">
                 <span v-if="isPro" class="annonce-pro">Pro</span>
                 <span class="annonce-city">{{ city }}</span>
                 <span class="annonce-price">à partir de <b>{{ price }} €</b> / nuit</span>
+                <span>{{ publishDate }}</span>
             </div>
         </div>
     </div>

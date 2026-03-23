@@ -1,22 +1,48 @@
 <script setup>
-import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import AnnonceLite from '@/components/AnnonceLite.vue';
-import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
-import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
-import MapComponent from '@/components/MapComponent.vue';
-import axios  from 'axios';
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAnnoncesStore } from '@/stores/annonces'
+
+import AnnonceLite from '@/components/AnnonceLite.vue'
+import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue'
+import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue'
+import MapComponent from '@/components/MapComponent.vue'
 
 const store = useAnnoncesStore()
-const url = "https://leboncoinapi-b0b2bmazh9ebdqef.switzerlandnorth-01.azurewebsites.net/api/"
-const annonces = ref([])
+const route = useRoute()
+const villeRecherchee = ref(route.params.ville || '')
+const ddActive = ref(false)
+
 onMounted(() => {
     store.fetchAnnonces()
 })
 
+// 1. On filtre les annonces selon la ville recherchée
+const filteredAnnonces = computed(() => {
+    if (!store.annonces) return []
+    const recherche = villeRecherchee.value.toLowerCase()
+    
+    return store.annonces.filter(item => {
+        // Le "?." évite que ça crash si l'adresse est null
+        const villeDeLAnnonce = item.adresseBien?.villeAdresse?.nomVille?.toLowerCase() || ''
+        return villeDeLAnnonce.includes(recherche)
+    })
+})
 
+// 2. On prépare spécifiquement les données pour la carte
+const mapMarkers = computed(() => {
+    return filteredAnnonces.value
+        .map(annonce => ({
+            id: annonce.annonceId,
+            titre: annonce.titreAnnonce,
+            // ⚠️ C'est ici que ça se joue : ton API doit bien renvoyer ces données
+            latitude: annonce.adresseBien?.latitude,
+            longitude: annonce.adresseBien?.longitude 
+        }))
+        // On ne garde que les annonces qui ont de vraies coordonnées GPS
+        .filter(marker => marker.latitude && marker.longitude)
+})
 </script>
-
 
 <template>
     <div id="recherche">
@@ -51,18 +77,27 @@ onMounted(() => {
         <section>
             <article class="annonces">
                 <div>
-                    <h2>Annonces : Toute la France</h2>
-                    <b>{{store.annonces?.length || 0}} annonce{{store.annonces?.length > 1 ? "s" : ""}}</b>
+                    <h2>Annonces Pour {{ villeRecherchee }}</h2>
+                    <b>{{ filteredAnnonces.length }} annonce{{ filteredAnnonces.length > 1 ? "s" : "" }}</b>
                 </div>
                 <div class="list-annonces">
-                    <AnnonceLite v-for="annonce in annonces" :title="annonce.title" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                    <AnnonceLite 
+                        v-for="annonce in filteredAnnonces" 
+                        :key="annonce.annonceId"
+                        :title="annonce.titreAnnonce" 
+                        :category="annonce.typeHebergementBien?.libelleTypeHebergement" 
+                        :capacity="annonce.capacitePersonne" 
+                        :price="annonce.prix" 
+                        :city="annonce.adresseBien?.villeAdresse?.nomVille" 
+                        :publishDate="annonce.datePublication?.valeur" 
+                    />
                 </div>
             </article>
             <article class="map">
-                <MapComponent latitude="" longitude=""></MapComponent>
+                <MapComponent :markers="mapMarkers"></MapComponent>
             </article>
         </section>
-        </div>
+    </div>
 </template>
 
 <style scoped>
