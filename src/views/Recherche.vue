@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import AnnonceLite from '@/components/AnnonceLite.vue';
 import SearchFieldWithIcon from '@/components/SearchFieldWithIcon.vue';
@@ -30,6 +30,17 @@ const filteredProducts = () => {
         return matchTexte /*&& matchPrix*/;
     });
     }
+    const mapMarkers = computed(() => {
+    return filteredProducts().map(annonce => {
+        return {
+            id: annonce.annonceId,
+            titre: annonce.titreAnnonce,
+            // ⚠️ Assure-toi que ces noms correspondent exactement à ton JSON de retour d'API (ton C#)
+            latitude: annonce.adresseBien?.latitude, 
+            longitude: annonce.adresseBien?.longitude 
+        }
+    }).filter(marker => marker.latitude && marker.longitude); // On exclut les annonces sans coordonnées
+});
 
 
 </script>
@@ -77,7 +88,7 @@ const filteredProducts = () => {
                 <!-- <div>{{ store.annonces }}</div> -->
             </article>
             <article class="map">
-                <MapComponent latitude="" longitude=""></MapComponent>
+                <MapComponent :markers="mapMarkers"></MapComponent>
             </article>
         </section>
         </div>
