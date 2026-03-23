@@ -24,7 +24,7 @@ onMounted(() => {
     <!-- <PhotosAnnonce /> -->
     <VerifDispoAnnonce :annonce="store.annonce"/>
     <InfosPrincipalesAnnonce :annonce="store.annonce" />
-    <CarteInfoDetailsAnnonce />
+    <CarteInfoDetailsAnnonce :annonce="store.annonce"/>
     <!-- <ButtonShare /> -->
     <!-- <LikeButton /> -->
     <!-- <MapComponent 
