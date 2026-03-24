@@ -12,7 +12,7 @@ onMounted(() => {
     store.getAnnonceById(route.params.id);
 })
 </script>
-
+<p>o</p>
 <template>
   <div v-if="store.annonce">
     <BandeauResevationAnnonce :annonce="store.annonce"/>
