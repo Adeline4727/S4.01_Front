@@ -1,14 +1,12 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
-
+import MapComponent from './MapComponent.vue';
 const props = defineProps({
     annonce : {
         required : true,
     }
 })
 
-import { useAnnoncesStore } from '@/stores/annonces';
-const store = useAnnoncesStore();
 
 </script>
 <template>
@@ -49,6 +47,11 @@ const store = useAnnoncesStore();
     <div class="trait"></div>
     <h1 class="titrePartie">Localisation</h1>
     <h2>{{ annonce.adresseBien.villeAdresse.nomVille }} ({{ annonce.adresseBien.villeAdresse.codePostalVille }})</h2>
+    <MapComponent 
+        v-if="annonce && annonce.adresseBien" 
+        :latitude="annonce.adresseBien.latitude" 
+        :longitude="annonce.adresseBien.longitude" 
+        />
     <div class="trait"></div>
     <h1 class="titrePartie">Conditions d'annulation</h1>
     <ul>

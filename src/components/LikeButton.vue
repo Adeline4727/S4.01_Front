@@ -15,6 +15,7 @@ function like() {
 
 <template>
     <div class="like-button" @click="like">
+        <slot></slot>
         <ion-icon v-if="liked" class="liked" name="heart"></ion-icon>
         <ion-icon v-else name="heart-outline"></ion-icon>
     </div>
@@ -38,5 +39,9 @@ function like() {
     
     .like-button ion-icon.liked {
         color: indianred;
+    }
+
+    slot{
+        font-weight: 700;
     }
 </style>
