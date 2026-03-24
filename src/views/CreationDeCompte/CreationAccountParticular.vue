@@ -3,6 +3,12 @@ import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import InputText from '@/components/InputText.vue' // Ajuste le chemin si besoin
 let email = ref("")
+let nom = ref("")
+let prenom = ref("")
+let sexe = ref("")
+let ville = ref("")
+let codePostale = ("")
+let secteurActivitee = ref("")
 let x = ref(42)
 </script>
 
@@ -11,22 +17,23 @@ let x = ref(42)
     
 
     <div class="formulaire">
-        <InputText nomInput="email">email</InputText>
+        <InputText v-model="email" nomInput="email">email</InputText>
         <div>
         <input type="radio" name="radioHomme">Homme</input>  
         <input type="radio" name="radioFemme">Femme</input>
         </div>
-      <InputText nomInput="nom_societe">nom</InputText>
-      <InputText nomInput="adresse">prenom</InputText>
-      <InputText nomInput="ville">ville</InputText>
-      <InputText nomInput="code_postale">code postale</InputText>
-      <InputText nomInput="secteur-activite">secteur d'activité</InputText>
+      <InputText v-model="nom" nomInput="nom_societe">nom</InputText>
+      <InputText v-model="prenom" nomInput="adresse">prenom</InputText>
+      <InputText v-model="ville" nomInput="ville">ville</InputText>
+      <InputText v-model="codePostale" nomInput="code_postale">code postale</InputText>
+      <InputText v-model="secteurActivitee"  nomInput="secteur-activite">secteur d'activité</InputText>
     </div>
   </div>
   <div class="colonne-gauche">
       <RouterLink class="boutton_Suivant" to="/">suivant</RouterLink>
     </div> 
   <RouterView />
+  
 </template>
 
 
