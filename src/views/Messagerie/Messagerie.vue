@@ -6,27 +6,27 @@ import Message from '@/components/Message.vue';
 import MessageInput from '@/components/MessageInput.vue';
 
 import { ref, onMounted, onUnmounted } from "vue";
-import * as signalR from "@microsoft/signalr";
-import { messages, getMessagesById, fetchMessages, sendMessage } from '@/stores/messages';
+import { useMessagesStore } from '@/stores/messages';
 
-const url = "https://rowlet-village.fr/api/leboncoin/chat-hub";
-
-
+const store = useMessagesStore();
 
 const user = "Bappou";
-const message = ref("")
+const currentText = ref("");
 
 onMounted(async () => {
-    connection.on("ReceiveMessage", (user, message) => {
-        messages.value.push({ user, message });
-    });
-
-    await connection.start();
+    await store.fetchMessages();
+    await store.initSignalR();
 });
 
 onUnmounted(() => {
-    connection.stop();
+    store.stopSignalR();
 });
+
+const handleSend = async () => {
+    if (!currentText.value.trim()) return;
+    await store.sendMessage(user, currentText.value);
+    currentText.value = "";
+};
 </script>
 <template>
     <section class="messagerie">
@@ -46,14 +46,16 @@ onUnmounted(() => {
                         Lorem...
                     </p>
                 </Message>
-                <Message fromWho="Bappou" me="true">
+                <Message fromWho="Bappou">
                     <p>Merci poto</p>
                 </Message>
-                <Message v-for="(msg, index) in messages" :key="index" :fromWho="user" />
+                <Message v-for="(msg, index) in store.messages" :key="index" :fromWho="msg.user">
+                    {{msg.message}}
+                </Message>
             </div>
             <div class="send-message-bar">
-                <MessageInput :v-model="message" />
-                <ButtonSend @click="sendMessage(user, message)" />
+                <MessageInput v-model="currentText" @keyup.enter="handleSend" />
+                <ButtonSend @click="handleSend" />
             </div>
         </article>
         <article class="annonce-resume">
