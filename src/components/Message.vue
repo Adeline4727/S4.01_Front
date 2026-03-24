@@ -1,8 +1,8 @@
 <script setup>
 defineProps({
-    fromWho: String,
-    me: Boolean
+    fromWho: String
 })
+const me = false;
 </script>
 <template>
     <div :class="['message-item', {'me': me}]">
