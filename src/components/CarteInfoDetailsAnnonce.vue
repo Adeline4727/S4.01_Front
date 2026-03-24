@@ -1,6 +1,9 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
 import MapComponent from './MapComponent.vue';
+import Carrousel from './Carrousel.vue';
+import AnnonceCard from './AnnonceCard.vue';
+
 const props = defineProps({
     annonce : {
         required : true,
@@ -47,7 +50,7 @@ const props = defineProps({
     <div class="trait"></div>
     <h1 class="titrePartie">Localisation</h1>
     <h2>{{ annonce.adresseBien.villeAdresse.nomVille }} ({{ annonce.adresseBien.villeAdresse.codePostalVille }})</h2>
-    <MapComponent 
+    <MapComponent class="map"
         v-if="annonce && annonce.adresseBien" 
         :latitude="annonce.adresseBien.latitude" 
         :longitude="annonce.adresseBien.longitude" 
@@ -129,9 +132,19 @@ const props = defineProps({
     </div>
     <div class="trait"></div>
     <h1 class="titrePartie">Ces annonces peuvent vous intéresser</h1>
+    <Carrousel>
+        <div v-for="annonceCar in annonce.typeHebergementBien.annonces">
+        <RouterLink v-if="annonceCar" :to="{ name: 'ShowAnnonce', params: { id: annonceCar.annonceId} }" >
+            <AnnonceCard class="Card" :image="annonceCar.photos?.[0]?.lienurl" :title="annonceCar.titreAnnonce" :capacity="annonceCar.CapacitePersonne" :price="annonce.prix"/>                    
+        </RouterLink>
+        </div>
+    </Carrousel>
 
 </template>
 <style scoped>
+.map{
+    height: 400px;
+}
 .trait{
     height: 1px;
     margin-top: 20px;

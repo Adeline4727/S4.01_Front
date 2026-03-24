@@ -13,14 +13,26 @@ onMounted(() => {
 })
 </script>
 <template>
-  <p>test</p>
-  <div v-if="store.annonce">
-    <PanneauResevationAnnonce :annonce="store.annonce"/>
-    <PanneauRecapPayementAnnonce :annonce="store.annonce"/>
+  <div v-if="store.annonce" id="conteneur">
+    <PanneauReservationAnnonce :annonce="store.annonce" class="PanneauReservationAnnonce"/>
+    <PanneauRecapPayementAnnonce :annonce="store.annonce" class="PanneauRecapPayementAnnonce"/>
   </div>
   <div v-else>Chargement...</div>
 </template>
 
 <style scoped>
-
+  #conteneur{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .PanneauReservationAnnonce{
+    width: 800px;
+  }
+  .PanneauRecapPayementAnnonce{
+    width: 600px;
+  }
 </style>
