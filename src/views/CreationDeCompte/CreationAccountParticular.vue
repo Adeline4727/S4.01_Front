@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import InputText from '@/components/InputText.vue' // Ajuste le chemin si besoin
-
+let email = ref("")
 let x = ref(42)
 </script>
 
