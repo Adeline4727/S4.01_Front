@@ -47,6 +47,10 @@ const drawMarkers = () => {
   } else {
     markersLayer = L.featureGroup().addTo(map);
   }
+  if (props.latitude && props.longitude) {
+    const mainMarker = L.marker([props.latitude, props.longitude]);
+    markersLayer.addLayer(mainMarker);
+  }
 
   if (!props.markers || props.markers.length === 0) return;
 
