@@ -1,6 +1,7 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
 import ButtonVerifDispo from './ButtonVerifDispo.vue';
+import LikeButton from './LikeButton.vue';
 const props = defineProps({
     annonce : {
         required : true,
@@ -20,6 +21,7 @@ const store = useAnnoncesStore();
         <h3>Min. {{ annonce.minmumNuite }} nuits, à partir de <h1 class="prix">{{ annonce.prix }}€ / nuit</h1></h3>
     </div>
     <ButtonVerifDispo></ButtonVerifDispo>
+    <LikeButton></LikeButton>
 </div>
 
 </template>
