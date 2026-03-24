@@ -1,10 +1,9 @@
 <script setup>
-const props = defineProps(['message']);
-const emit = defineEmits(['update:message'])
+const model = defineModel()
 </script>
 <template>
     <div class="message-input">
-        <input type="text" placeholder="Votre message ici..." :value="props.message" @input="emit('update:message', $event.target.value)">
+        <input type="text" placeholder="Votre message ici..." v-model="model">
     </div>
 </template>
 <style scoped>
