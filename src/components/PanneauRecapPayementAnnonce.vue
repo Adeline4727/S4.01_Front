@@ -11,19 +11,19 @@ const props = defineProps({
     <div class="PanneauRecapPayementAnnonce">
         <div>
             <div>
-                <img src="" alt="">
+                <img src="" alt="[imagesAnnonce]">
             </div>
             <div>
-                <h2></h2>
-                <p></p>
-                <p></p>
+                <h2>[nomAnnonce]</h2>
+                <p>[capacité / nombrechambres]</p>
+                <p>[ville]</p>
             </div>
         </div>
         <div class="trait"></div>
         <div>
             <div>
-                <img src="" alt="">
-                <div class="text-body-1 font-bold">Prudhomme Michel</div>
+                <img src="" alt="[imageProprietaire]">
+                <div class="text-body-1 font-bold">[nomProprietaire]</div>
             </div>
         </div>
         <div class="trait"></div>
@@ -60,7 +60,7 @@ const props = defineProps({
                     <p></p>
                 </div>
             </div>
-            <p>Ce paiement nous sert à garantir votre réservation. Il inclut un acompte pour la location, les frais de service et la taxe de séjour. Retrouvez le détail de nos conditions d’annulation ici</p>
+            <p class="commentaire">Ce paiement nous sert à garantir votre réservation. Il inclut un acompte pour la location, les frais de service et la taxe de séjour. Retrouvez le détail de nos conditions d’annulation ici</p>
         </div>
     </div>
 </template>
@@ -75,5 +75,10 @@ const props = defineProps({
     margin-top: 20px;
     margin-bottom: 20px;
     border: solid 1px gray;
+}
+.commentaire{
+    color: gray;
+    font-style: italic;
+    font-size: 15px;
 }
 </style>
