@@ -5,7 +5,6 @@ import BouttonPlusMinus from './BouttonPlusMinus.vue';
 const conditionsAcceptees = ref(false)
 const messageTexte = ref('')
 const maxCaracteres = 2500
-const nomProprietaire = "Michel"
 const props = defineProps({
     annonce : {
         required : true,
@@ -25,7 +24,7 @@ const props = defineProps({
         <div class="trait"></div>
         <div>
             <h2>Vos dates de séjour</h2>
-            <p>[nombre nuit] nuits à {{ annonce.ville }}</p>
+            <p>[nombre nuit] nuits à {{ annonce.adresseBien.villeAdresse.nomVille }}</p>
             <div class="datesSejour">
                 <div>
                     <p>Arrivée</p>
@@ -105,7 +104,7 @@ const props = defineProps({
         </div>
         <div class="trait"></div>
         <div class="section-message">
-            <h2 class="titre-message">Envoyer un message à {{ nomProprietaire }}</h2>
+            <h2 class="titre-message">Envoyer un message à {{ annonce.proprietaireBien.particulierAssocie.nom }}</h2>
             
             <div class="conteneur-textarea">
             <textarea 
@@ -188,7 +187,7 @@ const props = defineProps({
             </div>
         </div>
         <div>
-            <Button>Payer et valider ma réservation</Button>
+            <Button :to="{ name: 'panneau-finalisation-paiement', params: { id: annonce.annonceId} }">Payer et valider ma réservation</Button>
         </div>
         <p class="texte-mentions-legales">
             <a target="_blank" href="/vacances/vos-droits-dopposition-dacces-et-de-rectification-sur-vos-donnees-collectees" class="lien-mentions-legales">
