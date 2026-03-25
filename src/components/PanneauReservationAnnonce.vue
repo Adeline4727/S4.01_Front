@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue';
+import Button from '@/components/Button.vue';
 import BouttonPlusMinus from './BouttonPlusMinus.vue';
+const conditionsAcceptees = ref(false)
+const messageTexte = ref('')
+const maxCaracteres = 2500
 const props = defineProps({
     annonce : {
         required : true,
@@ -20,7 +24,7 @@ const props = defineProps({
         <div class="trait"></div>
         <div>
             <h2>Vos dates de séjour</h2>
-            <p>[nombre nuit] nuits à [nom ville]</p>
+            <p>[nombre nuit] nuits à {{ annonce.adresseBien.villeAdresse.nomVille }}</p>
             <div class="datesSejour">
                 <div>
                     <p>Arrivée</p>
@@ -76,31 +80,46 @@ const props = defineProps({
             </div>
         </div>
         <div class="trait"></div>
-        <div>
+        <div class="section-informations">
             <h2>Vos informations</h2>
-            <p>* Champs obligatoires</p>
-            <div>
-                <div>
-                    <label for="">Prénom*</label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label for="">Nom*</label>
-                    <input type="text">
-                </div>
+            <p class="commentaire-obligatoire">* Champs obligatoires</p>
+
+            <div class="form-ligne">
+            <div class="form-groupe">
+                <label for="prenom">Prénom *</label>
+                <input type="text" id="prenom" class="champ-texte">
             </div>
-            <div>
-                <label for="">Numéro de téléphone</label>
-                <input type="text">
-                <p>Votre numéro de téléphone sera partagé à l’hôte une fois votre demande de réservation acceptée</p>
+            
+            <div class="form-groupe">
+                <label for="nom">Nom *</label>
+                <input type="text" id="nom" class="champ-texte">
+            </div>
+            </div>
+
+            <div class="form-groupe">
+            <label for="telephone">Numéro de téléphone</label>
+            <input type="tel" id="telephone" class="champ-texte" value="0651075782">
+            <p class="commentaire-info">Votre numéro de téléphone sera partagé à l’hôte une fois votre demande de réservation acceptée</p>
             </div>
         </div>
         <div class="trait"></div>
-        <div>
-            <h2>Envoyer un message à </h2>
-            <div>
-                <textarea name="" id="" cols="30" rows="10"></textarea>
-                <div class="flex justify-end"><span class="ml-auto self-start"><span aria-hidden="true" data-spark-component="form-field-characters-count" class="text-caption text-neutral">0/2500</span></span></div>
+        <div class="section-message">
+            <h2 class="titre-message">Envoyer un message à {{ annonce.proprietaireBien.particulierAssocie.nom }}</h2>
+            
+            <div class="conteneur-textarea">
+            <textarea 
+                v-model="messageTexte"
+                class="champ-message" 
+                placeholder="Dites quelques mots sur vous à votre hôte, votre heure d’arrivée et ce qui vous amène dans la région." 
+                rows="5"
+                :maxlength="maxCaracteres"
+            ></textarea>
+            
+            <div class="compteur-caracteres">
+                <span :class="{ 'limite-atteinte': messageTexte.length === maxCaracteres }">
+                {{ messageTexte.length }}/{{ maxCaracteres }}
+                </span>
+            </div>
             </div>
         </div>
         <div class="trait"></div>
@@ -109,15 +128,73 @@ const props = defineProps({
                 <img alt="Protection Voyageur" decoding="async" data-nimg="fixed" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: medium; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;" srcset="../../public/images/protection.svg 1x, ../../public/images/protection.svg 2x" src="../../public/images/protection.svg">
             </span>
         </div>
+        <p>Grâce au paiement en ligne, vous bénéficiez de la protection voyageur:</p>
+        <ul class="liste-avantages">
+            
+            <li class="avantage-item">
+            <svg class="avantage-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M20.2071 5.79289C20.5976 6.18342 20.5976 6.81658 20.2071 7.20711L10.2071 17.2071C9.81658 17.5976 9.18342 17.5976 8.79289 17.2071L3.79289 12.2071C3.40237 11.8166 3.40237 11.1834 3.79289 10.7929C4.18342 10.4024 4.81658 10.4024 5.20711 10.7929L9.5 15.0858L18.7929 5.79289C19.1834 5.40237 19.8166 5.40237 20.2071 5.79289Z"></path>
+            </svg>
+            <div class="avantage-texte">
+                <span class="textBold">Annulez gratuitement</span>
+                jusqu’à 30 jours avant le début du séjour
+            </div>
+            </li>
+
+            <li class="avantage-item">
+            <svg class="avantage-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M20.2071 5.79289C20.5976 6.18342 20.5976 6.81658 20.2071 7.20711L10.2071 17.2071C9.81658 17.5976 9.18342 17.5976 8.79289 17.2071L3.79289 12.2071C3.40237 11.8166 3.40237 11.1834 3.79289 10.7929C4.18342 10.4024 4.81658 10.4024 5.20711 10.7929L9.5 15.0858L18.7929 5.79289C19.1834 5.40237 19.8166 5.40237 20.2071 5.79289Z"></path>
+            </svg>
+            <div class="avantage-texte">
+                <span class="textBold">Aucun montant</span> 
+                n’est débité avant l’acceptation de la réservation
+            </div>
+            </li>
+
+            <li class="avantage-item">
+            <svg class="avantage-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M20.2071 5.79289C20.5976 6.18342 20.5976 6.81658 20.2071 7.20711L10.2071 17.2071C9.81658 17.5976 9.18342 17.5976 8.79289 17.2071L3.79289 12.2071C3.40237 11.8166 3.40237 11.1834 3.79289 10.7929C4.18342 10.4024 4.81658 10.4024 5.20711 10.7929L9.5 15.0858L18.7929 5.79289C19.1834 5.40237 19.8166 5.40237 20.2071 5.79289Z"></path>
+            </svg>
+            <div class="avantage-texte">
+                <span class="textBold">Assurance incluse</span>
+                en cas de problème à votre arrivée
+            </div>
+            </li>
+
+        </ul>
         <div class="trait"></div>
         <div>
-            <button></button>
-            <label data-spark-component="label" class="text-body-1 grow cursor-pointer" for=":form-field-_r_79_" id=":checkbox-_r_7c_">En validant, j’accepte les <a href="https://www.leboncoin.fr/dc/cgu" target="_blank" rel="noreferrer" class="font-bold underline" aria-label="Pour en savoir plus sur les CGU conditions générales d’utilisation">conditions d’utilisation</a> et les <a href="https://www.leboncoin.fr/dc/cgv" target="_blank" rel="noreferrer" class="font-bold underline" aria-label="Pour en savoir plus sur les CGV conditions générales de vente">CGV</a>, et certifie que mes prénoms et mon nom sont conformes à ceux de mon état civil.</label>
+            <div class="checkbox-container">
+                <input 
+                type="checkbox" 
+                id="cgu-checkbox" 
+                v-model="conditionsAcceptees"
+                class="checkbox-input">
+                
+                <label for="cgu-checkbox" class="checkbox-label">
+                
+                <span class="checkbox-custom">
+                    <svg v-if="conditionsAcceptees" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </span>
+                
+                <span class="checkbox-texte">
+                    En validant, j’accepte les <a href="#">conditions d’utilisation</a> et les <a href="#">CGV</a>, et certifie que mes prénoms et mon nom sont conformes à ceux de mon état civil.
+                </span>
+                
+                </label>
+            </div>
         </div>
         <div>
-            <button></button>
+            <Button :to="{ name: 'panneau-finalisation-paiement', params: { id: annonce.annonceId} }">Payer et valider ma réservation</Button>
         </div>
-        <p class="text-caption text-on-background text-opacity-dim-1"><a target="_blank" href="/vacances/vos-droits-dopposition-dacces-et-de-rectification-sur-vos-donnees-collectees" class="font-bold underline">Me renseigner</a> sur les finalités du traitement de mes données personnelles, les destinataires, le responsable de traitement, les durées de conservation, les coordonnées du DPO et mes droits.</p>
+        <p class="texte-mentions-legales">
+            <a target="_blank" href="/vacances/vos-droits-dopposition-dacces-et-de-rectification-sur-vos-donnees-collectees" class="lien-mentions-legales">
+            Me renseigner
+            </a>
+            sur les finalités du traitement de mes données personnelles, les destinataires, le responsable de traitement, les durées de conservation, les coordonnées du DPO et mes droits.
+        </p>
     </div>
 </template>
 
@@ -148,5 +225,220 @@ h2{
     color: gray;
     font-style: italic;
     font-size: 15px;
+}
+.message{
+    padding: 15px;
+}
+.textBold{
+    font-weight: bold;
+    color: #0f172a;
+}
+.checkbox-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox-custom {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.checkbox-input:checked + .checkbox-label .checkbox-custom {
+  background-color: #005fcc;
+  border-color: #005fcc;
+  color: white;
+}
+
+.checkbox-label:hover .checkbox-custom {
+  border-color: #94a3b8;
+}
+.checkbox-input:checked + .checkbox-label:hover .checkbox-custom {
+  background-color: #004ba6;
+}
+
+.checkbox-custom svg {
+  width: 14px;
+  height: 14px;
+}
+
+.checkbox-texte {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.checkbox-texte a {
+  color: inherit;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.liste-avantages {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.avantage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.avantage-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: currentColor;
+  margin-top: 2px;
+}
+
+.avantage-texte {
+  font-size: 1rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.texte-mentions-legales {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-top: 16px;
+}
+
+.lien-mentions-legales {
+  font-weight: 700;
+  text-decoration: underline;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.lien-mentions-legales:hover {
+  color: #0f172a;
+}
+
+.section-message {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.titre-message {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.conteneur-textarea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.champ-message {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #0f172a;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.champ-message:focus {
+  border-color: #0f172a;
+}
+
+.compteur-caracteres {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.limite-atteinte {
+  color: #ef4444; 
+  font-weight: bold;
+}
+
+.section-informations {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+.form-ligne {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.form-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.commentaire-obligatoire, 
+.commentaire-info {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+}
+
+label {
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.champ-texte {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #0f172a;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.champ-texte:focus {
+  border-color: #0f172a;
 }
 </style>

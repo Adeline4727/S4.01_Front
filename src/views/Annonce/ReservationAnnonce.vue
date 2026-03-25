@@ -5,13 +5,15 @@ import { useAnnoncesStore } from '@/stores/annonces'
 import PanneauReservationAnnonce from '@/components/PanneauReservationAnnonce.vue'
 import PanneauRecapPayementAnnonce from '@/components/PanneauRecapPayementAnnonce.vue'
 
-
 const route = useRoute()
 const store = useAnnoncesStore()
+
 onMounted(() => {
-    store.getAnnonceById(route.params.id);
+  store.getAnnonceById(route.params.id);
 })
+
 </script>
+
 <template>
   <div v-if="store.annonce" id="conteneur">
     <PanneauReservationAnnonce :annonce="store.annonce" class="PanneauReservationAnnonce"/>

@@ -1,10 +1,38 @@
 <script setup>
-defineProps({
+import {onMounted} from "vue";
+
+const props = defineProps({
   nomInput: {
     type: String,
     required: true
   },
+  inputType: {
+    type: String,
+    required: false,
+    default: "text"
+  },
+  isError: {
+    type: String,
+    required: false,
+    default: ""
+  },
+  isRequired: {
+    type: String,
+    required: false,
+    default: ""
+  },
+  errorText: {
+    type: String,
+    required: false,
+    default: "Champ requis"
+  }
 })
+
+// onMounted(() => {
+//   document.querySelector(".input-group").addEventListener("input", () => {
+//     props.isError = "false"
+//   })
+// })
 
 const model = defineModel()
 </script>
@@ -12,9 +40,10 @@ const model = defineModel()
 <template>
   <div class="input-group">
     <label :for="nomInput">
-      <slot></slot>
+      <slot></slot> {{isRequired === 'true' ? "*" : ""}}
     </label>
-    <input type="text" :name="nomInput" :id="nomInput" v-model="model">
+    <input :type="inputType" :name="nomInput" :id="nomInput" v-model="model" :class="{ error: isError !== '' ? '.error' : '' }">
+    <p v-if="isError !== ''">{{errorText}}</p>
   </div>
 </template>
 
@@ -22,8 +51,12 @@ const model = defineModel()
 .input-group {
   display: flex;
   flex-direction: column; /* Place le label au-dessus de l'input */
-  align-content: flex-start;
+  //align-content: flex-start;
   gap: 5px; /* Espace entre le label et l'input */
+}
+
+.input-group label {
+  align-self: flex-start;
 }
 
 input {
@@ -33,7 +66,7 @@ input {
   //border-radius: 4px;
   width: 100%;
   border: 1px solid gray;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: sans-serif;
   border-radius: 1rem;
   padding: 0.75rem 1rem;
@@ -41,6 +74,14 @@ input {
   background-color: var(--color-main);
 }
 
+.error {
+  border-color: red;
+}
+
+.input-group p {
+  color: red;
+  align-self: flex-start;
+}
 
 .test{
   color: blue;

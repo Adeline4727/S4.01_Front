@@ -1,23 +1,49 @@
 <script setup>
 import Button from '@/components/Button.vue';
-import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import {onMounted, ref} from 'vue'
 import InputText from "@/components/InputText.vue";
 import { useAuthStore } from "@/stores/auth.js";
+import router from "@/router/index.js";
 
 const store = useAuthStore()
 
-const mail = ref("test")
-const isMailValid = ref(false)
+const mail = ref("")
+const isMailValid = ref(true)
+const isPasswordValid = ref(true)
+const passwordShown = ref(false)
 
 async function setIfMailValid() {
-  try {
-    isMailValid.value = await store.doesMailExists(mail)
-    console.log(isMailValid.value)
-  } catch (e) {
-    console.log("Error: " + e)
-  }
+  isMailValid.value = await store.doesMailExists(mail)
+  passwordShown.value = isMailValid.value
 }
+
+function getCredentials() {
+  return "?mail=" + document.querySelector('#mail').value.replaceAll('\@', '%40') + "&password=" + document.querySelector('#password').value
+}
+
+async function login() {
+  let successful = await store.login(getCredentials())
+  if(successful === true) {
+    await router.replace({name: "home"})
+  } else {
+    isPasswordValid.value = false
+  }
+
+}
+
+onMounted(() => {
+  document.querySelector("#mail").addEventListener("input", () => {
+      isMailValid.value = true
+  })
+
+  document.querySelector(".form-content").addEventListener('keydown', (event) => {
+    if(event.key === 'Enter') {
+      event.preventDefault()
+    }
+  })
+})
+
+
 
 </script>
 
@@ -26,26 +52,12 @@ async function setIfMailValid() {
   <div id="connection-container">
     <div class="card">
       <h1 id="title">Connectez-vous ou créez votre compte leboncoin</h1>
-      
-<!--      <div class="tabs">-->
-<!--        <button -->
-<!--          :class="{ active: isLogin }" -->
-<!--          @click="isLogin = true"-->
-<!--        >-->
-<!--          Connexion-->
-<!--        </button>-->
-<!--        <button -->
-<!--          :class="{ active: !isLogin }" -->
-<!--          @click="isLogin = false"-->
-<!--        >-->
-<!--          Créer un compte-->
-<!--        </button>-->
-<!--      </div>-->
 
       <form class="form-content">
-        <InputText nom-input="mail" v-model="mail">Mail</InputText>
-        <InputText nom-input="password" v-if="isMailValid.value">Mot de passe</InputText>
-        <Button @click="setIfMailValid">Continuer</Button>
+        <InputText nom-input="mail" v-model="mail" :isError="isMailValid ? '' : 'error'" is-required="true" error-text="Ce mail n'a pas de compte leboncoin associé. Veuillez créer un compte avant de vous connecter.">Mail</InputText>
+        <InputText nom-input="password" input-type="password" v-if="passwordShown" is-required="true" :isError="isPasswordValid ? '' : 'error'" error-text="Le mot de passe n'est pas valide.">Mot de passe</InputText>
+        <Button v-if="!passwordShown" @click="setIfMailValid">Continuer</Button>
+        <Button v-if="passwordShown" @click="login">Se connecter</Button>
       </form>
     </div>
   </div>
@@ -65,14 +77,14 @@ async function setIfMailValid() {
   -webkit-box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30); 
   box-shadow: 0px 0px 9px 7px rgba(41,27,9,0.30);
   border-radius: 15px;
+  padding: 30px 50px;
 }
 
 #title {
-  margin-left: 1vw;
-  background-color: #ff8c37;
   color: black;
   padding: 10px;
   text-align: left;
+  margin-bottom: 30px;
 }
 
 .tabs {
@@ -95,7 +107,6 @@ async function setIfMailValid() {
 }
 
 .form-content {
-  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
