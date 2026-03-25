@@ -99,6 +99,14 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Annonce/ReservationAnnonce.vue'),
     },
+    {
+      path: '/panneau-finalisation-paiement/:id',
+      name: 'panneau-finalisation-paiement',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Annonce/FinaliserPayement.vue'),
+    },
     
   ],
 })
