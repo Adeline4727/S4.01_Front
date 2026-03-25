@@ -17,12 +17,14 @@ const store = useAnnoncesStore();
 
 <div class="rectangle">
     <div class="contenu">
-    <div>
-        <h1 class="titreAnnonce">{{ annonce.titreAnnonce }}</h1>
-        <h3>Min. {{ annonce.minmumNuite }} nuits, à partir de <h1 class="prix">{{ annonce.prix }}€ / nuit</h1></h3>
-    </div>
-    <ButtonVerifDispo></ButtonVerifDispo>
-    <LikeButton></LikeButton>
+        <div>
+            <h1 class="titreAnnonce">{{ annonce.titreAnnonce }}</h1>
+            <h3>Min. {{ annonce.minmumNuite }} nuits, à partir de <h1 class="prix">{{ annonce.prix }}€ / nuit</h1></h3>
+        </div>
+        <div class="boutons">
+            <ButtonVerifDispo class="verifDispo"></ButtonVerifDispo>
+            <LikeButton></LikeButton>
+        </div>
     </div>
 </div>
 
@@ -30,11 +32,19 @@ const store = useAnnoncesStore();
 
 
 <style scoped>
+.verifDispo{
+    width: 200px;
+}
+.boutons{
+    display: flex;
+    align-items: center;
+}
 .contenu{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 900px;
+
 }
 *{
     margin: 0px;
@@ -46,6 +56,7 @@ const store = useAnnoncesStore();
     padding: 15px;
     align-items: center;
     justify-content: center;
+    display: flex;
 }
 h2, h3{
     text-decoration: none;
