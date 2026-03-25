@@ -80,8 +80,8 @@ const selectCity = (city) => {
     }
 
     .btn-loupe {
-        right: -1.75rem;
-        top: 8%;
+        right: 5px;
+        top: 5px;
         position: absolute;
         vertical-align: middle;
         font-size: 1.25rem;
