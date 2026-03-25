@@ -25,7 +25,7 @@ const props = defineProps({
         <div class="trait"></div>
         <div>
             <h2>Vos dates de séjour</h2>
-            <p>[nombre nuit] nuits à [nom ville]</p>
+            <p>[nombre nuit] nuits à {{ annonce.ville }}</p>
             <div class="datesSejour">
                 <div>
                     <p>Arrivée</p>
