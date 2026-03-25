@@ -187,7 +187,7 @@ const props = defineProps({
             </div>
         </div>
         <div>
-            <Button>Payer et valider ma réservation</Button>
+            <Button :to="{ name: 'panneau-finalisation-paiement', params: { id: annonce.annonceId} }">Payer et valider ma réservation</Button>
         </div>
         <p class="texte-mentions-legales">
             <a target="_blank" href="/vacances/vos-droits-dopposition-dacces-et-de-rectification-sur-vos-donnees-collectees" class="lien-mentions-legales">
