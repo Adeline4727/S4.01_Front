@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import AnnonceCard from './AnnonceCard.vue';
 const props = defineProps({
     annonce : {
         required : true,
@@ -11,19 +12,19 @@ const props = defineProps({
     <div class="PanneauRecapPayementAnnonce">
         <div>
             <div>
-                <img src="" alt="[imagesAnnonce]">
+                <img class="image" :src="'/'+annonce.photos?.[0]?.lienurl" alt="[imagesAnnonce]">
             </div>
             <div>
-                <h2>[nomAnnonce]</h2>
-                <p>[capacité / nombrechambres]</p>
-                <p>[ville]</p>
+                <h2>{{ annonce.titreAnnonce }}</h2>
+                <p>{{ annonce.capacitePersonne }} personnes / {{ annonce.nbChambre }} chambres</p>
+                <p>{{ annonce.adresseBien.villeAdresse.nomVille }}</p>
             </div>
         </div>
         <div class="trait"></div>
         <div>
-            <div>
-                <img src="" alt="[imageProprietaire]">
-                <div class="text-body-1 font-bold">[nomProprietaire]</div>
+            <div class="infoProfil">
+                <img class="imageProfil" :src="'/'+annonce.proprietaireBien.photoProfil?.lienurl" alt="[imageProprietaire]">
+                <div class="text-body-1 font-bold">{{ annonce.proprietaireBien.particulierAssocie.nom }}</div>
             </div>
         </div>
         <div class="trait"></div>
@@ -80,5 +81,17 @@ const props = defineProps({
     color: gray;
     font-style: italic;
     font-size: 15px;
+}
+.image{
+    width: 200px;
+}
+.imageProfil{
+    border-radius: 50%;
+    width: 100px;
+}
+.infoProfil{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 </style>
