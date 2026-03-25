@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { url } from './url'
 
 export const useCompteUtilisaeurStore = defineStore('compteUtilisaeur', {
   actions: {
@@ -15,6 +16,18 @@ export const useCompteUtilisaeurStore = defineStore('compteUtilisaeur', {
         console.error('Erreur lors de la sauvegarde :', erreur)
         throw erreur 
       }
+    },
+    async getUserInfos(){
+      let user
+      try{
+        user = await axios.get(url+'login/getuserinfos',{ 
+          headers:{Authorization:"Bearer ${localStorage.getItem('token')}"}
+        })
+      } catch (e) {
+        console.log(e)
+      }
+
+      return user
     }
   }
 })
