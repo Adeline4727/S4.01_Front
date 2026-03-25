@@ -4,6 +4,11 @@ defineProps({
     type: String,
     required: true
   },
+  // NOUVEAU : Permet de choisir si c'est du texte, un email, ou un mot de passe
+  typeInput: {
+    type: String,
+    default: 'text' // Par défaut ce sera du texte normal
+  }
 })
 
 const model = defineModel()
@@ -14,23 +19,30 @@ const model = defineModel()
     <label :for="nomInput">
       <slot></slot>
     </label>
-    <input type="text" :name="nomInput" :id="nomInput" v-model="model">
+    <input 
+      :type="typeInput" 
+      :name="nomInput" 
+      :id="nomInput" 
+      v-model="model"
+    >
   </div>
 </template>
 
 <style scoped>
 .input-group {
   display: flex;
-  flex-direction: column; /* Place le label au-dessus de l'input */
+  flex-direction: column;
   align-content: flex-start;
-  gap: 5px; /* Espace entre le label et l'input */
+  gap: 5px;
 }
 
 input {
-  //width: 200px;
-  //padding: 5px;
-  //border: 1px solid #ccc;
-  //border-radius: 4px;
+  /* Anciens styles retirés proprement avec de vrais commentaires CSS */
+  /* width: 200px; */
+  /* padding: 5px; */
+  /* border: 1px solid #ccc; */
+  /* border-radius: 4px; */
+  
   width: 100%;
   border: 1px solid gray;
   font-size: 1rem;
@@ -38,11 +50,10 @@ input {
   border-radius: 1rem;
   padding: 0.75rem 1rem;
   outline: none;
-  background-color: var(--color-main);
+  background-color: var(--color-main); /* Assure-toi que cette variable existe bien dans ton CSS global ! */
 }
 
-
-.test{
+.test {
   color: blue;
 }
 </style>
