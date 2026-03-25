@@ -11,12 +11,12 @@ const props = defineProps({
     <div class="PanneauRecapPayementAnnonce">
         <div>
             <div>
-                <img src="" alt="">
+                <img src="" alt="[imagesAnnonce]">
             </div>
             <div>
-                <h2></h2>
-                <p></p>
-                <p></p>
+                <h2>[nomAnnonce]</h2>
+                <p>[capacité / nombrechambres]</p>
+                <p>[ville]</p>
             </div>
         </div>
         <div class="trait"></div>
