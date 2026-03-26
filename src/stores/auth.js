@@ -31,8 +31,8 @@ export const useAuthStore = defineStore('auth', {
 
             try {
                 response = await axios.post(
-                    url + "Login/Login" + credentials,
-                    {},
+                    url + "Login/Login",
+                    credentials,
                     { validateStatus: (_) => true }
                 )
 

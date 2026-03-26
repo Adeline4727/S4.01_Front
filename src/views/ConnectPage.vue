@@ -18,7 +18,11 @@ async function setIfMailValid() {
 }
 
 function getCredentials() {
-  return "?mail=" + document.querySelector('#mail').value.replaceAll('\@', '%40') + "&password=" + document.querySelector('#password').value
+  // return "?mail=" + document.querySelector('#mail').value.replaceAll('\@', '%40') + "&password=" + document.querySelector('#password').value
+  return {
+    "mail": document.querySelector('#mail').value,
+    "password": document.querySelector('#password').value
+  }
 }
 
 async function login() {
@@ -28,12 +32,16 @@ async function login() {
   } else {
     isPasswordValid.value = false
   }
-
 }
 
 onMounted(() => {
   document.querySelector("#mail").addEventListener("input", () => {
+    if(!passwordShown.value)
       isMailValid.value = true
+    else {
+      isMailValid.value = false
+      passwordShown.value = false
+    }
   })
 
   document.querySelector(".form-content").addEventListener('keydown', (event) => {
