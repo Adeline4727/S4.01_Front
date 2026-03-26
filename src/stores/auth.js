@@ -6,8 +6,11 @@ import { url } from './url.js'
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null,
-        token: null
+        token: localStorage.getItem('token') || null
     }),
+    getters:{
+        isConnected: (state) => !!state.token,
+    },
     actions: {
         async doesMailExists(mail) {
             let response

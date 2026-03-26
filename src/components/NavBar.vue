@@ -2,7 +2,6 @@
 import ButtonWithIcon from './ButtonWithIcon.vue'
 import NavItem from './NavItem.vue'
 import SearchBar from './SearchBar.vue'
-
 import { addIcons } from 'ionicons'
 import {
     addCircleOutline,
@@ -11,8 +10,21 @@ import {
     heartOutline,
     chatbubbleEllipsesOutline,
     personOutline,
-    home
+    home,
+    image
 } from 'ionicons/icons'
+import { useAuthStore } from '@/stores/auth' // Ajuste le chemin selon ton projet
+import { storeToRefs } from 'pinia'
+
+// import { useCompteUtilisateurStore } from '@/stores/CompteUtilisaeur'
+// const store = useCompteUtilisateurStore()
+
+// onMounted(() => {
+//     store.getUserInfos()
+// })
+
+const authStore = useAuthStore()
+const { isConnected } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -32,7 +44,11 @@ import {
             <NavItem target="/mes-recherches" label="Mes recherches" icon="notifications-outline" />
             <NavItem target="/favoris" label="Favoris" icon="heart-outline" />
             <NavItem target="/messages" label="Messages" icon="chatbubble-ellipses-outline" />
-            <NavItem target="/connection" label="Se connecter" icon="person-outline" />
+            <button v-if="authStore.isConnected" target="/profil" class="profil-button">
+                <img :src="'/'" alt="imgProfil"></img>
+            </button>
+            
+            <NavItem v-else target="/connection" label="Se connecter" icon="person-outline" />
         </div>
     </nav>
 </template>
@@ -79,5 +95,10 @@ import {
             width: 80%;
             /* margin: 0 1rem 0 1rem; */
         }
+    }
+    .profil-button{
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
     }
 </style>
