@@ -40,6 +40,16 @@
         cursor: pointer;
       }
 
+      .pclasse:disabled {
+        opacity: 0.5;
+      }
+
+      .pclasse:disabled:hover {
+        background-color: var(--main-color);
+        cursor: auto;
+        opacity: 0.5;
+      }
+
       .imgclasse{
          
         width:40px

@@ -87,11 +87,11 @@ onMounted(() => {
       <form class="form-content">
         <InputText nom-input="mail" v-model="mail" :isError="isMailValid ? '' : 'error'" is-required="true" :error-text="mailFormatValid ? 'Ce mail n\'a pas de compte leboncoin associé. Veuillez créer un compte avant de vous connecter.' : 'Le format du mail n\'est pas valide. Veuillez changer d\'adresse mail.'">Mail</InputText>
         <InputText nom-input="password" input-type="password" v-if="passwordShown" is-required="true" :isError="isPasswordValid ? '' : 'error'" error-text="Le mot de passe n'est pas valide.">Mot de passe</InputText>
-        <Button v-if="!passwordShown && !createAccount && mailFormatValid" @click="setIfMailValid">Continuer</Button>
-        <Button v-if="passwordShown" @click="login">Se connecter</Button>
+        <Button v-if="!passwordShown && !createAccount && mailFormatValid" @click="setIfMailValid" :is-disabled="buttonsActivated ? '' : 'error'">Continuer</Button>
+        <Button v-if="passwordShown" @click="login" :is-disabled="buttonsActivated ? '' : 'error'">Se connecter</Button>
         <div id="create-account-buttons" v-if="createAccount && mailFormatValid">
-          <Button @click="router.replace('')">Créer un compte pour particulirer</Button>
-          <Button @click="router.replace('')">Créer un compte pour professionnel</Button>
+          <Button @click="router.replace('')" :is-disabled="buttonsActivated ? '' : 'error'">Créer un compte pour particulirer</Button>
+          <Button @click="router.replace('')" :is-disabled="buttonsActivated ? '' : 'error'">Créer un compte pour professionnel</Button>
         </div>
       </form>
     </div>
