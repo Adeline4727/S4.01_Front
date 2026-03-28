@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import AnnonceCard from '@/components/AnnonceCard.vue';
 import Carrousel from '@/components/Carrousel.vue';
-import axios from 'axios';
 import { useAnnoncesStore } from '@/stores/annonces'
 import Button from "@/components/Button.vue";
 const store = useAnnoncesStore()
@@ -15,7 +14,7 @@ onMounted(() => {
     <div class="deposAnnonceElement">
         <h1>C'est le moment de vendre !</h1>
         <RouterLink to="/DeposAnnonce">
-            <Button icon="add-circle-outline" button-width="250"><b>Déposer une annonce</b></Button>
+            <Button icon="add-circle-outline" :button-width="250"><b>Déposer une annonce</b></Button>
         </RouterLink>
     </div>
 

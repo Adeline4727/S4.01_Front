@@ -25,6 +25,8 @@ import Button from "@/components/Button.vue";
 
 const authStore = useAuthStore()
 const { isConnected } = storeToRefs(authStore)
+
+const userName = localStorage.getItem('name')
 </script>
 
 <template>
@@ -44,10 +46,14 @@ const { isConnected } = storeToRefs(authStore)
             <NavItem target="/mes-recherches" label="Mes recherches" icon="notifications-outline" />
             <NavItem target="/favoris" label="Favoris" icon="heart-outline" />
             <NavItem target="/messages" label="Messages" icon="chatbubble-ellipses-outline" />
-            <button v-if="authStore.isConnected" target="/profil" class="profil-button">
-                <img :src="'/'" alt="imgProfil"></img>
-            </button>
-            
+
+            <RouterLink to="/account/private/home" v-if="authStore.isConnected">
+              <button  class="profil-button">
+                  <img :src="'/'" alt="imgProfil"></img>
+                  <p>{{userName}}</p>
+              </button>
+            </RouterLink>
+
             <NavItem v-else target="/connection" label="Se connecter" icon="person-outline" />
         </div>
     </nav>

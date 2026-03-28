@@ -21,7 +21,7 @@ export const useCompteUtilisaeurStore = defineStore('compteUtilisaeur', {
       let user
       try{
         user = await axios.get(url+'login/getuserinfos',{ 
-          headers:{Authorization:"Bearer ${localStorage.getItem('token')}"}
+          headers:{Authorization:"Bearer " + localStorage.getItem('token')}
         })
       } catch (e) {
         console.log(e)

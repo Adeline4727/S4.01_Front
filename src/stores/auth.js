@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { url } from './url.js'
+import {useCompteUtilisaeurStore} from "@/stores/CompteUtilisaeur.js";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -44,6 +45,19 @@ export const useAuthStore = defineStore('auth', {
                 else {
                     isConnected = true
                     localStorage.setItem('token', response.data.token)
+
+                    const userStore = useCompteUtilisaeurStore()
+                    let userData = await userStore.getUserInfos()
+
+                    // Setting name in localStorage
+                    if(userData.data.professionnelAssocie == null)
+                        localStorage.setItem('name', userData.data.particulierAssocie.prenom)
+                    else
+                        localStorage.setItem('name', userData.data.professionnelAssocie.nomProfessionnel)
+
+                    // TODO : Setting pfp in localStorage
+                    if(userData.data.photoProfil != null)
+                        localStorage.setItem('pfp', userData.data.photoProfil.lienUrl)
                 }
             } catch (e) {
                 console.log(e)
@@ -69,6 +83,8 @@ export const useAuthStore = defineStore('auth', {
             this.user = null
             this.token = null
             localStorage.removeItem('token')
+            localStorage.removeItem('name')
+            localStorage.removeItem('pfp')
         }
     }
 });
