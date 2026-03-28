@@ -2,6 +2,7 @@
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
 import DatePickerButton from '@/components/DatePickerButton.vue';
 import ButtonVerifDispo from './ButtonVerifDispo.vue';
+import DatePicker from '@/components/DatePicker.vue'
 
 const props = defineProps({
     annonce: {
@@ -12,6 +13,17 @@ const props = defineProps({
 import { useAnnoncesStore } from '@/stores/annonces';
 const store = useAnnoncesStore();
 
+const showDatePicker = ref(false)
+const dateArrivee = ref(null)
+const dateDepart = ref(null)
+
+const handleDatesSelected = ({ debut, fin }) => {
+  dateArrivee.value = debut
+  dateDepart.value = fin
+  showDatePicker.value = false // On ferme la modale
+}
+
+
 </script>
 
 <template>
@@ -20,8 +32,14 @@ const store = useAnnoncesStore();
         <p id="info"><div class="entoure">i</div> <div id="textInfo">La prochaine date d'arrivée disponible est le {{  }}</div></p><!--A compléter-->
         <!--Parcourir les réservations + joursSemaine correspond aux jours disponible-->
         <div class="datePickers">
-            <div class="text"> Arrivée <DatePickerButton/></div>
-            <div class="text"> Départ <DatePickerButton/></div>
+            <div class="text">
+                Arrivée 
+                <DatePickerButton :date="dateArrivee" @click="showDatePicker = true" />
+            </div>
+            <div class="text">
+                Départ 
+                <DatePickerButton :date="dateDepart" @click="showDatePicker = true" />
+            </div>
         </div>
         <ButtonVerifDispo></ButtonVerifDispo>
         <div class="trait"></div>
@@ -40,6 +58,17 @@ const store = useAnnoncesStore();
             <h1 v-else-if="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel"  class="nomProprio">{{ annonce.proprietaireBien.professionnelAssocie.nomProfessionnel }}</h1>
             <h1 v-else class="nomProprio">Anonyme</h1>
             <!--Ajouter clic sur le profil-->
+        </div>
+    </div>
+    <div v-if="showDatePicker && store.annonce" class="modal-overlay" @click.self="showDatePicker = false">
+        <div class="modal-content">
+        <button class="close-modal-btn" @click="showDatePicker = false">&times;</button>
+        
+        <DatePicker 
+            :annonce="store.annonce"
+            @dates-validees="handleDatesSelected"
+            @fermer="showDatePicker = false">
+        </DatePicker>
         </div>
     </div>
 </template>
@@ -110,5 +139,64 @@ const store = useAnnoncesStore();
 }
 .nomProprio{
     margin-left: 30px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Noir transparent */
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  z-index: 9999;           /* Au-dessus de tout le reste (notamment ton bandeau) */
+}
+
+/* Le conteneur spécifique du composant */
+.modal-content {
+  position: relative;
+  /* L'animation d'apparition (optionnel mais plus joli) */
+  animation: popIn 0.3s ease-out forwards;
+
+  background-color: #ffffff; 
+  border-radius: 16px;       /* Pour les bords arrondis */
+  padding: 32px;             /* Pour donner de l'espace autour du calendrier */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); /* La petite ombre qui fait pro */
+}
+
+/* Le bouton pour fermer la modale */
+.close-modal-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+  color: #222;
+}
+
+.close-modal-btn:hover {
+  color: #ff5a5f;
+}
+
+/* Petite animation d'apparition douce */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.datePickers {
+  display: flex;
+  gap: 16px; /* Espace entre les deux boutons */
+  margin: 20px 0;
+}
+.text {
+  flex: 1; /* Pour que chaque bouton prenne 50% de la largeur */
+  font-size: 14px;
+  font-weight: bold;
 }
 </style>

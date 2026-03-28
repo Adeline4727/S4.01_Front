@@ -1,5 +1,6 @@
 <script setup>
 import {ref,computed } from 'vue'
+import BouttonAjtAnnonce from './BouttonAjtAnnonce.vue';
 
 // 1. On déclare la prop qui reçoit l'objet annonce
 const props = defineProps({
@@ -66,6 +67,13 @@ const peutReculer = computed(() => {
         (dateAffichage.value.getFullYear() === aujourdhui.getFullYear() && dateAffichage.value.getMonth() > aujourdhui.getMonth())
 })
 
+const formaterDateLocale = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const genererMois = (decalageMois) => {
   const date = new Date(dateAffichage.value.getFullYear(), dateAffichage.value.getMonth() + decalageMois, 1)
   const moisNom = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' })
@@ -99,51 +107,134 @@ const genererMois = (decalageMois) => {
 }
 
 const moisAffiches = computed(() => [genererMois(0), genererMois(1)])
+
+const emit = defineEmits(['dates-validees', 'fermer']) // Pour envoyer les dates au parent
+
+// 4. Variables de sélection
+const dateDebut = ref(null)
+const dateFin = ref(null)
+
+// 5. Fonctions utilitaires pour la sélection
+const selectionnerJour = (jour) => {
+  if (jour.vide || jour.isReserve) return
+
+  const dateClic = jour.fullDate
+  const minNuits = props.annonce?.minmumNuite || 1
+
+  // Cas 1 : On commence une nouvelle sélection
+  if (!dateDebut.value || (dateDebut.value && dateFin.value)) {
+    dateDebut.value = dateClic
+    dateFin.value = null
+    return
+  }
+
+  // Cas 2 : On a déjà un début, on définit la fin
+  const dDebut = new Date(dateDebut.value)
+  const dFin = new Date(dateClic)
+
+  // Si l'utilisateur clique sur une date antérieure au début, on change le début
+  if (dFin <= dDebut) {
+    dateDebut.value = dateClic
+    return
+  }
+
+  // Vérification de la durée minimum
+  const diffTime = Math.abs(dFin - dDebut)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+  if (diffDays < minNuits) {
+    alert(`Ce logement impose un séjour de ${minNuits} nuits minimum.`)
+    return
+  }
+
+  // Vérification des jours réservés ENTRE les deux dates
+  if (isPlageBloquee(dateDebut.value, dateClic)) {
+    alert("Désolé, certains jours dans cette période sont déjà réservés.")
+    // On peut soit reset, soit garder le début actuel
+    return
+  }
+
+  dateFin.value = dateClic
+}
+
+// Vérifie s'il y a un jour réservé entre deux dates
+const isPlageBloquee = (debut, fin) => {
+  let d = new Date(debut)
+  const f = new Date(fin)
+  
+  while (d <= f) {
+    const dateStr = d.toISOString().split('T')[0]
+    if (datesReservees.value.includes(dateStr)) return true
+    d.setDate(d.getDate() + 1)
+  }
+  return false
+}
+
+// Pour le style visuel : est-ce que le jour est entre le début et la fin ?
+const estDansLaPlage = (fullDate) => {
+  if (!dateDebut.value || !dateFin.value) return false
+  return fullDate > dateDebut.value && fullDate < dateFin.value
+}
+
+const validerSelection = () => {
+  if (dateDebut.value && dateFin.value) {
+    emit('dates-validees', { debut: dateDebut.value, fin: dateFin.value })
+    emit('fermer')
+  }
+}
 </script>
 
 <template>
-    <div>
+    <div class="date-picker-popup">
         <div class="header">
             <h2>Sélectionnez des dates</h2>
         </div>
         <div class="trait"></div>
 
         <div class="calendars-area">
-      <div class="calendars-nav-header">
-        <button class="nav-btn" @click="allerAuMoisPrecedent" :disabled="!peutReculer">
-          <svg viewBox="0 0 18 18" width="16" height="16" fill="currentColor">
-            <path d="M11.4 4.3L6.7 9l4.7 4.7-1.4 1.4-6.1-6.1 6.1-6.1z"></path>
-          </svg>
-        </button>
+          <div class="calendars-nav-header">
+            <button class="nav-btn" @click="allerAuMoisPrecedent" :disabled="!peutReculer">
+              <svg viewBox="0 0 18 18" width="16" height="16" fill="currentColor">
+                <path d="M11.4 4.3L6.7 9l4.7 4.7-1.4 1.4-6.1-6.1 6.1-6.1z"></path>
+              </svg>
+            </button>
 
-        <div class="month-titles-wrapper">
-          <div class="month-title">{{ moisAffiches[0].nom }}</div>
-          <div class="month-title">{{ moisAffiches[1].nom }}</div>
-        </div>
+            <div class="month-titles-wrapper">
+              <div class="month-title">{{ moisAffiches[0].nom }}</div>
+              <div class="month-title">{{ moisAffiches[1].nom }}</div>
+            </div>
 
-        <button class="nav-btn" @click="allerAuMoisSuivant">
-          <svg viewBox="0 0 18 18" width="16" height="16" fill="currentColor">
-            <path d="M6.6 4.3l4.7 4.7-4.7 4.7 1.4 1.4 6.1-6.1-6.1-6.1z"></path>
-          </svg>
-        </button>
-      </div>
+            <button class="nav-btn" @click="allerAuMoisSuivant">
+              <svg viewBox="0 0 18 18" width="16" height="16" fill="currentColor">
+                <path d="M6.6 4.3l4.7 4.7-4.7 4.7 1.4 1.4 6.1-6.1-6.1-6.1z"></path>
+              </svg>
+            </button>
+          </div>
 
-      <div class="calendars-container">
-        <div v-for="mois in moisAffiches" :key="mois.nom" class="calendar">
-          <div class="days-grid">
-            <span v-for="label in ['lu','ma','me','je','ve','sa','di']" :key="label" class="day-label">
-              {{ label }}
-            </span>
-            <template v-for="(jour, index) in mois.jours" :key="index">
-              <span v-if="jour.vide" class="day empty"></span>
-              <span v-else class="day" :class="{ 'unavailable': jour.isReserve }">
-                {{ jour.numero }}
-              </span>
-            </template>
+          <div class="calendars-container">
+            <div v-for="mois in moisAffiches" :key="mois.nom" class="calendar">
+              <div class="days-grid">
+                <span v-for="label in ['lu','ma','me','je','ve','sa','di']" :key="label" class="day-label">
+                  {{ label }}
+                </span>
+                <template v-for="(jour, index) in mois.jours" :key="index">
+                  <span v-if="jour.vide" class="day empty"></span>
+                  <span 
+                    v-else 
+                    class="day" 
+                    :class="{ 
+                      'unavailable': jour.isReserve, 
+                      'selected': jour.fullDate === dateDebut || jour.fullDate === dateFin,
+                      'in-range': estDansLaPlage(jour.fullDate)
+                    }"
+                    @click="selectionnerJour(jour)">
+                    {{ jour.numero }}
+                  </span>
+                </template>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
         <div class="trait"></div>
         <div class="footer">
@@ -152,7 +243,12 @@ const moisAffiches = computed(() => [genererMois(0), genererMois(1)])
                 <p class="subtext">pour 1 nuit</p>
             </div>
             
-            <button class="btn-select">Sélectionner</button>
+            <BouttonAjtAnnonce 
+              class="btn-select" 
+              :disabled="!dateDebut || !dateFin"
+              @click="validerSelection">
+              Sélectionner
+            </BouttonAjtAnnonce>
         </div>
     </div>
 </template>
@@ -326,13 +422,36 @@ const moisAffiches = computed(() => [genererMois(0), genererMois(1)])
 }
 
 .btn-select {
-  background-color: #f6b79d; /* Couleur orange/saumon */
-  color: white;
   border: none;
   padding: 14px 32px;
   border-radius: 12px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+}
+.day.selected {
+  background-color: #222 !important;
+  color: white !important;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Le rectangle gris clair pour les jours entre les deux */
+.day.in-range {
+  background-color: #f7f7f7;
+  border-radius: 0; /* Pour faire un bloc continu */
+}
+
+/* Petit effet au survol des jours cliquables */
+.day:not(.unavailable):not(.empty):hover {
+  border: 1px solid #222;
+  border-radius: 50%;
+}
+
+/* Griser le bouton si la sélection n'est pas complète */
+.btn-select:disabled {
+  background-color: #dddddd;
+  cursor: not-allowed;
+  color: #a0a0a0;
 }
 </style>
