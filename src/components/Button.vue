@@ -1,17 +1,22 @@
 <script setup>
     const props = defineProps({
-  donnee: String // Ce que tu passes au composant (un texte ou un chemin d'image)
-})
+      donnee: String,
+      isDisabled: {
+        type: String,
+        required: false,
+        default: ""
+      }
+    })
 
     const estImage = (valeur) => {
   
-}
+    }
 </script>
 
 <template>
   <button v-if="estImage(donnee)" class="imgclasse" type="button">  <slot> </slot> </button>
 
-  <button v-else class="pclasse" type="button">
+  <button v-else class="pclasse" type="button" :disabled="isDisabled !== ''">
     <p> <slot> </slot> </p>
   </button>
 
