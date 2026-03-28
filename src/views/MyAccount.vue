@@ -3,7 +3,11 @@ import AccountActionListElement from '@/components/AccountActionListElement.vue'
 import AccountActionListWithIcon from '@/components/AccountActionListWithIcon.vue';
 import AccountActionWithIcon from '@/components/AccountActionWithIcon.vue';
 import Button from "@/components/Button.vue";
+import {useAuthStore} from "@/stores/auth.js";
+import router from "@/router/index.js";
 const hasPhoto = false;
+
+const authStore = useAuthStore()
 </script>
 <template>
     <section class="mes-infos">
@@ -56,7 +60,9 @@ const hasPhoto = false;
             <AccountActionWithIcon label="Connexion et sécurité" icon="shield-checkmark-outline" target="#" />
             <AccountActionWithIcon label="Factures" icon="document-text-outline" target="#" />
         </div>
-        <button class="logout-btn">Me déconnecter</button>
+        <RouterLink to="/">
+          <button class="logout-btn" @click="authStore.logout()">Me déconnecter</button>
+        </RouterLink>
     </section>
 </template>
 <style scoped>
