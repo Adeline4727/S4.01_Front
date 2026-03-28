@@ -1,6 +1,6 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
-import DatePicker from '@/components/DatePicker.vue';
+import DatePickerButton from '@/components/DatePickerButton.vue';
 import ButtonVerifDispo from './ButtonVerifDispo.vue';
 
 const props = defineProps({
@@ -20,8 +20,8 @@ const store = useAnnoncesStore();
         <p id="info"><div class="entoure">i</div> <div id="textInfo">La prochaine date d'arrivée disponible est le {{  }}</div></p><!--A compléter-->
         <!--Parcourir les réservations + joursSemaine correspond aux jours disponible-->
         <div class="datePickers">
-            <div class="text"> Arrivée <DatePicker/></div>
-            <div class="text"> Départ <DatePicker/></div>
+            <div class="text"> Arrivée <DatePickerButton/></div>
+            <div class="text"> Départ <DatePickerButton/></div>
         </div>
         <ButtonVerifDispo></ButtonVerifDispo>
         <div class="trait"></div>
