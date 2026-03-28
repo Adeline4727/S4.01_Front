@@ -2,8 +2,7 @@
 import AccountActionListElement from '@/components/AccountActionListElement.vue';
 import AccountActionListWithIcon from '@/components/AccountActionListWithIcon.vue';
 import AccountActionWithIcon from '@/components/AccountActionWithIcon.vue';
-import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
-import FieldInput from '@/components/FieldInput.vue';
+import Button from "@/components/Button.vue";
 const hasPhoto = false;
 </script>
 <template>
@@ -21,7 +20,7 @@ const hasPhoto = false;
                 </span>
             </div>
             <span>
-                <ButtonWithIcon icon="create-outline">Modifier</ButtonWithIcon>
+                <Button icon="create-outline" button-width="150">Modifier</Button>
             </span>
         </div>
         <div class="solde">

@@ -5,6 +5,16 @@
         type: String,
         required: false,
         default: ""
+      },
+      icon: {
+        type: String,
+        required: false,
+        default: ""
+      },
+      buttonWidth: {
+        type: Number,
+        required: false,
+        default: "220"
       }
     })
 
@@ -16,8 +26,15 @@
 <template>
   <button v-if="estImage(donnee)" class="imgclasse" type="button">  <slot> </slot> </button>
 
-  <button v-else class="pclasse" type="button" :disabled="isDisabled !== ''">
+  <button
+      v-else class="pclasse"
+      type="button"
+      :disabled="isDisabled !== ''"
+      :style="`width: ${buttonWidth}px;`">
+
+    <ion-icon v-if="icon !== ''" :name="icon" size="large"></ion-icon>
     <p> <slot> </slot> </p>
+
   </button>
 
 </template>
@@ -25,11 +42,14 @@
 
 <style scoped>
       .pclasse{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
         color: white;
         background-color: var(--main-color);
         border: none;
         border-radius: 15px;
-        width: 220px;
         margin-left:3%;
         margin-right:3%;
         height:50px;

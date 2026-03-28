@@ -1,5 +1,4 @@
 <script setup>
-import ButtonWithIcon from './ButtonWithIcon.vue'
 import NavItem from './NavItem.vue'
 import SearchBar from './SearchBar.vue'
 import { addIcons } from 'ionicons'
@@ -15,6 +14,7 @@ import {
 } from 'ionicons/icons'
 import { useAuthStore } from '@/stores/auth' // Ajuste le chemin selon ton projet
 import { storeToRefs } from 'pinia'
+import Button from "@/components/Button.vue";
 
 // import { useCompteUtilisateurStore } from '@/stores/CompteUtilisaeur'
 // const store = useCompteUtilisateurStore()
@@ -35,7 +35,7 @@ const { isConnected } = storeToRefs(authStore)
         <!-- <img src="/imgLBC.png" alt="img"> -->
         
         <RouterLink class="deposer-une-annonce" to="/annonces/deposer">
-            <ButtonWithIcon icon="add-circle-outline"><b>Déposer une annonce</b></ButtonWithIcon>
+            <Button icon="add-circle-outline" button-width="250"><b>Déposer une annonce</b></Button>
         </RouterLink>
 
         <SearchBar> </SearchBar>
