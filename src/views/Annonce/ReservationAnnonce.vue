@@ -8,6 +8,9 @@ import PanneauRecapPayementAnnonce from '@/components/PanneauRecapPayementAnnonc
 const route = useRoute()
 const store = useAnnoncesStore()
 
+const dateArriveeChoisie = computed(() => route.query.arrivee)
+const dateDepartChoisie = computed(() => route.query.depart)
+
 onMounted(() => {
   store.getAnnonceById(route.params.id);
 })
@@ -16,8 +19,19 @@ onMounted(() => {
 
 <template>
   <div v-if="store.annonce" id="conteneur">
-    <PanneauReservationAnnonce :annonce="store.annonce" class="PanneauReservationAnnonce"/>
-    <PanneauRecapPayementAnnonce :annonce="store.annonce" class="PanneauRecapPayementAnnonce"/>
+    <PanneauReservationAnnonce 
+      :annonce="store.annonce" 
+      :dateArrivee="dateArriveeChoisie"
+      :dateDepart="dateDepartChoisie"
+      class="PanneauReservationAnnonce"
+    />
+    
+    <PanneauRecapPayementAnnonce 
+      :annonce="store.annonce" 
+      :dateArrivee="dateArriveeChoisie"
+      :dateDepart="dateDepartChoisie"
+      class="PanneauRecapPayementAnnonce"
+    />
   </div>
   <div v-else>Chargement...</div>
 </template>

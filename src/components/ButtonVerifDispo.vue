@@ -1,8 +1,9 @@
 <script setup>
 import BouttonAjtAnnonce from './BouttonAjtAnnonce.vue';
+const emit = defineEmits(['click']);
 </script>
 <template>
-    <BouttonAjtAnnonce class="button">Vérifier la disponibilité</BouttonAjtAnnonce>
+    <BouttonAjtAnnonce class="button" @click="emit('click')">Vérifier la disponibilité</BouttonAjtAnnonce>
 </template>
 <style scoped>
 .button{

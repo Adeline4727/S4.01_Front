@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Button from '@/components/Button.vue';
 import BouttonPlusMinus from './BouttonPlusMinus.vue';
 const conditionsAcceptees = ref(false)
@@ -8,9 +8,40 @@ const maxCaracteres = 2500
 const props = defineProps({
     annonce : {
         required : true,
+    },
+    dateArrivee: {
+        type: String,
+        default: null
+    },
+    dateDepart: {
+        type: String,
+        default: null
     }
 })
 const showPopover = ref(false)
+
+const nombreNuits = computed(() => {
+    if (!props.dateArrivee || !props.dateDepart) return 0;
+    
+    const debut = new Date(props.dateArrivee);
+    const fin = new Date(props.dateDepart);
+    
+    // On calcule la différence en millisecondes, puis on convertit en jours
+    const diffTime = Math.abs(fin - debut);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+})
+
+// 3. Fonction pour formater les dates en français joli
+const formaterDate = (dateString) => {
+    if (!dateString) return "Date non définie";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { 
+        weekday: 'long', // 'lundi'
+        day: 'numeric',  // '12'
+        month: 'long',   // 'avril'
+        year: 'numeric'  // '2026'
+    });
+}
 </script>
 
 <template>
@@ -25,15 +56,15 @@ const showPopover = ref(false)
         <div class="trait"></div>
         <div>
             <h2>Vos dates de séjour</h2>
-            <p>[nombre nuit] nuits à {{ annonce.adresseBien.villeAdresse.nomVille }}</p>
+            <p>{{ nombreNuits }} nuits à {{ annonce.adresseBien?.villeAdresse?.nomVille }}</p> 
             <div class="datesSejour">
                 <div>
                     <p>Arrivée</p>
-                    <p>[date et heure début]</p>
+                    <p class="textBold">{{ formaterDate(dateArrivee) }}</p>
                 </div>
                 <div>
                     <p>Départ</p>
-                    <p>[date et heure fin]</p>
+                    <p class="textBold">{{ formaterDate(dateDepart) }}</p>
                 </div>
             </div>
         </div>
@@ -125,7 +156,7 @@ const showPopover = ref(false)
         </div>
         <div class="trait"></div>
         <div class="section-message">
-            <h2 class="titre-message">Envoyer un message à {{ annonce.proprietaireBien.particulierAssocie.nom }}</h2>
+            <h2 class="titre-message">Envoyer un message à {{ annonce.proprietaireBien?.particulierAssocie?.nom }}</h2>
             
             <div class="conteneur-textarea">
             <textarea 

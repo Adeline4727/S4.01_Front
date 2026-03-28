@@ -3,6 +3,7 @@ import {ref, computed, useTemplateRef, onMounted} from 'vue';
 import DatePickerButton from '@/components/DatePickerButton.vue';
 import ButtonVerifDispo from './ButtonVerifDispo.vue';
 import DatePicker from '@/components/DatePicker.vue'
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
     annonce: {
@@ -12,6 +13,7 @@ const props = defineProps({
 
 import { useAnnoncesStore } from '@/stores/annonces';
 const store = useAnnoncesStore();
+const router = useRouter();
 
 const showDatePicker = ref(false)
 const dateArrivee = ref(null)
@@ -23,7 +25,24 @@ const handleDatesSelected = ({ debut, fin }) => {
   showDatePicker.value = false // On ferme la modale
 }
 
+const allerAReservation = () => {
+  // Sécurité : On vérifie que les deux dates sont sélectionnées
+  if (!dateArrivee.value || !dateDepart.value) {
+    alert("Veuillez sélectionner vos dates d'arrivée et de départ.");
+    return;
+  }
 
+  // Redirection vers la page de réservation
+  router.push({
+    name: 'reservation-annonce', 
+    params: { id: props.annonce.id }, 
+    // On passe les dates dans l'URL (ex: ?arrivee=2026-04-10&depart=2026-04-15)
+    query: {
+      arrivee: dateArrivee.value,
+      depart: dateDepart.value
+    }
+  });
+}
 </script>
 
 <template>
@@ -41,7 +60,7 @@ const handleDatesSelected = ({ debut, fin }) => {
                 <DatePickerButton :date="dateDepart" @click="showDatePicker = true" />
             </div>
         </div>
-        <ButtonVerifDispo></ButtonVerifDispo>
+        <ButtonVerifDispo @click="allerAReservation"></ButtonVerifDispo>
         <div class="trait"></div>
         <div class="carteProprio">
             <img 
