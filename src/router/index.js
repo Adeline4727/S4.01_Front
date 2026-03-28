@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import {useAuthStore} from "@/stores/auth.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,14 +27,17 @@ const router = createRouter({
       component: () => import('../views/Recherche.vue'),
     },
     {
-      path: '/connection',
-      name: 'connection',
+      path: '/connexion',
+      name: 'connexion',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/ConnectPage.vue'),
     },
-    
+    {
+      path: '/connection',
+      redirect: {name: 'connexion'}
+    },
     {
       path: '/createComptePro',
       name: 'createComptePro',
@@ -82,6 +86,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/MyAccount.vue'),
+      meta: {requiresAuth: true}
     },
     {
       path: '/messages',
@@ -115,8 +120,24 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/favoris.vue'),
     },
+    {
+      path: '/:pathMatch(.*)*',
+      component: HomeView
+    }
     
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  if(to.meta.requiresAuth && !authStore.isConnected) {
+    next({
+      path: '/connexion',
+      query: {redirect: to.fullPath}
+    })
+  } else
+      next()
 })
 
 export default router
