@@ -31,13 +31,13 @@ export const useUserStore = defineStore('user', {
         })
 
         // Setting name in localStorage
-        if(userInfos.data.professionnelAssocie == null)
-          localStorage.setItem('name', userInfos.data.particulierAssocie.prenom)
+        if(toRaw(this.user).professionnelAssocie == null)
+          localStorage.setItem('name', toRaw(this.user).particulierAssocie.prenom)
         else
-          localStorage.setItem('name', userInfos.data.professionnelAssocie.nomProfessionnel)
+          localStorage.setItem('name', toRaw(this.user).professionnelAssocie.nomProfessionnel)
 
-        if(userInfos.data.photoProfil.lienurl != null)
-          localStorage.setItem('pfp', userInfos.data.photoProfil.lienurl)
+        if(toRaw(this.user).photoProfil.lienurl != null)
+          localStorage.setItem('pfp', toRaw(this.user).photoProfil.lienurl)
 
       } catch (e) {
         console.log(e)
