@@ -4,13 +4,13 @@ import { ref } from 'vue';
 
 defineProps({
     title: String,
-    price: Float32Array,
+    price: Number,
     // category: String,
     image: String,
     owner: String,
     city: String,
     publishDate: String,
-    isPro: Boolean = false
+    isPro: { type: Boolean, default: false }
 })
 
 const liked = ref(false)
