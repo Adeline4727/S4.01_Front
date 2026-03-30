@@ -50,28 +50,20 @@ export const useAuthStore = defineStore('auth', {
                     let userData = await userStore.getUserInfos()
 
                     // Setting name in localStorage
-                    if(userData.data.professionnelAssocie == null)
-                        localStorage.setItem('name', userData.data.particulierAssocie.prenom)
-                    else
-                        localStorage.setItem('name', userData.data.professionnelAssocie.nomProfessionnel)
-
-                    console.log(userData.data.photoProfil.lienurl)
-                    console.log(userData.data.photoProfil)
-                    console.log(userData.data)
-
-                    // TODO : Setting pfp in localStorage
-                    if(userData.data.photoProfil.lienurl != null) {
-                        console.log("pfp set")
-                        localStorage.setItem('pfp', userData.data.photoProfil.lienurl)
-                        console.log(localStorage.getItem('pfp'))
-                    }
+                    // if(userData.data.professionnelAssocie == null)
+                    //     localStorage.setItem('name', userData.data.particulierAssocie.prenom)
+                    // else
+                    //     localStorage.setItem('name', userData.data.professionnelAssocie.nomProfessionnel)
+                    //
+                    // if(userData.data.photoProfil.lienurl != null) {
+                    //     console.log("pfp set")
+                    //     localStorage.setItem('pfp', userData.data.photoProfil.lienurl)
+                    //     console.log(localStorage.getItem('pfp'))
+                    // }
                 }
             } catch (e) {
                 console.log(e)
             }
-            // const isLoginValid = await axios.get(url + "Login/GetUserInfos", {
-            //     headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
-            // })
             return isConnected
 
         },
