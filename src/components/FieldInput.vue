@@ -1,13 +1,14 @@
 <script setup>
-
 defineProps({
     name: String,
     label: String,
-    required: Boolean = false
+    required: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const model = defineModel();
-
 </script>
 <template>
     <div class="field-input">
