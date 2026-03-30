@@ -10,7 +10,11 @@ defineProps({
     owner: String,
     city: String,
     publishDate: String,
-    isPro: { type: Boolean, default: false }
+    isPro: { type: Boolean, default: false },
+    redirection: {
+      type: Object,
+      required: true,
+    }
 })
 
 const liked = ref(false)
@@ -26,10 +30,12 @@ const liked = ref(false)
         </div>
         <div class="annonce-image">
 
-            <img v-if="image" :src="image" alt="image de l'annonce" class="img-fill">
-        
-            <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
-            
+            <RouterLink :to="redirection">
+
+              <img v-if="image" :src="image" alt="image de l'annonce" class="img-fill">
+              <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
+            </RouterLink>
+
             <LikeButton v-model:liked="liked" />
         </div>
         <div class="annonce-infos">
@@ -53,12 +59,12 @@ const liked = ref(false)
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        cursor: pointer;
     }
     .annonce-card .annonce-proprio {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        cursor: pointer;
     }
     .annonce-card .profile-pic-proprio {
         width: 1.5rem;
@@ -97,12 +103,14 @@ const liked = ref(false)
         position: absolute;
         top: 0.5rem;
         right: 0.5rem;
+        cursor: pointer;
     }
     
     .annonce-card .annonce-infos {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        cursor: pointer;
     }
     .annonce-card .annonce-infos h3 {
         margin-top: 0;

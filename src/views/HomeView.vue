@@ -13,7 +13,7 @@ onMounted(() => {
 <template>
     <div class="deposAnnonceElement">
         <h1>C'est le moment de vendre !</h1>
-        <RouterLink to="/DeposAnnonce">
+        <RouterLink to="/annonces/deposer">
             <Button icon="add-circle-outline" :button-width="250"><b>Déposer une annonce</b></Button>
         </RouterLink>
     </div>
@@ -23,10 +23,10 @@ onMounted(() => {
         <article>
             <h3>Ventes immobilières</h3>
             <Carrousel>
-                <RouterLink v-for="annonce in store.annonces" :to="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" >
-                    <AnnonceCard class="Card" v-if="annonce.proprietaireBien?.particulierAssocie" :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.proprietaireBien?.particulierAssocie?.nom" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />                    
-                    <AnnonceCard class="Card" v-else-if="annonce.proprietaireBien?.professionnelAssocie" :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
-                </RouterLink>
+                <div v-for="annonce in store.annonces">
+                    <AnnonceCard class="Card" v-if="annonce.proprietaireBien?.particulierAssocie" :redirection="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.proprietaireBien?.particulierAssocie?.nom" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                    <AnnonceCard class="Card" v-else-if="annonce.proprietaireBien?.professionnelAssocie" :redirection="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" :image="annonce.photos?.[0]?.lienurl" :title="annonce.titreAnnonce" :category="annonce.TypeHebergement" :capacity="annonce.CapacitePersonne" :owner="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel" :price="annonce.prix" :city="annonce.Adresse" :publishDate="annonce.Date" />
+                </div>
             </Carrousel>
         </article>
     </section>
@@ -50,7 +50,7 @@ onMounted(() => {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        
+
         background-image: url("public/background2.png");
         background-repeat: no-repeat;
         background-size: cover;
