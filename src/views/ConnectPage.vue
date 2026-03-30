@@ -47,6 +47,9 @@ async function login() {
   let successful = await store.login(getCredentials())
   if(successful === true) {
     await router.replace({name: "home"})
+
+    // Refresh page to show updated fields in NavBar
+    router.go(0);
   } else {
     isPasswordValid.value = false
   }
