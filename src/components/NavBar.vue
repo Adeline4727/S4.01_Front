@@ -15,6 +15,7 @@ import {
 import { useAuthStore } from '@/stores/auth' // Ajuste le chemin selon ton projet
 import { storeToRefs } from 'pinia'
 import Button from "@/components/Button.vue";
+import ProfilePicture from "@/components/ProfilePicture.vue";
 
 // import { useCompteUtilisateurStore } from '@/stores/CompteUtilisaeur'
 // const store = useCompteUtilisateurStore()
@@ -27,6 +28,8 @@ const authStore = useAuthStore()
 const { isConnected } = storeToRefs(authStore)
 
 const userName = localStorage.getItem('name')
+const pfp = localStorage.getItem('pfp')
+console.log(pfp)
 </script>
 
 <template>
@@ -47,12 +50,13 @@ const userName = localStorage.getItem('name')
             <NavItem target="/favoris" label="Favoris" icon="heart-outline" />
             <NavItem target="/messages" label="Messages" icon="chatbubble-ellipses-outline" />
 
-            <RouterLink to="/account/private/home" v-if="authStore.isConnected">
-              <button  class="profil-button">
-                  <img :src="'/'" alt="imgProfil"></img>
-                  <p>{{userName}}</p>
-              </button>
-            </RouterLink>
+<!--            <RouterLink to="/account/private/home" v-if="authStore.isConnected">-->
+<!--              <button class="profile-button">-->
+<!--                  <img :src="pfp" alt="imgProfil"></img>-->
+<!--                  <p>{{userName}}</p>-->
+<!--              </button>-->
+<!--            </RouterLink>-->
+            <ProfilePicture v-if="authStore.isConnected" pfp-width="32" does-name-appear="" style="margin-left: 8px;"></ProfilePicture>
 
             <NavItem v-else target="/connection" label="Se connecter" icon="person-outline" />
         </div>
@@ -102,9 +106,10 @@ const userName = localStorage.getItem('name')
             /* margin: 0 1rem 0 1rem; */
         }
     }
-    .profil-button{
+    .profile-button {
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        //width: 50px;
+        //height: 50px;
+        gap: 10px;
     }
 </style>

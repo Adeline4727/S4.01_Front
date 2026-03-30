@@ -9,10 +9,10 @@ Extrait de code
 import { reactive } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
 import InputText from '@/components/InputText.vue'
-import { useCompteUtilisaeurStore } from '@/stores/CompteUtilisaeur'
+import {useUserStore} from "@/stores/user.js";
 
 const router = useRouter()
-const store = useCompteUtilisaeurStore()
+const store = useUserStore()
 
 // 1. On garde un formData avec tous tes champs pour l'interface
 const formData = reactive({
