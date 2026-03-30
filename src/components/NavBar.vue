@@ -29,7 +29,6 @@ const { isConnected } = storeToRefs(authStore)
 
 const userName = localStorage.getItem('name')
 const pfp = localStorage.getItem('pfp')
-console.log(pfp)
 </script>
 
 <template>

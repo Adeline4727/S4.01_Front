@@ -17,7 +17,7 @@ defineProps({
             </div>
             <div class="label">
                 <span class="label-title">{{ label }}</span>
-                <span v-if="description != null && description != ''" class="label-desc">{{ description }}</span>
+                <span v-if="description != null && description !== ''" class="label-desc">{{ description }}</span>
             </div>
         </RouterLink>
     </div>
@@ -51,11 +51,9 @@ defineProps({
         border-radius: 0.5rem;
         color: black;
         background-color: lightgray;
-        text-align: center;
-    }
-
-    .account-action-with-icon .icon ion-icon {
-        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .account-action-with-icon .label {

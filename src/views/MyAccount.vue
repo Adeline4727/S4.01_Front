@@ -6,10 +6,43 @@ import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth.js";
 import router from "@/router/index.js";
 import { useUserStore } from "@/stores/user.js";
-const hasPhoto = false;
+import ProfilePicture from "@/components/ProfilePicture.vue";
+import {onBeforeMount, onMounted, ref, toRaw} from "vue";
 
 const authStore = useAuthStore()
-const userStore = useUserStore()
+let userStore = useUserStore()
+let userData
+const isLoaded = ref(false)
+const name = ref("")
+const surname = ref("")
+const balance = ref(0.00)
+
+onBeforeMount(async () => {
+  await userStore.getUserInfos()
+  userData = toRaw(userStore.user)
+  if(userData.professionnelAssocie == null) {
+    name.value = userData.particulierAssocie.prenom
+    surname.value = userData.particulierAssocie.nom
+  } else {
+    name.value = userData.professionnelAssocie.nomProfessionnel
+    surname.value = ""
+  }
+
+  if(userData.solde)
+    balance.value = userData.solde
+
+  isLoaded.value = true
+})
+
+// userStore.getUserInfos().then((result) => {
+//   console.log(userStore.user)
+// })
+
+// onMounted(() => {
+//   window.addEventListener("load", () => {
+//
+//   })
+// })
 
 
 </script>
@@ -17,13 +50,14 @@ const userStore = useUserStore()
     <section class="mes-infos">
         <div class="infos-compte">
             <div>
-                <span class="profile-pic">
-                    <img v-if="hasPhoto" src="" alt="">
-                    <span v-else>B</span>
-                    <button class="add-btn">+</button>
-                </span>
+<!--                <span class="profile-pic">-->
+<!--                    <img v-if="hasPhoto" src="" alt="">-->
+<!--                    <span v-else>B</span>-->
+<!--                    <button class="add-btn">+</button>-->
+<!--                </span>-->
+                <ProfilePicture pfp-width="70"></ProfilePicture>
                 <span class="name">
-                    <RouterLink to="#">Baptiste Poupeau</RouterLink>
+                    <RouterLink to="#" v-if="isLoaded">{{name + ' ' + surname}}</RouterLink>
                     <!-- <FieldInput name="pseudo" label="Votre nom" required="true" /> -->
                 </span>
             </div>
@@ -33,7 +67,7 @@ const userStore = useUserStore()
         </div>
         <div class="solde">
             <h3>Porte-monnaie</h3>
-            <strong>0,00 €</strong>
+            <strong>{{balance.toFixed(2)}} €</strong>
             <span>Solde disponible</span>
         </div>
     </section>

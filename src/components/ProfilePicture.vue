@@ -47,8 +47,6 @@ const pfp = localStorage.getItem('pfp')
 .profile-button img {
   border-radius: 50%;
   margin-bottom: 1px;
-  //width: 100%;
-  //height: 100%;
 }
 
 .profile-button p {

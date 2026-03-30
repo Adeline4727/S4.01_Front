@@ -50,11 +50,9 @@ defineProps({
         border-radius: 0.5rem;
         color: black;
         background-color: lightgray;
-        text-align: center;
-    }
-
-    .account-action-list-with-icon .icon ion-icon {
-        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .account-action-list-with-icon .label {
