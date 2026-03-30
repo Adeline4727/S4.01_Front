@@ -26,7 +26,7 @@ const pfp = localStorage.getItem('pfp')
 <template>
   <RouterLink to="/account/private/home">
     <button class="profile-button">
-      <img v-if="pfp" :src="pfp" alt="imgProfil" :width="pfpWidth">
+      <img v-if="pfp" :src="'/' + pfp" alt="imgProfil" :width="pfpWidth">
       <div v-else class="avatarLettre" v-if="name" :style="'width: ' + pfpWidth + 'px; height: ' + pfpWidth + 'px;'">{{ name ? name.charAt(0).toUpperCase() : 'A' }}</div>
       <p v-if="doesNameAppear !== 'no'">{{name}}</p>
     </button>

@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { url } from './url.js'
-import {useCompteUtilisaeurStore} from "@/stores/CompteUtilisaeur.js";
+import {useUserStore} from "@/stores/user.js";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
                     isConnected = true
                     localStorage.setItem('token', response.data.token)
 
-                    const userStore = useCompteUtilisaeurStore()
+                    const userStore = useUserStore()
                     let userData = await userStore.getUserInfos()
 
                     // Setting name in localStorage

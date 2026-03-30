@@ -5,9 +5,13 @@ import AccountActionWithIcon from '@/components/AccountActionWithIcon.vue';
 import Button from "@/components/Button.vue";
 import {useAuthStore} from "@/stores/auth.js";
 import router from "@/router/index.js";
+import { useUserStore } from "@/stores/user.js";
 const hasPhoto = false;
 
 const authStore = useAuthStore()
+const userStore = useUserStore()
+
+
 </script>
 <template>
     <section class="mes-infos">

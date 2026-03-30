@@ -1,7 +1,8 @@
 <script setup>
-import { useCompteUtilisaeurStore } from '@/stores/CompteUtilisaeur';
 
-const store = useCompteUtilisaeurStore()
+import {useUserStore} from "@/stores/user.js";
+
+const store = useUserStore()
 </script>
 
 <template>
