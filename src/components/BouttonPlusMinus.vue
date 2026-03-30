@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 // Permet de définir une valeur de départ et un minimum (ex: 1 pour Adulte, 0 pour Bébé)
 const props = defineProps({
@@ -10,10 +10,10 @@ const props = defineProps({
   max: {
     type: Number,
     default: 99
-  }
+  },
 })
 
-const valeur = ref(props.min)
+const valeur = defineModel({ type: Number, default: 0 })
 
 const decrementer = () => {
   if (valeur.value > props.min) {
@@ -41,16 +41,13 @@ const incrementer = () => {
       </svg>
     </button>
 
-    <div class="stepper-valeur" :class="{ 'valeur-active': valeur > 0 }">
-      {{ valeur }}
-    </div>
+    <input v-model="valeur" class="stepper-valeur" :class="{ 'valeur-active': valeur > 0 }"></input>
 
     <button 
-      class="stepper-btn" 
+      class="stepper-btn"
       @click="incrementer" 
       :disabled="valeur >= props.max"
-      aria-label="Ajouter"
-    >
+      aria-label="Ajouter">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
         <path fill-rule="evenodd" d="m12,2c.55,0,1,.45,1,1v7.94h8c.55,0,1,.45,1,1s-.45,1-1,1h-8v8.06c0,.55-.45,1-1,1s-1-.45-1-1v-8.06H3c-.55,0-1-.45-1-1s.45-1,1-1h8V3c0-.55.45-1,1-1Z"></path>
       </svg>

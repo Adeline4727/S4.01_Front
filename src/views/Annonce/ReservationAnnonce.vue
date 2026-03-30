@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAnnoncesStore } from '@/stores/annonces'
 import PanneauReservationAnnonce from '@/components/PanneauReservationAnnonce.vue'
@@ -11,6 +11,8 @@ const store = useAnnoncesStore()
 const dateArriveeChoisie = computed(() => route.query.arrivee)
 const dateDepartChoisie = computed(() => route.query.depart)
 
+const nbVoyageurs = ref(1)
+
 onMounted(() => {
   store.getAnnonceById(route.params.id);
 })
@@ -19,14 +21,16 @@ onMounted(() => {
 
 <template>
   <div v-if="store.annonce" id="conteneur">
-    <PanneauReservationAnnonce 
+    <PanneauReservationAnnonce
+      v-model="nbVoyageurs"
       :annonce="store.annonce" 
       :dateArrivee="dateArriveeChoisie"
       :dateDepart="dateDepartChoisie"
       class="PanneauReservationAnnonce"
     />
     
-    <PanneauRecapPayementAnnonce 
+    <PanneauRecapPayementAnnonce
+      v-model="nbVoyageurs"
       :annonce="store.annonce" 
       :dateArrivee="dateArriveeChoisie"
       :dateDepart="dateDepartChoisie"

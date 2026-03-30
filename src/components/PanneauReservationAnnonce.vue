@@ -1,10 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue'
 import Button from '@/components/Button.vue';
 import BouttonPlusMinus from './BouttonPlusMinus.vue';
 const conditionsAcceptees = ref(false)
 const messageTexte = ref('')
 const maxCaracteres = 2500
+const nbVoyageurs = defineModel({ type: Number, default: 1 })
 const props = defineProps({
     annonce : {
         required : true,
@@ -77,7 +78,7 @@ const formaterDate = (dateString) => {
                     <p class="commentaire">18 ans et plus</p>
                 </div>
                 <div>
-                    <BouttonPlusMinus :min="1" />
+                    <BouttonPlusMinus v-model="nbVoyageurs" :min="1" />
                 </div>
             </div>
             <div class="NbVoyageur">

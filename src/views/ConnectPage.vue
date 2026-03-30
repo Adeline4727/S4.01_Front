@@ -1,6 +1,6 @@
 <script setup>
 import Button from '@/components/Button.vue';
-import {onMounted, ref} from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import InputText from "@/components/InputText.vue";
 import { useAuthStore } from "@/stores/auth.js";
 import router from "@/router/index.js";

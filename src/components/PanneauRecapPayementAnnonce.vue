@@ -1,11 +1,73 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue'
 import AnnonceCard from './AnnonceCard.vue';
 const props = defineProps({
+    nbVoyageurs :{
+        type: Number,
+        default: 1
+    },
+    doesNameAppear: {
+        type: String,
+        required: false,
+        default: "no"
+    },
     annonce : {
         required : true,
+    },
+    name: {
+        type: String,
+        required: false,
+        default: localStorage.getItem('name')
+    },
+    dateArrivee: {
+        type: String,
+        default: null
+    },
+    dateDepart: {
+        type: String,
+        default: null
     }
+    
 })
+
+const nombreNuits = computed(() => {
+    if (!props.dateArrivee || !props.dateDepart) return 0;
+    
+    const debut = new Date(props.dateArrivee);
+    const fin = new Date(props.dateDepart);
+    
+    // On calcule la différence en millisecondes, puis on convertit en jours
+    const diffTime = Math.abs(fin - debut);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+})
+
+const Montantdelalocation = computed(() =>{
+    const prix = props.annonce.prix
+    return nombreNuits.value*prix
+})
+
+const Fraisdeservice = computed(() =>{
+    const tauxService = 0.15; 
+    return Math.round(Montantdelalocation.value * tauxService * 100) / 100;
+})
+
+const Taxedeséjour = computed(() =>{
+    const tarifParNuitParPersonne = 2.0;
+    return props.nbVoyageurs * tarifParNuitParPersonne * nombreNuits.value
+})
+
+const Total = computed(() => {
+    return Montantdelalocation.value + Fraisdeservice.value + Taxedeséjour.value;
+})
+
+const aPayerMaintenant = computed(() => {
+    return (Montantdelalocation.value * 0.3) + Fraisdeservice.value + Taxedeséjour.value;
+})
+
+const resteSurPlace = computed(() => {
+    return Total.value - aPayerMaintenant.value;
+})
+
 </script>
 
 <template>
@@ -24,7 +86,7 @@ const props = defineProps({
         <div>
             <div class="infoProfil">
                 <img class="imageProfil" :src="'/'+annonce.proprietaireBien.photoProfil?.lienurl" alt="[imageProprietaire]">
-                <div class="text-body-1 font-bold">{{ annonce.proprietaireBien.particulierAssocie.nom }}</div>
+                <div class="text-body-1 font-bold" v-if="doesNameAppear !== 'no'">{{ name }}</div>
             </div>
         </div>
         <div class="trait"></div>
@@ -33,15 +95,15 @@ const props = defineProps({
             <div>
                 <div>
                     <p>Montant de la location</p>
-                    <p></p>
+                    <p>{{ Montantdelalocation }}</p>
                 </div>
                 <div>
                     <p>Frais de service</p>
-                    <p></p>
+                    <p>{{ Fraisdeservice }}</p>
                 </div>
                 <div>
-                    <p>Taxe de séjour</p>
-                    <p></p>
+                    <p>Taxedeséjour</p>
+                    <p>{{ Taxedeséjour }}</p>
                 </div>
             </div>
         </div>
@@ -50,15 +112,15 @@ const props = defineProps({
             <div>
                 <div>
                     <p>Total</p>
-                    <p></p>
+                    <p>{{ Total }}</p>
                 </div>
                 <div>
                     <p>À payer maintenant</p>
-                    <p></p>
+                    <p>{{ aPayerMaintenant }}</p>
                 </div>
                 <div>
                     <p>Restera à payer sur place</p>
-                    <p></p>
+                    <p>{{ resteSurPlace }}</p>
                 </div>
             </div>
             <p class="commentaire">Ce paiement nous sert à garantir votre réservation. Il inclut un acompte pour la location, les frais de service et la taxe de séjour. Retrouvez le détail de nos conditions d’annulation ici</p>
