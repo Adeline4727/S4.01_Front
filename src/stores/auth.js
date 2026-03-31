@@ -47,7 +47,9 @@ export const useAuthStore = defineStore('auth', {
                     localStorage.setItem('token', response.data.token)
 
                     const userStore = useUserStore()
-                    let userData = await userStore.getUserInfos()
+                    console.log("starting")
+                    await userStore.getUserInfos()
+                    console.log("done")
 
                     // Setting name in localStorage
                     // if(userData.data.professionnelAssocie == null)

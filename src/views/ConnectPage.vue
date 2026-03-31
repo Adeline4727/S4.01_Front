@@ -45,6 +45,7 @@ async function login() {
   buttonsActivated.value = false
 
   let successful = await store.login(getCredentials())
+
   if(successful === true) {
     await router.replace({name: "home"})
 
