@@ -30,51 +30,77 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <BandeauDispoAnnonce v-if="store.annonce" :annonce="store.annonce" :class="isScrolled?'BandeauDispoAnnonce':'BandeauDispoAnnonceHidden'"/>  
-  <div class="contenerPage">
-
-  <div v-if="store.annonce" class="page">
-    <PhotosAnnonce :annonce="store.annonce" class="PhotosAnnonce"/>
-    <VerifDispoAnnonce :annonce="store.annonce" class="VerifDispoAnnonce"/>
-    <InfosPrincipalesAnnonce :annonce="store.annonce" class="InfosPrincipalesAnnonce"/>
-    <CarteInfoDetailsAnnonce :annonce="store.annonce" class="CarteInfoDetailsAnnonce"/>
-    <ButtonShare />
-    <LikeButton>{{ store.annonce.utilisateursInteresses.length }}</LikeButton>
-  </div>
-  <div v-else>Chargement...</div>
-  </div>
+    <BandeauDispoAnnonce v-if="store.annonce" :annonce="store.annonce" :class="isScrolled ? 'BandeauVisible' : 'BandeauCache'"/>  
+    <div class="contenerPage">
+        <div v-if="store.annonce" class="page">
+            <InfosPrincipalesAnnonce :annonce="store.annonce"/>
+            <div class="colonnes">
+                <div class="colonneGauche">
+                    <PhotosAnnonce :annonce="store.annonce"/>
+                </div>
+                <div class="colonneDroite">
+                    <VerifDispoAnnonce :annonce="store.annonce"/>
+                </div>
+            </div>
+            <CarteInfoDetailsAnnonce :annonce="store.annonce"/>
+        </div>
+        <div v-else>Chargement...</div>
+    </div>
 </template>
 
 <style scoped>
-.PhotosAnnonce{
-  background-color: blueviolet;
-  width: 900px;
-  height: 600px;
+.BandeauVisible {
+    position: fixed;
+    z-index: 10;
+    left: 0; right: 0; top: 0;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
 }
-.BandeauDispoAnnonce {
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  right: 0;
-  top: 0;
-  transform: translateY(0);
-  transition: transform 0.3s ease;
+.BandeauCache {
+    position: fixed;
+    z-index: 10;
+    left: 0; right: 0; top: 0;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
 }
-.BandeauDispoAnnonceHidden {
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  right: 0;
-  top: 0;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease;
+.contenerPage {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 40px;
 }
-.contenerPage{
-  justify-content: center;
-  display: flex;
-  width: 100vw;
+.page {
+    width: 100%;
+    max-width: 960px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
-.page{
-  width: 900px;
+.colonnes {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+.colonneGauche {
+    flex: 2;
+    min-width: 0;
+}
+.colonneDroite {
+    flex: 1;
+    position: sticky;
+    top: 80px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .colonnes {
+        flex-direction: column;
+    }
+    /* Sur mobile, VerifDispo passe après InfosPrincipales */
+    .colonneGauche { order: 2; }
+    .colonneDroite {
+        order: 1;
+        position: static;
+    }
 }
 </style>
