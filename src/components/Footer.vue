@@ -56,14 +56,15 @@
 <style scoped>
 /* Le CSS était déjà très bien optimisé ! */
 footer {
-    background-color: #2A2F3A;
-    color: white;
-    margin: 0;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: start;
-    min-height: 100vh;
+  background-color: #2A2F3A;
+  color: white;
+  margin: 0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  float: inline-end;
+  width: 100vw;
 }
 footer h2 {
     text-transform: uppercase;
