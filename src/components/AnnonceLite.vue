@@ -3,13 +3,23 @@ import LikeButton from './LikeButton.vue';
 import { ref } from 'vue';
 
 defineProps({
-    title: String,
-    category: String,
-    price: Float32Array,
-    capacity: Int8Array,
-    city: String,
-    publishDate: String, 
-  isNew: Boolean = false, isPro: Boolean = false
+  title: String,
+  category: String,
+  // On utilise Number au lieu de Float32Array (qui est pour le binaire)
+  price: Number,    
+  capacity: Number, 
+  city: String,
+  publishDate: String,
+  
+  // LA RÉPARATION EST ICI :
+  isNew: {
+    type: Boolean,
+    default: false
+  },
+  isPro: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const liked = ref(false)

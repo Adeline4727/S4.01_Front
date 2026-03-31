@@ -1,34 +1,42 @@
 <script setup>
-import Button from "@/components/Button.vue";
+import { computed } from 'vue';
 
 const props = defineProps({
   doesNameAppear: {
     type: String,
-    required: false,
     default: "no"
   },
   pfpWidth: {
     type: Number,
-    required: false,
     default: 50
   },
   name: {
     type: String,
-    required: false,
-    default: localStorage.getItem('name')
+    // On garde le localStorage en dernier recours
+    default: () => localStorage.getItem('name') || ''
   }
 })
 
-// const userName = localStorage.getItem('name')
 const pfp = localStorage.getItem('pfp')
+
+const avatarStyle = computed(() => ({
+  width: `${props.pfpWidth}px`,
+  height: `${props.pfpWidth}px`
+}))
 </script>
 
 <template>
   <RouterLink to="/account/private/home">
     <button class="profile-button">
       <img v-if="pfp" :src="'/' + pfp" alt="imgProfil" :width="pfpWidth">
-      <div v-else class="avatarLettre" v-if="name" :style="'width: ' + pfpWidth + 'px; height: ' + pfpWidth + 'px;'">{{ name ? name.charAt(0).toUpperCase() : 'A' }}</div>
-      <p v-if="doesNameAppear !== 'no'">{{name}}</p>
+      
+      <div v-else-if="name" class="avatarLettre" :style="avatarStyle">
+        {{ name.charAt(0).toUpperCase() }}
+      </div>
+      
+      <div v-else class="avatarLettre" :style="avatarStyle">A</div>
+
+      <p v-if="doesNameAppear !== 'no'">{{ name }}</p>
     </button>
   </RouterLink>
 </template>
@@ -43,13 +51,14 @@ const pfp = localStorage.getItem('pfp')
   border: none;
   cursor: pointer;
 }
-
-.profile-button img {
+.profile-button img { border-radius: 50%; }
+.profile-button p { font-size: 0.75rem; }
+.avatarLettre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ccc;
   border-radius: 50%;
-  margin-bottom: 1px;
-}
-
-.profile-button p {
-  font-size: 0.75rem;
+  font-weight: bold;
 }
 </style>
