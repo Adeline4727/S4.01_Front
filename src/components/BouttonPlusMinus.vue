@@ -1,36 +1,35 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { watch } from 'vue'
 
-// Permet de définir une valeur de départ et un minimum (ex: 1 pour Adulte, 0 pour Bébé)
 const props = defineProps({
-  min: {
-    type: Number,
-    default: 0
-  },
-  max: {
-    type: Number,
-    default: 99
-  },
+  min: { type: Number, default: 0 },
+  max: { type: Number, default: 99 },
 })
 
 const valeur = defineModel({ type: Number, default: 0 })
 
-const decrementer = () => {
-  if (valeur.value > props.min) {
-    valeur.value--
+// On surveille la valeur pour qu'elle ne sorte JAMAIS des bornes
+watch(valeur, (newVal) => {
+  if (newVal < props.min) {
+    valeur.value = props.min
+  } else if (newVal > props.max) {
+    valeur.value = props.max
   }
+}, { immediate: true }) // immediate: true permet de vérifier dès le départ
+
+const decrementer = () => {
+  if (valeur.value > props.min) valeur.value--
 }
 
 const incrementer = () => {
-  if (valeur.value < props.max) {
-    valeur.value++
-  }
+  if (valeur.value < props.max) valeur.value++
 }
 </script>
 
 <template>
   <div class="stepper-container">
     <button 
+      type="button"
       class="stepper-btn" 
       @click="decrementer" 
       :disabled="valeur <= props.min"
@@ -41,9 +40,12 @@ const incrementer = () => {
       </svg>
     </button>
 
-    <input v-model="valeur" class="stepper-valeur" :class="{ 'valeur-active': valeur > 0 }"></input>
+    <span class="stepper-valeur" :class="{ 'valeur-active': valeur > 0 }">
+      {{ valeur }}
+    </span>
 
     <button 
+      type="button"
       class="stepper-btn"
       @click="incrementer" 
       :disabled="valeur >= props.max"
@@ -59,10 +61,9 @@ const incrementer = () => {
 .stepper-container {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #cbd5e1; /* Gris clair comme sur l'image */
-  border-radius: 24px; /* Bords arrondis */
+  border: 1px solid #cbd5e1;
+  border-radius: 24px;
   height: 44px;
-  overflow: hidden;
   background-color: white;
 }
 
@@ -76,19 +77,10 @@ const incrementer = () => {
   border: none;
   cursor: pointer;
   color: #64748b;
-  transition: background-color 0.2s;
 }
 
-.stepper-btn svg {
-  width: 16px;
-  height: 16px;
-}
+.stepper-btn svg { width: 16px; height: 16px; }
 
-.stepper-btn:hover:not(:disabled) {
-  background-color: #f1f5f9;
-}
-
-/* Grise le bouton quand on ne peut plus cliquer (ex: à 0) */
 .stepper-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
@@ -102,12 +94,9 @@ const incrementer = () => {
   justify-content: center;
   border-left: 1px solid #cbd5e1;
   border-right: 1px solid #cbd5e1;
-  font-weight: 500;
+  font-weight: 600;
   color: #0f172a;
 }
 
-/* Met le chiffre en bleu s'il est supérieur à 0 (comme sur l'image) */
-.valeur-active {
-  color: #005fcc; 
-}
+.valeur-active { color: #005fcc; }
 </style>

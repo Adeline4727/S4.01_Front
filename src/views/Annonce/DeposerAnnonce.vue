@@ -6,10 +6,12 @@ import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
 import MapComponent from '@/components/MapComponent.vue';
 import { ref } from 'vue'
 import { useAnnoncesStore } from '@/stores/annonces';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const store = useAnnoncesStore();
 const isLoggedIn = ref(true);
-const surfaceHabitable = ref(0.0);
+const surfaceHabitable = ref(0);
 const step = ref(1)
 const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
@@ -17,18 +19,16 @@ import { RouterLink, RouterView } from 'vue-router'
 import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
 const newAnnonce = ref({
-  // --- DONNÉES DE BASE ---
-  // On ne met pas "annonceId", Entity Framework le générera tout seul (ou tu peux laisser à 0)
-  "titreAnnonce": "Superbe appartement à Annecy", // Ne doit pas être vide (max 50 caractères)
-  "descriptionAnnonce": "Très bel appartement avec vue sur le lac, idéal pour des vacances.", // Ne doit pas être vide
-  "nbChambre": 2,           // Doit être >= 0
-  "capacitePersonne": 4,    // DOIT ÊTRE >= 1 (La cause n°1 des erreurs !)
-  "capaciteAnimal": 0,      // Doit être >= 0
-  "capaciteBebe": 1,        // Doit être >= 0
+  "titreAnnonce": "Superbe appartement à Annecy",
+  "descriptionAnnonce": "Très bel appartement avec vue sur le lac.",
+  "nbChambre": 2,
+  "capacitePersonne": 4,
+  "capaciteAnimal": 0,
+  "capaciteBebe": 1,
   "active": true,
   "estGarantie": true,
   "minmumNuite": 2,
-  "prix": 85.50,            // DOIT ÊTRE >= 1
+  "prix": 85.50,
   "etoileBien": 4,
   "pourcentagePayeDirectement": 10,
 
@@ -101,6 +101,8 @@ const types = [
     {name:"Autres"},
 
 ]
+
+const photosPreview = ref([]);
 
 const handleFileUpload = (event) => {
   const files = Array.from(event.target.files)
@@ -175,17 +177,13 @@ const selectSuggestion = (suggestion) => {
 async function deposerAnnonce() {
     try {
         const resultat = await store.postAnnonce(newAnnonce.value);
-        
         console.log("Annonce créée avec succès !", resultat);
-        
         router.push('/'); 
-        
     } catch (error) {
         console.error("Échec du dépôt de l'annonce :", error);
-        alert("Une erreur est survenue lors du dépôt de l'annonce.");
+        alert("Une erreur est survenue lors du dépôt.");
     }
 }
-
 </script>
 
 <template>

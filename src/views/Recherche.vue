@@ -17,19 +17,19 @@ onMounted(() => {
     store.fetchAnnonces()
 })
 
-// 1. On filtre les annonces selon la ville recherchée
+
 const filteredAnnonces = computed(() => {
     if (!store.annonces) return []
     const recherche = villeRecherchee.value.toLowerCase()
     
     return store.annonces.filter(item => {
-        // Le "?." évite que ça crash si l'adresse est null
+        
         const villeDeLAnnonce = item.adresseBien?.villeAdresse?.nomVille?.toLowerCase() || ''
         return villeDeLAnnonce.includes(recherche)
     })
 })
 
-// 2. On prépare spécifiquement les données pour la carte
+
 const mapMarkers = computed(() => {
     return filteredAnnonces.value
         .map(annonce => ({
