@@ -1,5 +1,6 @@
 <script setup>
 import Button from '@/components/Button.vue';
+import Dropdown from '@/components/Dropdown.vue'
 import FieldInput from '@/components/FieldInput.vue';
 import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
 import MapComponent from '@/components/MapComponent.vue';
@@ -13,6 +14,7 @@ const step = ref(1)
 const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
 import { RouterLink, RouterView } from 'vue-router'
+import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
 const newAnnonce = ref({
   // --- DONNÉES DE BASE ---
@@ -77,6 +79,20 @@ const newAnnonce = ref({
   "exterieurs": []
 });
 
+const tousLesEquipements = ['Wi-Fi', 'Piscine', 'Climatisation', 'TV', 'Cuisine équipée']
+const equipementsSelectionnes = ref([])
+
+const tousLesServices = ['Ménage quotidien', 'Petit-déjeuner', 'Navette aéroport', 'Garde d\'enfants']
+const servicesSelectionnes = ref([]) // Le tableau qui va se remplir
+
+// Fonctions pour supprimer un élément de la liste
+const retirerEquipement = (item) => {
+    equipementsSelectionnes.value = equipementsSelectionnes.value.filter(e => e !== item)
+}
+
+const retirerService = (item) => {
+    servicesSelectionnes.value = servicesSelectionnes.value.filter(s => s !== item)
+}
 
 const types = [
 
@@ -94,14 +110,14 @@ const handleFileUpload = (event) => {
       file: file,
       url: URL.createObjectURL(file) 
     }
-    newAnnonce.photos.value.push(photoObject)
+    newAnnonce.value.photos.push(photoObject)
   })
 }
 
 const removePhoto = (index) => {
 
   URL.revokeObjectURL(newAnnonce.photos[index].url)
-  newAnnonce.photos.value.splice(index, 1)
+  newAnnonce.value.photos.splice(index, 1)
 }
 
 const query = ref('')
@@ -219,7 +235,7 @@ async function deposerAnnonce() {
                 <h1>Ajoutez des photos</h1>
                 <input id="file-upload" type="file" accept="image/*" multiple @change="handleFileUpload" />
                 <div class="preview-container">
-                    <div v-for="(photo, index) in photos" :key="index" class="photo-item">
+                    <div v-for="(photo, index) in newAnnonce.photos" :key="index" class="photo-item">
                         <img :src="photo.url" alt="Aperçu de l'annonce">
                         <button @click.prevent="removePhoto(index)" class="delete-btn">X</button>
                     </div>
@@ -251,7 +267,7 @@ async function deposerAnnonce() {
                         <FieldInputWithUnit v-model="newAnnonce.capacitePersonne" name="capacity" label="Capacité" unit="personne(s)" />
                         <FieldInputWithUnit v-model="newAnnonce.nbChambre" name="rooms" label="Nombre de chambres" unit="pièce(s)" />
                         <p class="comment">Ne comptez que les pièces de séjour ou chambres, hors cuisine, salle d'eau, WC, couloirs, caves et dépendances.</p>
-                        <!--
+                        
                             <div class="input-group">
                                 <label>Horaire d'arrivée</label>
                                 <input class="input-element"/>
@@ -260,15 +276,40 @@ async function deposerAnnonce() {
                                 <label>Horaire de départ</label>
                                 <input class="input-element"/>
                             </div>
-                        -->
-                        <div class="input-group">
-                            <label>Equipements</label>
-                            <input class="input-element"/>
-                        </div>
-                        <div class="input-group">
-                            <label>Services</label>
-                            <input class="input-element"/>
-                        </div>
+                       
+                            <div class="input-group">
+                                <label>Équipements</label>
+                                <Dropdown 
+                                    v-model="equipementsSelectionnes" 
+                                    :options="tousLesEquipements" 
+                                    placeholder="Ajouter un équipement..." />
+                                
+                                <div class="tags-container">
+                                    <ul>
+                                        <li v-for="item in equipementsSelectionnes" :key="item" class="tag">
+                                            {{ item }}
+                                            <button @click="retirerEquipement(item)" class="bouton-supprimer">×</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Services</label>
+                                <Dropdown 
+                                    v-model="servicesSelectionnes" 
+                                    :options="tousLesServices" 
+                                    placeholder="Ajouter un service..." 
+                                />
+                                
+                                <div class="tags-container">
+                                    <ul>
+                                        <li v-for="item in servicesSelectionnes" :key="item" class="tag">
+                                            {{ item }}
+                                            <button @click="retirerService(item)" class="bouton-supprimer">×</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         <div class="input-group">
                             <input v-model="newAnnonce.conditionHebergementBien.animauxAcceptes" type="checkbox" />
                             <label>Animaux acceptés</label>
