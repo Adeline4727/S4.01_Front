@@ -84,7 +84,8 @@ const mapMarkers = computed(() => {
                     <AnnonceLite 
                         v-for="annonce in filteredAnnonces" 
                         :key="annonce.annonceId"
-                        :title="annonce.titreAnnonce" 
+                        :title="annonce.titreAnnonce"
+                        :image="'/' + annonce.photos?.[0]?.lienurl"
                         :category="annonce.typeHebergementBien?.libelleTypeHebergement" 
                         :capacity="annonce.capacitePersonne" 
                         :price="annonce.prix" 
