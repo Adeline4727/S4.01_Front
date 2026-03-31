@@ -96,7 +96,6 @@ const allerAReservation = () => {
 *{
     margin: 0;
     padding: 0;
-    
 }
 
 .rectangle{
@@ -143,6 +142,7 @@ const allerAReservation = () => {
     align-items: center;
     margin-left: 20px;
     margin-right: 20px;
+    padding-bottom: 20px;
 }
 .avatarLettre{
     display: flex;
@@ -158,6 +158,7 @@ const allerAReservation = () => {
 }
 .nomProprio{
     margin-left: 30px;
+    font-size: x-large;
 }
 
 .modal-overlay {
