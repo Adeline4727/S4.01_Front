@@ -12,23 +12,49 @@ const props = defineProps({
     }
 })
 
-// Ce defineModel fait le lien direct avec le v-model du parent (le tableau)
 const selection = defineModel({ type: Array, default: () => [] })
 
 const isOpen = ref(false)
 const toggle = () => isOpen.value = !isOpen.value
 
+const isStringMode = computed(() => {
+    return props.options && props.options.length > 0 && typeof props.options[0] === 'string'
+})
+
 const selectOption = (option) => {
-    // On vérifie que l'option n'est pas déjà dans le tableau
-    if (!selection.value.includes(option)) {
-        selection.value.push(option)
+    if (isStringMode.value) {
+        if (!selection.value.includes(option)) {
+            selection.value.push(option)
+        }
+    } else {
+        const estDejaSelectionne = selection.value.some(
+            sel => sel?.equipementId === option?.equipementId
+        )
+        if (!estDejaSelectionne) {
+            selection.value.push(option)
+        }
     }
-    isOpen.value = false // Referme le menu après sélection
+    isOpen.value = false
 }
 
-// On cache les options qui sont déjà dans la liste du parent
 const optionsDisponibles = computed(() => {
-    return props.options.filter(opt => !selection.value.includes(opt))
+    // Si les options ne sont pas encore chargées, on renvoie vide
+    if (!props.options || props.options.length === 0) return []
+
+    if (isStringMode.value) {
+        return props.options.filter(opt => !selection.value.includes(opt))
+    } else {
+        const categoriesFiltrees = props.options.map(categorie => {
+            return {
+                ...categorie,
+                // On ajoute (categorie.equipements || []) pour éviter les crashs si c'est null
+                equipements: (categorie.equipements || []).filter(eq => 
+                    !selection.value.some(sel => sel?.equipementId === eq?.equipementId)
+                )
+            }
+        })
+        return categoriesFiltrees.filter(categorie => categorie.equipements.length > 0)
+    }
 })
 </script>
 
@@ -40,77 +66,121 @@ const optionsDisponibles = computed(() => {
         </div>
         
         <ul v-if="isOpen" class="dropdown-menu">
-            <li v-if="optionsDisponibles.length === 0" class="empty">
+            <li v-if="!props.options || props.options.length === 0" class="empty">
+                Chargement des options...
+            </li>
+            
+            <li v-else-if="optionsDisponibles.length === 0" class="empty">
                 Tout a été sélectionné
             </li>
-            <li 
-                v-for="option in optionsDisponibles" 
-                :key="option" 
-                @click="selectOption(option)"
-                class="dropdown-item"
-            >
-                {{ option }}
-            </li>
+            
+            <template v-else-if="isStringMode">
+                <li 
+                    v-for="option in optionsDisponibles" 
+                    :key="option" 
+                    @click="selectOption(option)"
+                    class="dropdown-item">
+                    {{ option }}
+                </li>
+            </template>
+            
+            <template v-else>
+                <template v-for="categorie in optionsDisponibles" :key="categorie.typeEquipementId">
+                    <li class="dropdown-category">
+                        {{ categorie.libelleTypeEquipement }}
+                    </li>
+                    <li 
+                        v-for="option in categorie.equipements" 
+                        :key="option.equipementId" 
+                        @click="selectOption(option)"
+                        class="dropdown-item">
+                        {{ option.nomEquipement }}
+                    </li>
+                </template>
+            </template>
         </ul>
     </div>
 </template>
 
-<style scoped>
-.custom-dropdown {
-    position: relative;
-    width: 100%;
-}
+    <style scoped>
+    .custom-dropdown {
+        position: relative;
+        width: 100%;
+    }
 
-.dropdown-trigger {
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 10px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    background: white;
-}
+    .dropdown-trigger {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        background: white;
+    }
 
-.chevron {
-    font-size: 12px;
-    transition: transform 0.2s;
-}
+    .chevron {
+        font-size: 12px;
+        transition: transform 0.2s;
+    }
 
-.chevron.ouvert {
-    transform: rotate(180deg);
-}
+    .chevron.ouvert {
+        transform: rotate(180deg);
+    }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    margin-top: 4px;
-    padding: 0;
-    list-style: none;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    max-height: 200px;
-    overflow-y: auto;
-}
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        margin-top: 4px;
+        padding: 0;
+        list-style: none;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        max-height: 250px;
+        overflow-y: auto;
+    }
 
-.dropdown-item {
-    padding: 10px 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+    .dropdown-category {
+        padding: 12px 16px 4px 16px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        background-color: #f8fafc;
+        border-bottom: 1px solid #f1f5f9;
+    }
 
-.dropdown-item:hover {
-    background-color: #f1f5f9;
-}
+    .dropdown-item {
+        padding: 10px 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        color: #0f172a;
+    }
 
-.empty {
-    padding: 10px 16px;
-    color: #94a3b8;
-    font-style: italic;
-}
-</style>
+    /* On indente uniquement les items quand ils sont sous une catégorie */
+    .dropdown-category + .dropdown-item,
+    .dropdown-item + .dropdown-item {
+        padding-left: 24px;
+    }
+
+    /* On annule l'indentation pour le mode string qui n'a pas de catégorie */
+    .dropdown-item:first-child, 
+    .dropdown-item:not(.dropdown-category ~ .dropdown-item) {
+        padding-left: 16px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f1f5f9;
+    }
+
+    .empty {
+        padding: 10px 16px;
+        color: #94a3b8;
+        font-style: italic;
+    }
+    </style>

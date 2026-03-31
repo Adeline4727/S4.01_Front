@@ -4,19 +4,23 @@ import Dropdown from '@/components/Dropdown.vue'
 import FieldInput from '@/components/FieldInput.vue';
 import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
 import MapComponent from '@/components/MapComponent.vue';
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useAnnoncesStore } from '@/stores/annonces';
+import { useTypeEquipementsStore } from '@/stores/typeequipements';
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router'
+import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
+const route = useRoute();
 const router = useRouter();
-const store = useAnnoncesStore();
+const annonceStore = useAnnoncesStore();
+const typeEquipementStore = useTypeEquipementsStore();
 const isLoggedIn = ref(true);
 const surfaceHabitable = ref(0);
 const step = ref(1)
 const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
-import { RouterLink, RouterView } from 'vue-router'
-import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
 
 const newAnnonce = ref({
   "titreAnnonce": "Superbe appartement à Annecy",
@@ -79,7 +83,11 @@ const newAnnonce = ref({
   "exterieurs": []
 });
 
-const tousLesEquipements = ['Wi-Fi', 'Piscine', 'Climatisation', 'TV', 'Cuisine équipée']
+onMounted(() => {   
+    typeEquipementStore.fetchTypeEquipements();
+})
+
+const tousLesEquipements = computed(() => typeEquipementStore.TypeEquipements)
 const equipementsSelectionnes = ref([])
 
 const tousLesServices = ['Ménage quotidien', 'Petit-déjeuner', 'Navette aéroport', 'Garde d\'enfants']
@@ -176,7 +184,7 @@ const selectSuggestion = (suggestion) => {
 
 async function deposerAnnonce() {
     try {
-        const resultat = await store.postAnnonce(newAnnonce.value);
+        const resultat = await annonceStore.postAnnonce(newAnnonce.value);
         console.log("Annonce créée avec succès !", resultat);
         router.push('/'); 
     } catch (error) {
@@ -278,30 +286,32 @@ async function deposerAnnonce() {
                             <div class="input-group">
                                 <label>Équipements</label>
                                 <Dropdown 
-                                    v-model="equipementsSelectionnes" 
+                                    v-model="newAnnonce.equipementsInclus" 
                                     :options="tousLesEquipements" 
-                                    placeholder="Ajouter un équipement..." />
+                                    placeholder="Ajouter un équipement..." 
+                                />
                                 
                                 <div class="tags-container">
                                     <ul>
-                                        <li v-for="item in equipementsSelectionnes" :key="item" class="tag">
-                                            {{ item }}
-                                            <button @click="retirerEquipement(item)" class="bouton-supprimer">×</button>
+                                        <li v-for="item in newAnnonce.equipementsInclus" :key="item.equipementId" class="tag">
+                                            {{ item.nomEquipement }}
+                                            <button @click="retirerEquipement(item.equipementId)" class="bouton-supprimer">×</button>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="input-group">
                                 <label>Services</label>
                                 <Dropdown 
-                                    v-model="servicesSelectionnes" 
+                                    v-model="newAnnonce.servicesProposes" 
                                     :options="tousLesServices" 
                                     placeholder="Ajouter un service..." 
                                 />
                                 
                                 <div class="tags-container">
                                     <ul>
-                                        <li v-for="item in servicesSelectionnes" :key="item" class="tag">
+                                        <li v-for="item in newAnnonce.servicesProposes" :key="item" class="tag">
                                             {{ item }}
                                             <button @click="retirerService(item)" class="bouton-supprimer">×</button>
                                         </li>

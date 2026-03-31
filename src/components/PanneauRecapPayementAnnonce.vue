@@ -102,7 +102,7 @@ const resteSurPlace = computed(() => {
                     <p>{{ Fraisdeservice }}</p>
                 </div>
                 <div>
-                    <p>Taxedeséjour</p>
+                    <p>Taxe de séjour</p>
                     <p>{{ Taxedeséjour }}</p>
                 </div>
             </div>
