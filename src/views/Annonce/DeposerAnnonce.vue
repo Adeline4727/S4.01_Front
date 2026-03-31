@@ -5,78 +5,36 @@ import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
 import MapComponent from '@/components/MapComponent.vue';
 import { ref } from 'vue'
 import { useAnnoncesStore } from '@/stores/annonces';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const store = useAnnoncesStore();
 const isLoggedIn = ref(true);
-const surfaceHabitable = ref(0.0);
+const surfaceHabitable = ref(0);
 const step = ref(1)
 const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
 import { RouterLink, RouterView } from 'vue-router'
 
 const newAnnonce = ref({
-  // --- DONNÉES DE BASE ---
-  // On ne met pas "annonceId", Entity Framework le générera tout seul (ou tu peux laisser à 0)
-  "titreAnnonce": "Superbe appartement à Annecy", // Ne doit pas être vide (max 50 caractères)
-  "descriptionAnnonce": "Très bel appartement avec vue sur le lac, idéal pour des vacances.", // Ne doit pas être vide
-  "nbChambre": 2,           // Doit être >= 0
-  "capacitePersonne": 4,    // DOIT ÊTRE >= 1 (La cause n°1 des erreurs !)
-  "capaciteAnimal": 0,      // Doit être >= 0
-  "capaciteBebe": 1,        // Doit être >= 0
+  "titreAnnonce": "Superbe appartement à Annecy",
+  "descriptionAnnonce": "Très bel appartement avec vue sur le lac.",
+  "nbChambre": 2,
+  "capacitePersonne": 4,
+  "capaciteAnimal": 0,
+  "capaciteBebe": 1,
   "active": true,
   "estGarantie": true,
   "minmumNuite": 2,
-  "prix": 85.50,            // DOIT ÊTRE >= 1
+  "prix": 85.50,
   "etoileBien": 4,
-  "pourcentagePayeDirectement": 10,
-
-  // --- RELATIONS COMPLEXES (C'est souvent ici que ça casse) ---
-
-  // ADRESSE : Entity Framework n'aime pas les "string" générés par Swagger.
-  "adresseBien": {
-    "nomRue": "Rue de l'Arc-en-Ciel",
-    "voie": 9,
-    "longitude": 6.1293,
-    "latitude": 45.8992,
-    "villeAdresse": {
-      "codeInsee": "74011",
-      "nomVille": "Annecy",
-      "codePostalVille": "74940",
-      "taxeSejour": 1.5,
-      "departementAssocie": null
-    }
-  },
-
-  "conditionHebergementBien": {
-    "heureDepart": "10:00:00",
-    "heureArrivee": "16:00:00",
-    "animauxAcceptes": false,
-    "fumeur": false
-  },
-
-  "typeHebergementBien": {
-    "typeHebergementId": 1,
-    "libelleTypeHebergement": "Appartement"
-  },
-
-  "datePublication": null, 
-  "natureHebergementBien": null,
-  "statutAnnonceAssocie": null,
-  "proprietaireBien": null,
+  "pourcentagePayeDirectement": 10
   
-  "avis": [],
-  "messages": [],
-  "photos": [],
-  "recherchesEffectuees": [],
-  "reservations": [],
-  "equipementsInclus": [],
-  "servicesProposes": [],
-  "utilisateursInteresses": [],
-  "joursSemaine": [],
-  "typesPaiement": [],
-  "exterieurs": []
+  // ⚠️ SUPPRIMEZ (ou commentez) TEMPORAIREMENT TOUT LE RESTE POUR LE TEST
+  // - L'adresse
+  // - Les conditions
+  // - Les photos (surtout ça)
 });
-
 
 const types = [
 
@@ -86,23 +44,22 @@ const types = [
 
 ]
 
+const photosPreview = ref([]);
+
 const handleFileUpload = (event) => {
-  const files = Array.from(event.target.files)
-  
-  files.forEach(file => {
-    const photoObject = {
-      file: file,
-      url: URL.createObjectURL(file) 
-    }
-    newAnnonce.photos.value.push(photoObject)
-  })
-}
+    const files = Array.from(event.target.files);
+    files.forEach(file => {
+        photosPreview.value.push({
+        file: file,
+        url: URL.createObjectURL(file) 
+        });
+    });
+};
 
 const removePhoto = (index) => {
-
-  URL.revokeObjectURL(newAnnonce.photos[index].url)
-  newAnnonce.photos.value.splice(index, 1)
-}
+    URL.revokeObjectURL(photosPreview.value[index].url);
+    photosPreview.value.splice(index, 1);
+};
 
 const query = ref('')
 const suggestions = ref([]) 
@@ -159,17 +116,13 @@ const selectSuggestion = (suggestion) => {
 async function deposerAnnonce() {
     try {
         const resultat = await store.postAnnonce(newAnnonce.value);
-        
         console.log("Annonce créée avec succès !", resultat);
-        
         router.push('/'); 
-        
     } catch (error) {
         console.error("Échec du dépôt de l'annonce :", error);
-        alert("Une erreur est survenue lors du dépôt de l'annonce.");
+        alert("Une erreur est survenue lors du dépôt.");
     }
 }
-
 </script>
 
 <template>
