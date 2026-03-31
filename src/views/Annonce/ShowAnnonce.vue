@@ -81,6 +81,7 @@ onUnmounted(() => {
     gap: 20px;
 }
 .colonnes {
+  margin-top: 20px;
     display: flex;
     gap: 24px;
     align-items: flex-start;
@@ -105,7 +106,7 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
     .colonnes {
-        flex-direction: column;
+      flex-direction: column;
     }
     .colonneGauche {
       width: 100vw;
@@ -113,9 +114,9 @@ onUnmounted(() => {
       order: 1;
     }
     .infosPrincipales {
-        margin-top: 16px;
-        margin-left: 0;
-        margin-right: 0;
+      margin-top: 16px;
+      margin-left: 0;
+      margin-right: 0;
     }
     .colonneDroite {
       width: 100vw;
