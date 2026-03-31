@@ -49,7 +49,7 @@ const { isConnected } = storeToRefs(authStore)
             <NavItem target="/favoris" label="Favoris" icon="heart-outline" />
             <NavItem target="/messages" label="Messages" icon="chatbubble-ellipses-outline" />
 
-            <ProfilePicture v-if="isConnected" :pfp-width="32" does-name-appear="no" style="margin-left: 8px;" />
+            <ProfilePicture v-if="isConnected" :pfp-width="32" does-name-appear="" style="margin-left: 8px;" />
             <NavItem v-else target="/connection" label="Se connecter" icon="person-outline" />
         </div>
     </nav>

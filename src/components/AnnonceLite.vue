@@ -4,6 +4,7 @@ import { ref } from 'vue';
 
 defineProps({
   title: String,
+  image: String,
   category: String,
   // On utilise Number au lieu de Float32Array (qui est pour le binaire)
   price: Number,    
@@ -29,7 +30,8 @@ const liked = ref(false)
     <div class="annonce-lite">
         <div class="annonce-image">
             <!-- Template for an actual image -->
-            <ion-icon class="camera-icon" name="camera-outline"></ion-icon>
+            <img v-if="image" :src="image" alt="Image de l'annonce">
+            <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
             <span v-if="isNew" class="a-la-une">À la une</span>
             <LikeButton v-model:liked="liked" />
         </div>
@@ -80,6 +82,13 @@ const liked = ref(false)
         height: 100%;
         vertical-align: middle;
     }
+
+    .annonce-image img {
+      height: 100%;
+      width: 100%;
+      border-radius: 15px;
+    }
+
     .a-la-une {
         position: absolute;
         top: 0.5rem;

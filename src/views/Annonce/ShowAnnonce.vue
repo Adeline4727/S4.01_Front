@@ -33,15 +33,19 @@ onUnmounted(() => {
     <BandeauDispoAnnonce v-if="store.annonce" :annonce="store.annonce" :class="isScrolled ? 'BandeauVisible' : 'BandeauCache'"/>  
     <div class="contenerPage">
         <div v-if="store.annonce" class="page">
-            <InfosPrincipalesAnnonce :annonce="store.annonce"/>
             <div class="colonnes">
+
                 <div class="colonneGauche">
                     <PhotosAnnonce :annonce="store.annonce"/>
+                    <InfosPrincipalesAnnonce :annonce="store.annonce" class="infosPrincipales"/>
                 </div>
+
                 <div class="colonneDroite">
                     <VerifDispoAnnonce :annonce="store.annonce"/>
                 </div>
+
             </div>
+
             <CarteInfoDetailsAnnonce :annonce="store.annonce"/>
         </div>
         <div v-else>Chargement...</div>
@@ -77,6 +81,7 @@ onUnmounted(() => {
     gap: 20px;
 }
 .colonnes {
+  margin-top: 20px;
     display: flex;
     gap: 24px;
     align-items: flex-start;
@@ -84,23 +89,39 @@ onUnmounted(() => {
 .colonneGauche {
     flex: 2;
     min-width: 0;
+    position: relative;
+    padding-bottom: 40px;
+}
+.infosPrincipales {
+    position: relative;
+    margin-top: -30px;
+    z-index: 1;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 .colonneDroite {
     flex: 1;
-    position: sticky;
     top: 80px;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .colonnes {
-        flex-direction: column;
+      flex-direction: column;
     }
-    /* Sur mobile, VerifDispo passe après InfosPrincipales */
-    .colonneGauche { order: 2; }
+    .colonneGauche {
+      width: 100vw;
+      padding-bottom: 0;
+      order: 1;
+    }
+    .infosPrincipales {
+      margin-top: 16px;
+      margin-left: 0;
+      margin-right: 0;
+    }
     .colonneDroite {
-        order: 1;
-        position: static;
+      width: 100vw;
+      order: 2;
+      position: static;
     }
 }
 </style>

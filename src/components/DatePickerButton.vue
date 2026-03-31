@@ -10,7 +10,7 @@ const props = defineProps({
 
 // Formater la date en DD/MM/YYYY pour l'affichage
 const dateAffichee = computed(() => {
-  if (!props.date) return '-- / -- / ----'
+  if (!props.date) return '--/--/----'
   const [year, month, day] = props.date.split('-')
   return `${day}/${month}/${year}`
 })

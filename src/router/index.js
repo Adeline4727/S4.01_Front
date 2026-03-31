@@ -33,10 +33,12 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/ConnectPage.vue'),
+      meta: {requiresNoAuth: true},
     },
     {
       path: '/connection',
-      redirect: {name: 'connexion'}
+      redirect: {name: 'connexion'},
+      meta: {requiresNoAuth: true},
     },
     {
       path: '/createComptePro',
@@ -45,6 +47,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CreationDeCompte/CreaComptePro.vue'),
+      meta: {requiresNoAuth: true},
     },
     {
       path: '/createCompteProSuite',
@@ -53,6 +56,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CreationDeCompte/CreaCompteProSuite.vue'),
+      meta: {requiresNoAuth: true},
     },
     {
       path: '/CreationAccountParticular',
@@ -61,6 +65,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/CreationDeCompte/CreationAccountParticular.vue'),
+      meta: {requiresNoAuth: true},
     },
     {
       path: '/ShowAnnonce/:id',
@@ -136,6 +141,11 @@ router.beforeEach((to, from, next) => {
   if(to.meta.requiresAuth && !authStore.isConnected) {
     next({
       path: '/connexion',
+      query: {redirect: to.fullPath}
+    })
+  } else if(to.meta.requiresNoAuth && authStore.isConnected) {
+    next({
+      path: '/account/private/home',
       query: {redirect: to.fullPath}
     })
   } else

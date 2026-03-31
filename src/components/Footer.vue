@@ -63,6 +63,7 @@ footer {
     display: flex;
     justify-content: space-around;
     align-items: start;
+    min-height: 100vh;
 }
 footer h2 {
     text-transform: uppercase;
