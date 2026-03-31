@@ -10,4 +10,8 @@ const emit = defineEmits(['click']);
     padding: 10px;
     font-weight: 700;
 }
+.button:hover{
+    background-color: #e45913 ;
+}
+
 </style>
