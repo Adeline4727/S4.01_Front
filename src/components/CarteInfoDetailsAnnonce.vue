@@ -10,6 +10,7 @@ const props = defineProps({
     }
 })
 
+const limiteAffichage = ref(6)
 
 </script>
 <template>
@@ -141,13 +142,35 @@ const props = defineProps({
     </div>
     <div class="trait"></div>
     <h1 class="titrePartie">Ces annonces peuvent vous intéresser</h1>
-    <Carrousel>
+    <!-- <Carrousel>
         <div v-for="annonceCar in annonce.typeHebergementBien.annonces">
         <RouterLink v-if="annonceCar" :to="{ name: 'ShowAnnonce', params: { id: annonceCar.annonceId} }" >
-            <AnnonceCard class="Card" :image="annonceCar.photos?.[0]?.lienurl" :title="annonceCar.titreAnnonce" :capacity="annonceCar.CapacitePersonne" :price="annonce.prix"/>                    
+            <AnnonceCard class="Card" :image='"/" + annonceCar.photos?.[0]?.lienurl' :title="annonceCar.titreAnnonce" :capacity="annonceCar.CapacitePersonne" :price="annonce.prix"/>                    
         </RouterLink>
         </div>
-    </Carrousel>
+    </Carrousel> -->
+    <Carrousel>
+                <div v-for="annonceCar in annonce.typeHebergementBien.annonces" :key="annonceCar.annonceId">
+                    <AnnonceCard 
+                        class="Card" 
+                        :redirection="{ name: 'ShowAnnonce', params: { id: annonceCar.annonceId} }" 
+                        :image='"/" + annonceCar.photos?.[0]?.lienurl'
+                        :title="annonceCar.titreAnnonce" 
+                        :category="annonceCar.TypeHebergement" 
+                        :capacity="annonceCar.CapacitePersonne" 
+                        :owner="getOwnerName(annonceCar)" 
+                        :price="annonceCar.prix" 
+                        :city="annonceCar.Adresse" 
+                        :publishDate="annonceCar.Date" 
+                    />
+                </div>
+                
+                <div v-if="resteDesAnnonces" class="bouton-voir-plus-container">
+                    <button class="bouton-voir-plus" @click="chargerPlus">
+                        Voir plus d'annonces
+                    </button>
+                </div>
+            </Carrousel>
 
 </template>
 <style scoped>
@@ -210,4 +233,30 @@ svg{
     background-color: aliceblue;
     border-radius: 50%;
 }
+.homeCarrousel { margin: 20px; }
+    
+    .Card { margin: 0 15px; }
+
+    .bouton-voir-plus-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 250px;
+        margin: 0 15px;
+    }
+
+    .bouton-voir-plus {
+        padding: 12px 24px;
+        background-color: #ec5a13;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .bouton-voir-plus:hover {
+        background-color: #d44a0e;
+    }
 </style>
