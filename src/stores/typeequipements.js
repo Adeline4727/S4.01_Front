@@ -11,8 +11,7 @@ export const useTypeEquipementsStore = defineStore('TypeEquipements', () => {
     const fetchTypeEquipements = () => {
         axios.get(url + "GetTypeEquipements")
             .then(response => {
-                console.log("Données API reçues :", response.data); // <-- Pour vérifier dans ta console
-                // Astuce : si .NET utilise ReferenceHandler.Preserve, tes données sont dans $values
+                console.log("Données API reçues :", response.data);
                 TypeEquipements.value = response.data.$values || response.data;
             })
             .catch(error => {

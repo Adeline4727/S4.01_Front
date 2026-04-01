@@ -17,12 +17,19 @@ const selection = defineModel({ type: Array, default: () => [] })
 const isOpen = ref(false)
 const toggle = () => isOpen.value = !isOpen.value
 
-const isStringMode = computed(() => {
-    return props.options && props.options.length > 0 && typeof props.options[0] === 'string'
+const modeType = computed(() => {
+    if (!props.options || props.options.length === 0) return 'empty'
+    
+    const premierElement = props.options[0]
+    if (typeof premierElement === 'string') return 'string'
+    
+    if (premierElement.hasOwnProperty('serviceId')) return 'service'
+    
+    return 'equipement'
 })
 
 const selectOption = (option) => {
-    if (isStringMode.value) {
+    if (modeType.value) {
         if (!selection.value.includes(option)) {
             selection.value.push(option)
         }
@@ -38,16 +45,20 @@ const selectOption = (option) => {
 }
 
 const optionsDisponibles = computed(() => {
-    // Si les options ne sont pas encore chargées, on renvoie vide
     if (!props.options || props.options.length === 0) return []
 
-    if (isStringMode.value) {
+    if (modeType.value === 'string') {
         return props.options.filter(opt => !selection.value.includes(opt))
-    } else {
+    } 
+    else if (modeType.value === 'service') {
+        return props.options.filter(opt => 
+            !selection.value.some(sel => sel?.serviceId === opt?.serviceId)
+        )
+    } 
+    else {
         const categoriesFiltrees = props.options.map(categorie => {
             return {
                 ...categorie,
-                // On ajoute (categorie.equipements || []) pour éviter les crashs si c'est null
                 equipements: (categorie.equipements || []).filter(eq => 
                     !selection.value.some(sel => sel?.equipementId === eq?.equipementId)
                 )
@@ -64,9 +75,8 @@ const optionsDisponibles = computed(() => {
             <span>{{ placeholder }}</span>
             <span class="chevron" :class="{ 'ouvert': isOpen }">▼</span>
         </div>
-        
         <ul v-if="isOpen" class="dropdown-menu">
-            <li v-if="!props.options || props.options.length === 0" class="empty">
+            <li v-if="modeType === 'empty'" class="empty">
                 Chargement des options...
             </li>
             
@@ -74,13 +84,23 @@ const optionsDisponibles = computed(() => {
                 Tout a été sélectionné
             </li>
             
-            <template v-else-if="isStringMode">
+            <template v-else-if="modeType === 'string'">
                 <li 
                     v-for="option in optionsDisponibles" 
                     :key="option" 
                     @click="selectOption(option)"
                     class="dropdown-item">
                     {{ option }}
+                </li>
+            </template>
+            
+            <template v-else-if="modeType === 'service'">
+                <li 
+                    v-for="option in optionsDisponibles" 
+                    :key="option.serviceId" 
+                    @click="selectOption(option)"
+                    class="dropdown-item">
+                    {{ option.nomService }}
                 </li>
             </template>
             

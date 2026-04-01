@@ -7,15 +7,15 @@ import MapComponent from '@/components/MapComponent.vue';
 import { ref, onMounted, computed } from 'vue'
 import { useAnnoncesStore } from '@/stores/annonces';
 import { useTypeEquipementsStore } from '@/stores/typeequipements';
-import { useRouter } from 'vue-router';
-import { useRoute } from 'vue-router';
-import { RouterLink, RouterView } from 'vue-router'
-import ActionDropdownWithIcon from '@/components/ActionDropdownWithIcon.vue';
+import { useServicesStore } from '@/stores/services';
+import { useRouter, useRoute } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
 const annonceStore = useAnnoncesStore();
 const typeEquipementStore = useTypeEquipementsStore();
+const serviceStore = useServicesStore();
 const isLoggedIn = ref(true);
 const surfaceHabitable = ref(0);
 const step = ref(1)
@@ -23,17 +23,17 @@ const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
 
 const newAnnonce = ref({
-  "titreAnnonce": "Superbe appartement à Annecy",
+  "titreAnnonce": "",
   "descriptionAnnonce": "Très bel appartement avec vue sur le lac.",
-  "nbChambre": 2,
-  "capacitePersonne": 4,
+  "nbChambre": 0,
+  "capacitePersonne": 1,
   "capaciteAnimal": 0,
-  "capaciteBebe": 1,
+  "capaciteBebe": 0,
   "active": true,
   "estGarantie": true,
-  "minmumNuite": 2,
-  "prix": 85.50,
-  "etoileBien": 4,
+  "minmumNuite": 0,
+  "prix": 0,
+  "etoileBien": null,
   "pourcentagePayeDirectement": 10,
 
   // --- RELATIONS COMPLEXES (C'est souvent ici que ça casse) ---
@@ -85,21 +85,25 @@ const newAnnonce = ref({
 
 onMounted(() => {   
     typeEquipementStore.fetchTypeEquipements();
+    serviceStore.fetchServices();
 })
 
 const tousLesEquipements = computed(() => typeEquipementStore.TypeEquipements)
 const equipementsSelectionnes = ref([])
 
-const tousLesServices = ['Ménage quotidien', 'Petit-déjeuner', 'Navette aéroport', 'Garde d\'enfants']
-const servicesSelectionnes = ref([]) // Le tableau qui va se remplir
+const tousLesServices = computed(() => serviceStore.Services)
+const servicesSelectionnes = ref([])
 
-// Fonctions pour supprimer un élément de la liste
-const retirerEquipement = (item) => {
-    equipementsSelectionnes.value = equipementsSelectionnes.value.filter(e => e !== item)
+const retirerEquipement = (id) => {
+    newAnnonce.value.equipementsInclus = newAnnonce.value.equipementsInclus.filter(
+        e => e.equipementId !== id 
+    )
 }
 
-const retirerService = (item) => {
-    servicesSelectionnes.value = servicesSelectionnes.value.filter(s => s !== item)
+const retirerService = (id) => {
+    newAnnonce.value.servicesProposes = newAnnonce.value.servicesProposes.filter(
+        s => s.serviceId !== id 
+    )
 }
 
 const types = [
@@ -312,19 +316,19 @@ async function deposerAnnonce() {
                                 <div class="tags-container">
                                     <ul>
                                         <li v-for="item in newAnnonce.servicesProposes" :key="item" class="tag">
-                                            {{ item }}
-                                            <button @click="retirerService(item)" class="bouton-supprimer">×</button>
+                                            {{ item.nomService }}
+                                            <button @click="retirerService(item.serviceId)" class="bouton-supprimer">×</button>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         <div class="input-group">
-                            <input v-model="newAnnonce.conditionHebergementBien.animauxAcceptes" type="checkbox" />
-                            <label>Animaux acceptés</label>
+                            <input v-model="newAnnonce.conditionHebergementBien.animauxAcceptes" type="checkbox" id="animaux"/>
+                            <label for="animaux">Animaux acceptés</label>
                         </div>
                         <div class="input-group">
-                            <input v-model="newAnnonce.conditionHebergementBien.fumeur" type="checkbox" />
-                            <label>Fumeurs acceptés</label>
+                            <input v-model="newAnnonce.conditionHebergementBien.fumeur" type="checkbox" id="fumeur"/>
+                            <label for="fumeur">Fumeurs acceptés</label>
                         </div>
                     </div>
                 </div>
@@ -360,7 +364,49 @@ async function deposerAnnonce() {
 </template>
 
 <style scoped>
+    .tags-container ul {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
 
+    .tag {
+        background-color: #f1f5f9;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+        border-radius: 16px;
+        padding: 6px 14px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Petite ombre pour faire joli */
+    }
+
+    .bouton-supprimer {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s ease;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .bouton-supprimer:hover {
+        color: #ef4444; /* Rouge au survol */
+        background-color: #fee2e2; /* Petit fond rouge clair */
+    }
     .deposer-une-annonce {
         display: flex;
         align-items: center;
