@@ -20,6 +20,12 @@ export const useAnnoncesStore = defineStore('annonces', () => {
         })
     }
 
+    const getAnnoncesWithFilter = (filter) => {
+        axios.get(url + "GetAnnoncesWithFilter?filter=" + filter).then(response => {
+            annonces.value = response.data
+        })
+    }
+
     const postAnnonce = async (newAnnonce) => {
         try {
             const response = await axios.post(url+"PostAnnonce", newAnnonce);
@@ -35,5 +41,5 @@ export const useAnnoncesStore = defineStore('annonces', () => {
         }
     };
 
-    return { annonces, annonce, getAnnonceById, fetchAnnonces, postAnnonce }
+    return { annonces, annonce, getAnnonceById, fetchAnnonces, postAnnonce, getAnnoncesWithFilter }
 })

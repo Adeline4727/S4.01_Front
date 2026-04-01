@@ -10,26 +10,28 @@ import MapComponent from '@/components/MapComponent.vue'
 
 const store = useAnnoncesStore()
 const route = useRoute()
-const villeRecherchee = ref(route.params.ville || '')
+const filter = ref(route.params.filter || '')
 const ddActive = ref(false)
 
 onMounted(() => {
+  console.log(filter)
+    // store.fetchAnnonces()
+  if(filter.value === '' || !filter.value) {
+    console.log("all annonces")
     store.fetchAnnonces()
+  }
+  else {
+    console.log("filter")
+    store.getAnnoncesWithFilter(filter.value.toLowerCase())
+  }
 })
 
-const filteredAnnonces = computed(() => {
-    if (!store.annonces) return []
-    const recherche = villeRecherchee.value.toLowerCase()
-
-    return store.annonces.filter(item => {
-        const villeDeLAnnonce = item.adresseBien?.villeAdresse?.nomVille?.toLowerCase() || ''
-        const nomAnnonce = item.titreAnnonce.toLowerCase() || ''
-        return villeDeLAnnonce.includes(recherche) || nomAnnonce.includes(recherche)
-    })
-})
+// const filteredAnnonces = computed(() => {
+//
+// })
 
 const mapMarkers = computed(() => {
-    return filteredAnnonces.value
+    return store.annonces
         .map(annonce => ({
             id: annonce.annonceId,
             titre: annonce.titreAnnonce,
@@ -73,12 +75,12 @@ const mapMarkers = computed(() => {
         <section>
             <article class="annonces">
                 <div>
-                    <h2>Annonces Pour {{ villeRecherchee }}</h2>
-                    <b>{{ filteredAnnonces.length }} annonce{{ filteredAnnonces.length > 1 ? "s" : "" }}</b>
+                    <h2>Annonces Pour {{ filter }}</h2>
+                    <b>{{ store.annonces.length }} annonce{{ store.annonces.length > 1 ? "s" : "" }}</b>
                 </div>
                 <div class="list-annonces">
                     <AnnonceLite 
-                        v-for="annonce in filteredAnnonces" 
+                        v-for="annonce in store.annonces"
                         :key="annonce.annonceId"
                         :title="annonce.titreAnnonce"
                         :image="'/' + annonce.photos?.[0]?.lienurl"
