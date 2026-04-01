@@ -185,7 +185,7 @@ const urlPhoto = (lienurl) => "/" + lienurl
 /* Bouton voir toutes les photos */
 .btn-toutes-photos {
     position: absolute;
-    bottom: 12px;
+    bottom: 35px;
     right: 12px;
     background: white;
     border: none;
