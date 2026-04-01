@@ -27,6 +27,11 @@ const router = createRouter({
       component: () => import('../views/Recherche.vue'),
     },
     {
+      path: "/recherche/",
+      name: "rechercheNormal",
+      component: () => import('../views/Recherche.vue')
+    },
+    {
       path: '/connexion',
       name: 'connexion',
       // route level code-splitting

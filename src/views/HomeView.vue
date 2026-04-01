@@ -63,7 +63,7 @@ const getOwnerName = (annonce) => {
                         :redirection="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }" 
                         :image="annonce.photos?.[0]?.lienurl" 
                         :title="annonce.titreAnnonce" 
-                        :category="annonce.TypeHebergement" 
+                        :category="annonce.TypeHebergement"
                         :capacity="annonce.CapacitePersonne" 
                         :owner="getOwnerName(annonce)" 
                         :price="annonce.prix" 

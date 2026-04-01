@@ -1,19 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
-// --- NOUVEAU : Logique d'autocomplétion ---
 const searchQuery = ref('');
 const cities = ref([]);
 let timeoutId = null;
 
 const onSearchInput = () => {
-  // On ne déclenche la recherche qu'à partir de 2 caractères
   if (searchQuery.value.length < 2) {
     cities.value = [];
     return;
   }
 
-  // on attend 300ms avant d'appeler l'API
   clearTimeout(timeoutId);
   timeoutId = setTimeout(async () => {
     try {
@@ -28,10 +25,16 @@ const onSearchInput = () => {
 };
 
 const selectCity = (city) => {
-  searchQuery.value = city.nom; 
-  cities.value = [];            
-  console.log("Ville sélectionnée :", city);
+  searchQuery.value = city.nom;
+  cities.value = [];
 };
+
+onMounted(() => {
+  document.addEventListener("click", () => {
+    cities.value = []
+  })
+})
+
 </script>
 
 <template>
@@ -103,12 +106,12 @@ const selectCity = (city) => {
         vertical-align: middle;
     }
 
-    /*style liste deroulante*/
     .suggestions-list {
         position: absolute;
-        top: 3rem; 
+        z-index: 1000;
+        top: 3rem;
         left: 0;
-        width: 350px; 
+        width: 350px;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -116,8 +119,7 @@ const selectCity = (city) => {
         border: 1px solid #ccc;
         border-radius: 0.5rem;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        z-index: 1000;
-         
+
     }
 
     .suggestions-list li {

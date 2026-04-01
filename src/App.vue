@@ -11,7 +11,7 @@ import {computed} from 'vue';
     <NavBar />
   </header>
 
-  <RouterView />
+  <RouterView :key="$route.path"/>
 
   <footer>
     <Footer_ />

@@ -17,29 +17,25 @@ onMounted(() => {
     store.fetchAnnonces()
 })
 
-
 const filteredAnnonces = computed(() => {
     if (!store.annonces) return []
     const recherche = villeRecherchee.value.toLowerCase()
-    
+
     return store.annonces.filter(item => {
-        
         const villeDeLAnnonce = item.adresseBien?.villeAdresse?.nomVille?.toLowerCase() || ''
-        return villeDeLAnnonce.includes(recherche)
+        const nomAnnonce = item.titreAnnonce.toLowerCase() || ''
+        return villeDeLAnnonce.includes(recherche) || nomAnnonce.includes(recherche)
     })
 })
-
 
 const mapMarkers = computed(() => {
     return filteredAnnonces.value
         .map(annonce => ({
             id: annonce.annonceId,
             titre: annonce.titreAnnonce,
-            // ⚠️ C'est ici que ça se joue : ton API doit bien renvoyer ces données
             latitude: annonce.adresseBien?.latitude,
             longitude: annonce.adresseBien?.longitude 
         }))
-        // On ne garde que les annonces qui ont de vraies coordonnées GPS
         .filter(marker => marker.latitude && marker.longitude)
 })
 </script>
