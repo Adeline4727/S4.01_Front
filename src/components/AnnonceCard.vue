@@ -31,7 +31,7 @@ const liked = ref(false)
         <div class="annonce-image">
 
             <RouterLink :to="redirection" class="routerlink">
-              <img v-if="image" :src="image" alt="Image de l'annonce" class="img-fill" draggable="false" @dragstart.prevent>
+              <img v-if="image" :src="image" alt="Image de l'annonce" class="img-fill" draggable="false" @dragstart.prevent loading="lazy">
               <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
             </RouterLink>
 

@@ -30,7 +30,7 @@ const liked = ref(false)
     <div class="annonce-lite">
         <div class="annonce-image">
             <!-- Template for an actual image -->
-            <img v-if="image" :src="image" alt="Image de l'annonce">
+            <img v-if="image" :src="image" alt="Image de l'annonce" loading="lazy">
             <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
             <span v-if="isNew" class="a-la-une">À la une</span>
             <LikeButton v-model:liked="liked" />

@@ -28,7 +28,7 @@ const avatarStyle = computed(() => ({
 <template>
   <RouterLink to="/account/private/home">
     <button class="profile-button">
-      <img v-if="pfp" :src="'/' + pfp" alt="imgProfil" :width="pfpWidth">
+      <img v-if="pfp" :src="'/' + pfp" alt="imgProfil" :width="pfpWidth" loading="lazy">
       
       <div v-else-if="name" class="avatarLettre" :style="avatarStyle">
         {{ name.charAt(0).toUpperCase() }}
