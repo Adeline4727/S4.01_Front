@@ -30,8 +30,8 @@ const liked = ref(false)
         </div>
         <div class="annonce-image">
 
-            <RouterLink :to="redirection">
-              <img v-if="image" :src="image" alt="Image de l'annonce" class="img-fill">
+            <RouterLink :to="redirection" class="routerlink">
+              <img v-if="image" :src="image" alt="Image de l'annonce" class="img-fill" draggable="false" @dragstart.prevent>
               <ion-icon v-else class="camera-icon" name="camera-outline"></ion-icon>
             </RouterLink>
 
@@ -52,6 +52,8 @@ const liked = ref(false)
 </template>
 
 <style>
+    .routerlink {
+    }
     .annonce-card {
         padding: 1rem;
         width: 224px;
@@ -136,4 +138,16 @@ const liked = ref(false)
         vertical-align: middle;
     }
 
+    img {
+        -webkit-user-drag: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
+    }
+
+    .annonce-image a {
+        -moz-user-drag: none;
+        -webkit-user-drag: none;
+    }
 </style>

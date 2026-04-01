@@ -24,7 +24,7 @@ const longitudeTest = ref(6.1293)
 const showSuccessModal = ref(false);
 
 const newAnnonce = ref({
-  "titreAnnonce": "",
+  "titreAnnonce": "appartement",
   "descriptionAnnonce": "Très bel appartement avec vue sur le lac.",
   "nbChambre": 0,
   "capacitePersonne": 1,
