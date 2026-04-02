@@ -49,7 +49,7 @@ const limiteAffichage = ref(6)
     <div class="trait"></div>
     <h1 class="titrePartie">Equipements</h1>
     <ul>
-        <li v-for="equipement in annonce.equipementsInclus">
+        <li v-for="equipement in annonce.equipementsInclus" :key="equipement.nomEquipement">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path :d='equipement.lienIcone?equipement.lienIcone:"M20.2071 5.79289C20.5976 6.18342 20.5976 6.81658 20.2071 7.20711L10.2071 17.2071C9.81658 17.5976 9.18342 17.5976 8.79289 17.2071L3.79289 12.2071C3.40237 11.8166 3.40237 11.1834 3.79289 10.7929C4.18342 10.4024 4.81658 10.4024 5.20711 10.7929L9.5 15.0858L18.7929 5.79289C19.1834 5.40237 19.8166 5.40237 20.2071 5.79289Z"'/>
             </svg>
@@ -58,7 +58,7 @@ const limiteAffichage = ref(6)
     </ul>
     <h1 class="titrePartie">Services</h1>
     <ul>
-        <li v-for="equipement in annonce.servicesProposes">
+        <li v-for="equipement in annonce.servicesProposes" :key="equipement.nomService">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path :d='equipement.lienIcone?equipement.lienIcone:"M20.2071 5.79289C20.5976 6.18342 20.5976 6.81658 20.2071 7.20711L10.2071 17.2071C9.81658 17.5976 9.18342 17.5976 8.79289 17.2071L3.79289 12.2071C3.40237 11.8166 3.40237 11.1834 3.79289 10.7929C4.18342 10.4024 4.81658 10.4024 5.20711 10.7929L9.5 15.0858L18.7929 5.79289C19.1834 5.40237 19.8166 5.40237 20.2071 5.79289Z"'/>
             </svg>
@@ -69,12 +69,20 @@ const limiteAffichage = ref(6)
     <h1 class="titrePartie">Description</h1>
     <p>{{ annonce.descriptionAnnonce }}</p>
     <div class="trait"></div>
+
     <h1 class="titrePartie">Localisation</h1>
     <h2>{{ annonce.adresseBien.villeAdresse.nomVille }} ({{ annonce.adresseBien.villeAdresse.codePostalVille }})</h2>
     <MapComponent class="map"
         v-if="annonce && annonce.adresseBien" 
         :latitude="annonce.adresseBien.latitude" 
         :longitude="annonce.adresseBien.longitude" 
+        :markers="[
+            {
+                latitude: annonce.adresseBien.latitude,
+                longitude: annonce.adresseBien.longitude,
+                titre: annonce.titreAnnonce || 'Votre logement'
+            }
+        ]"
         />
     <div class="trait"></div>
     <h1 class="titrePartie">Conditions d'annulation</h1>
@@ -116,8 +124,7 @@ const limiteAffichage = ref(6)
             <h1 v-if="annonce.proprietaireBien?.particulierAssocie?.prenom"  class="nomProprio">{{ annonce.proprietaireBien.particulierAssocie.prenom }}</h1>
             <h1 v-else-if="annonce.proprietaireBien?.professionnelAssocie?.nomProfessionnel"  class="nomProprio">{{ annonce.proprietaireBien.professionnelAssocie.nomProfessionnel }}</h1>
             <h1 v-else class="nomProprio">Anonyme</h1>
-            <!--Ajouter clic sur le profil-->
-        </div>
+            </div>
         <ul>
             <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M8.74332 3.11303C8.74332 2.49832 8.22298 2 7.58111 2C6.93923 2 6.41889 2.49832 6.41889 3.11303V3.69276H5.81355C3.70738 3.69276 2 5.32789 2 7.34492V18.3478C2 20.362 3.69905 22 5.80825 22H18.191C20.2969 22 22 20.3699 22 18.3527V7.34016C22 5.3204 20.2898 3.69276 18.1865 3.69276H17.5811V3.11303C17.5811 2.49832 17.0608 2 16.4189 2C15.777 2 15.2567 2.49832 15.2567 3.11303V3.69276H8.74332V3.11303ZM5.81355 5.91881H6.41889V6.49854C6.41889 7.11325 6.93923 7.61157 7.58111 7.61157C8.22298 7.61157 8.74332 7.11325 8.74332 6.49854V5.91881H15.2567V6.49854C15.2567 7.11325 15.777 7.61157 16.4189 7.61157C17.0608 7.61157 17.5811 7.11325 17.5811 6.49854V5.91881H18.1865C19.0117 5.91881 19.6756 6.55526 19.6756 7.34016V8.77103H4.32442V7.34492C4.32442 6.5573 4.99113 5.91881 5.81355 5.91881ZM4.32442 10.9971H19.6756V18.3527C19.6756 19.14 19.0137 19.7739 18.191 19.7739H5.80825C4.98885 19.7739 4.32442 19.1384 4.32442 18.3478V10.9971Z"/>
@@ -153,13 +160,6 @@ const limiteAffichage = ref(6)
     </div>
     <div class="trait"></div>
     <h1 class="titrePartie">Ces annonces peuvent vous intéresser</h1>
-    <!-- <Carrousel>
-        <div v-for="annonceCar in annonce.typeHebergementBien.annonces">
-        <RouterLink v-if="annonceCar" :to="{ name: 'ShowAnnonce', params: { id: annonceCar.annonceId} }" >
-            <AnnonceCard class="Card" :image='"/" + annonceCar.photos?.[0]?.lienurl' :title="annonceCar.titreAnnonce" :capacity="annonceCar.CapacitePersonne" :price="annonce.prix"/>                    
-        </RouterLink>
-        </div>
-    </Carrousel> -->
     <Carrousel v-if="store.typehebergement">
                 <div v-for="annonceCar in store.typehebergement.annonces" :key="annonceCar.annonceId">
                     <AnnonceCard 

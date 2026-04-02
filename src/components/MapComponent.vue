@@ -19,6 +19,7 @@ const houseIcon = L.icon({
   className: 'custom-house-icon',
   iconSize: [30, 30],
   iconAnchor: [15, 15],
+  popupAnchor: [0, -15] // Ajouté pour que le popup s'ouvre au-dessus de l'icône et non en plein milieu
 });
 
 const props = defineProps({
@@ -35,7 +36,7 @@ const props = defineProps({
     required: false,
     default: () => []
   }
-})
+});
 
 const mapContainer = ref(null);
 let map = null;
@@ -53,27 +54,7 @@ const drawMarkers = () => {
   let markerCount = 0;
   let lastMarkerLatLng = null;
 
-  if (props.latitude && props.longitude) {
-    lastMarkerLatLng = [props.latitude, props.longitude];
-    
-    const grayCircle = L.circle(lastMarkerLatLng, {
-      color: '#808080',
-      fillColor: '#808080',
-      fillOpacity: 0.2,
-      radius: 500
-    });
-    markersLayer.addLayer(grayCircle);
-
-    const mainMarker = L.marker(lastMarkerLatLng, { icon: houseIcon });
-    
-    if (props.markers.length === 0) {
-       mainMarker.bindPopup("<b>Votre position</b>");
-    }
-
-    markersLayer.addLayer(mainMarker);
-    markerCount++;
-  }
-
+  // On affiche uniquement les marqueurs passés dans props.markers
   if (props.markers && props.markers.length > 0) {
     props.markers.forEach(marker => {
       if (marker.latitude && marker.longitude) {
@@ -90,7 +71,8 @@ const drawMarkers = () => {
     });
   }
 
-  if (markerCount === 1) {
+  // Ajustement automatique de la vue de la carte
+  if (markerCount === 1 && lastMarkerLatLng) {
     map.setView(lastMarkerLatLng, 15);
   } else if (markerCount > 1) {
     map.fitBounds(markersLayer.getBounds(), { padding: [50, 50], maxZoom: 16 }); 
@@ -98,6 +80,7 @@ const drawMarkers = () => {
 };
 
 onMounted(() => {
+  // Initialisation de la carte (centrée sur les props latitude/longitude)
   map = L.map(mapContainer.value).setView([props.latitude, props.longitude], 6);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -107,12 +90,16 @@ onMounted(() => {
   drawMarkers();
 });
 
+// Met à jour les marqueurs si la liste change
 watch(() => props.markers, () => {
   drawMarkers();
 }, { deep: true });
 
-watch(() => [props.latitude, props.longitude], () => {
-  drawMarkers();
+// Recentre la carte si les props latitude/longitude changent
+watch(() => [props.latitude, props.longitude], ([newLat, newLng]) => {
+  if (map) {
+    map.setView([newLat, newLng], map.getZoom());
+  }
 });
 
 </script>
@@ -138,7 +125,11 @@ watch(() => [props.latitude, props.longitude], () => {
   font-size: 30px;
   line-height: 30px;
   text-align: center;
-  background: none;
+  
+  /* Nouveau style pour le fond de l'icône */
+  background-color: white; 
+  border-radius: 50%; /* Remplacez par 8px si l'image SVG est coupée sur les bords */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
   border: none;
 }
 </style>
