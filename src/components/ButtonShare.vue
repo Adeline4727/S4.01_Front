@@ -9,17 +9,18 @@
 
 <style>
     .share-button {
+        display: flex;
         background-color: white;
-        width: 1rem;
+        width: 1.5rem;
+        height: 1.5rem;
         font-size: 1rem;
-        border-radius: 30%;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
     }
 
     .share-button:hover {
-        background-color: #d1d1d1;
+        background-color: #F5F5F5;
     }
 
-    .share-button ion-icon {
-        margin-top: 0.25rem;
-    }
 </style>

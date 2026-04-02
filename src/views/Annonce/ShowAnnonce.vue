@@ -38,6 +38,7 @@ const liked = ref(false)
 
                 <div class="colonneGauche">
                     <LikeButton class="like-button" v-model:liked="liked"></LikeButton>
+                    <ButtonShare class="share-button"></ButtonShare>
                     <PhotosAnnonce :annonce="store.annonce"/>
                     <InfosPrincipalesAnnonce :annonce="store.annonce" class="infosPrincipales"/>
                 </div>
@@ -108,6 +109,12 @@ const liked = ref(false)
 .like-button{
     position: absolute;
     right: 10px;
+    top: 10px;
+    z-index: 10;
+}
+.share-button{
+    position: absolute;
+    right: 40px;
     top: 10px;
     z-index: 10;
 }
