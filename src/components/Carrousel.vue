@@ -76,6 +76,5 @@ const handleMouseMove = (e) => {
     :deep(.Card), :deep(.bouton-voir-plus-container) {
         flex: 0 0 auto; /* Empêche les cartes de rétrécir */
         display: flex;
-        align-items: center;
     }
 </style>
