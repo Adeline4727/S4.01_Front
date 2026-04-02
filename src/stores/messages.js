@@ -26,17 +26,38 @@ export const useMessagesStore = defineStore('messages', () => {
         return (id) => messages.value.find(m => m.messageId == id);
     });
 
-    const sendMessage = async (user, text) => {
-        console.log(text)
+    const sendMessage = async (emetteurId, recepteurId, annonceId, text) => {
         if (!text) return;
-        await connection.invoke("SendMessage", user, text);
+
+        // 1. On prépare l'objet selon ton modèle C#
+        const nouveauMessage = {
+            contenu: text,
+            dateEnvoi: new Date().toISOString(),
+            // /!\ Il faudra utiliser les vrais noms de tes clés étrangères générées par EF Core
+            // Si tu as des doutes, regarde ton schéma de base de données.
+            emetteurId: emetteurId, 
+            recepteurId: recepteurId,
+            annonceConcerneeId: annonceId
+        };
+
+        try {
+            // 2. On sauvegarde en base de données via ton API REST existante
+            const response = await axios.post(url + "messages/PostMessage", nouveauMessage);
+            
+            // 3. On diffuse le message validé (avec son ID généré) via SignalR
+            // On envoie le JSON retourné par l'API
+            await connection.invoke("SendMessage", response.data); 
+        } catch (error) {
+            console.error("Erreur lors de l'envoi du message :", error);
+        }
     };
 
     const initSignalR = async () => {
         connection.off("ReceiveMessage");
         
-        connection.on("ReceiveMessage", (user, text) => {
-            messages.value.push({ user: user, message: text });
+        // On reçoit maintenant un objet "Message" complet
+        connection.on("ReceiveMessage", (nouveauMessage) => {
+            messages.value.push(nouveauMessage);
         });
 
         if (connection.state === signalR.HubConnectionState.Disconnected) {
