@@ -75,7 +75,7 @@ const mapMarkers = computed(() => {
         <section>
             <article class="annonces">
                 <div>
-                    <h2>Annonces Pour {{ filter }}</h2>
+                    <h2>{{ filter ? 'Annonces pour "' + filter + '"' : "Toutes les annonces"}}</h2>
                     <b>{{ store.annonces.length }} annonce{{ store.annonces.length > 1 ? "s" : "" }}</b>
                 </div>
                 <div class="list-annonces">
