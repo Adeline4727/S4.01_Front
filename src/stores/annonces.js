@@ -1,5 +1,5 @@
-import {ref, computed} from 'vue';
-import {defineStore} from 'pinia';
+import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
 import axios from 'axios';
 
 const url = "https://rowlet-village.fr/api/leboncoin/api/Annonces/";
@@ -8,10 +8,28 @@ export const useAnnoncesStore = defineStore('annonces', () => {
     const annonces = ref([])
     const annonce = ref(null)
 
-    const fetchAnnonces = () => {
-        axios.get(url + "GetAnnonces").then(response => {
-            annonces.value = response.data
-        })
+    // 1. On accepte les paramètres limit et page (avec des valeurs par défaut)
+    const fetchAnnonces = async ({ limit = 6, page = 1 } = {}) => {
+        try {
+            // 2. On passe les paramètres dans l'URL (ça créera ?limit=6&page=1)
+            const response = await axios.get(url + "GetAnnonces", {
+                params: {
+                    limit: limit,
+                    page: page
+                }
+            });
+
+            // 3. Logique d'ajout ou de remplacement
+            if (page === 1) {
+                // Premier chargement (ex: arrivée sur la page d'accueil)
+                annonces.value = response.data;
+            } else {
+                // Clic sur "Voir plus" : on fusionne l'ancien tableau avec les nouveaux résultats
+                annonces.value = [...annonces.value, ...response.data];
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des annonces :", error);
+        }
     }
 
     const getAnnonceById = (id) => {
