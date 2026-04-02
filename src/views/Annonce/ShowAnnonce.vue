@@ -9,8 +9,10 @@ import PhotosAnnonce from '@/components/PhotosAnnonce.vue'
 import CarteInfoDetailsAnnonce from '@/components/CarteInfoDetailsAnnonce.vue'
 import ButtonShare from '@/components/ButtonShare.vue'
 import LikeButton from '@/components/LikeButton.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
+const authStore = useAuthStore()
 const store = useAnnoncesStore()
 const isScrolled = ref(false)
 
@@ -27,7 +29,7 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
 });
 
-const liked = ref(false)
+const liked = ref(authStore.user?.annoncesFavorisees?.contains(defineProps.annonce) || false)
 </script>
 
 <template>
