@@ -1,9 +1,18 @@
 <script setup>
+const props = defineProps({
+    sharing: {
+        type: Boolean,
+        default: false
+    }
+})
 </script>
 
 <template>
     <div class="share-button">
         <ion-icon name="share-social-outline"></ion-icon>
+    </div>
+    <div class="rectangle-modale" v-if="sharing">
+
     </div>
 </template>
 
