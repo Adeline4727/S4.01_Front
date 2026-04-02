@@ -18,8 +18,8 @@ L.Icon.Default.mergeOptions({
 const houseIcon = L.icon({
   iconUrl: '/home.svg',
   className: 'custom-house-icon',
-  iconSize: [44, 44], // Plus grand (avant: 30x30)
-  iconAnchor: [22, 22], // La moitié de 44 pour bien centrer
+  iconSize: [30, 30], // Plus grand (avant: 30x30)
+  iconAnchor: [15, 15], // La moitié de 44 pour bien centrer
   popupAnchor: [0, -22] 
 });
 
