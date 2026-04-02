@@ -14,8 +14,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: shadowUrl,
 });
 
-const houseIcon = L.divIcon({
-  html: '🏠',
+const houseIcon = L.icon({
+  iconUrl: '/home.svg',
   className: 'custom-house-icon',
   iconSize: [30, 30],
   iconAnchor: [15, 15],
@@ -78,7 +78,7 @@ const drawMarkers = () => {
     props.markers.forEach(marker => {
       if (marker.latitude && marker.longitude) {
         lastMarkerLatLng = [marker.latitude, marker.longitude];
-        const leafletMarker = L.marker(lastMarkerLatLng);
+        const leafletMarker = L.marker(lastMarkerLatLng, { icon: houseIcon });
         
         if (marker.titre) {
           leafletMarker.bindPopup(`<b>${marker.titre}</b>`);
