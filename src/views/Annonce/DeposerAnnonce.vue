@@ -1,15 +1,22 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { onBeforeMount, ref, onMounted, computed, toRaw } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAnnoncesStore } from '@/stores/annonces';
 import { useTypeEquipementsStore } from '@/stores/typeequipements';
 import { useServicesStore } from '@/stores/services';
+import { useUserStore } from '@/stores/user'
+import { useAuthStore } from "@/stores/auth.js";
 
 import Button from '@/components/Button.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import FieldInput from '@/components/FieldInput.vue';
 import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
 import MapComponent from '@/components/MapComponent.vue';
+
+const authStore = useAuthStore()
+let userStore = useUserStore()
+let userData
+const compteId = ref(0)
 
 const route = useRoute();
 const router = useRouter();
@@ -22,6 +29,13 @@ const step = ref(1)
 const latitudeTest  = ref(45.8992)
 const longitudeTest = ref(6.1293)
 const showSuccessModal = ref(false);
+
+onBeforeMount(async () => {
+  await userStore.getUserInfos()
+  userData = toRaw(userStore.user)
+  compteId.value = userData.compteUtilisateurId
+  console.log(compteId)
+})
 
 const newAnnonce = ref({
   titreAnnonce: "appartement",
@@ -46,13 +60,14 @@ const newAnnonce = ref({
   taxeSejour: 0,
   numeroDepartement: "",
   nomDepartement: "",
-  proprietaireId: 0,
+  proprietaireId: compteId,
   conditionHebergementId: 1,
   datePublication: "2026-04-02", 
   typeHebergementId: 1,
+  natureHebergementId: 1,
   photos: [],
   equipementsInclus: [],
-  servicesProposes: []
+  servicesProposes: [],
 });
 
 onMounted(() => {   
@@ -126,35 +141,24 @@ const searchAddress = async () => {
 const selectSuggestion = (suggestion) => {
     query.value = suggestion.properties.label;
     selectedAddress.value = suggestion;
-    longitudeTest.value = suggestion.geometry.coordinates[0];
-    latitudeTest.value = suggestion.geometry.coordinates[1];
+    
+    const coords = suggestion.geometry.coordinates;
+    longitudeTest.value = coords[0];
+    latitudeTest.value = coords[1];
     suggestions.value = [];
 
     const props = suggestion.properties;
-  
-    const selectSuggestion = (suggestion) => {
-        query.value = suggestion.properties.label;
-        selectedAddress.value = suggestion;
-        
-        const coords = suggestion.geometry.coordinates;
-        longitudeTest.value = coords[0];
-        latitudeTest.value = coords[1];
-        suggestions.value = [];
 
-        const props = suggestion.properties;
-    
-        // Mappage PLAT direct pour correspondre au JSON backend
-        newAnnonce.value.nomRue = props.street || props.name || "";
-        newAnnonce.value.voie = props.housenumber ? parseInt(props.housenumber) : 0;
-        newAnnonce.value.longitude = coords[0];
-        newAnnonce.value.latitude = coords[1];
-        newAnnonce.value.codeInsee = props.citycode || "";
-        newAnnonce.value.nomVille = props.city || "";
-        newAnnonce.value.codePostalVille = props.postcode || "";
-        newAnnonce.value.numeroDepartement = props.postcode ? props.postcode.substring(0, 2) : "";
-        
-        newAnnonce.value.nomDepartement = props.context ? props.context.split(', ')[1] : ""; 
-    };
+    // Mise à jour directe de l'annonce (fini la fonction imbriquée !)
+    newAnnonce.value.nomRue = props.street || props.name || "";
+    newAnnonce.value.voie = props.housenumber ? parseInt(props.housenumber) : 0;
+    newAnnonce.value.longitude = coords[0];
+    newAnnonce.value.latitude = coords[1];
+    newAnnonce.value.codeInsee = props.citycode || "";
+    newAnnonce.value.nomVille = props.city || "";
+    newAnnonce.value.codePostalVille = props.postcode || "";
+    newAnnonce.value.numeroDepartement = props.postcode ? props.postcode.substring(0, 2) : "";
+    newAnnonce.value.nomDepartement = props.context ? props.context.split(', ')[1] : ""; 
 }
 
 async function deposerAnnonce() {
@@ -165,8 +169,8 @@ async function deposerAnnonce() {
         payload.servicesId = payload.servicesProposes.map(s => s.serviceId);
 
         // On assigne null aux IDs non gérés pour l'instant
-        payload.conditionHebergementId = null;
-        payload.natureHebergementId = null;
+        payload.conditionHebergementId = 1;
+        
 
         delete payload.equipementsInclus;
         delete payload.servicesProposes;
