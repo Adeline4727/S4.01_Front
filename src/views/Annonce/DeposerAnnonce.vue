@@ -1,22 +1,22 @@
 <script setup>
-import Button from '@/components/Button.vue';
-import Dropdown from '@/components/Dropdown.vue'
-import FieldInput from '@/components/FieldInput.vue';
-import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
-import MapComponent from '@/components/MapComponent.vue';
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useAnnoncesStore } from '@/stores/annonces';
 import { useTypeEquipementsStore } from '@/stores/typeequipements';
 import { useServicesStore } from '@/stores/services';
-import { useRouter, useRoute } from 'vue-router';
-import { RouterLink, RouterView } from 'vue-router';
+
+import Button from '@/components/Button.vue';
+import Dropdown from '@/components/Dropdown.vue';
+import FieldInput from '@/components/FieldInput.vue';
+import FieldInputWithUnit from '@/components/FieldInputWithUnit.vue';
+import MapComponent from '@/components/MapComponent.vue';
 
 const route = useRoute();
 const router = useRouter();
 const annonceStore = useAnnoncesStore();
 const typeEquipementStore = useTypeEquipementsStore();
 const serviceStore = useServicesStore();
-const isLoggedIn = ref(true);
+
 const surfaceHabitable = ref(0);
 const step = ref(1)
 const latitudeTest  = ref(45.8992)
@@ -24,64 +24,35 @@ const longitudeTest = ref(6.1293)
 const showSuccessModal = ref(false);
 
 const newAnnonce = ref({
-  "titreAnnonce": "appartement",
-  "descriptionAnnonce": "Très bel appartement avec vue sur le lac.",
-  "nbChambre": 0,
-  "capacitePersonne": 1,
-  "capaciteAnimal": 0,
-  "capaciteBebe": 0,
-  "active": true,
-  "estGarantie": true,
-  "minmumNuite": 0,
-  "prix": 0,
-  "etoileBien": null,
-  "pourcentagePayeDirectement": 10,
-
-  // --- RELATIONS COMPLEXES (C'est souvent ici que ça casse) ---
-
-  // ADRESSE : Entity Framework n'aime pas les "string" générés par Swagger.
-  "adresseBien": {
-    "nomRue": "Rue de l'Arc-en-Ciel",
-    "voie": 9,
-    "longitude": 6.1293,
-    "latitude": 45.8992,
-    "villeAdresse": {
-      "codeInsee": "74011",
-      "nomVille": "Annecy",
-      "codePostalVille": "74940",
-      "taxeSejour": 1.5,
-      "departementAssocie": null
-    }
-  },
-
-  "conditionHebergementBien": {
-    "heureDepart": "10:00:00",
-    "heureArrivee": "16:00:00",
-    "animauxAcceptes": false,
-    "fumeur": false
-  },
-
-  "typeHebergementBien": {
-    "typeHebergementId": 1,
-    "libelleTypeHebergement": "Appartement"
-  },
-
-  "datePublication": null, 
-  "natureHebergementBien": null,
-  "statutAnnonceAssocie": null,
-  "proprietaireBien": null,
-  
-  "avis": [],
-  "messages": [],
-  "photos": [],
-  "recherchesEffectuees": [],
-  "reservations": [],
-  "equipementsInclus": [],
-  "servicesProposes": [],
-  "utilisateursInteresses": [],
-  "joursSemaine": [],
-  "typesPaiement": [],
-  "exterieurs": []
+  titreAnnonce: "appartement",
+  descriptionAnnonce: "Très bel appartement avec vue sur le lac.",
+  nbChambre: 0,
+  capacitePersonne: 1,
+  capaciteAnimal: 0,
+  capaciteBebe: 0,
+  active: true,
+  estGarantie: true,
+  minmumNuite: 0,
+  prix: 0,
+  etoileBien: 0,
+  pourcentagePayeDirectement: 0,
+  nomRue: "",
+  voie: 0,
+  longitude: 6.152831,
+  latitude: 45.920595,
+  codeInsee: "",
+  nomVille: "",
+  codePostalVille: "",
+  taxeSejour: 0,
+  numeroDepartement: "",
+  nomDepartement: "",
+  proprietaireId: 0,
+  conditionHebergementId: 1,
+  datePublication: "2026-04-02", 
+  typeHebergementId: 1,
+  photos: [],
+  equipementsInclus: [],
+  servicesProposes: []
 });
 
 onMounted(() => {   
@@ -90,10 +61,7 @@ onMounted(() => {
 })
 
 const tousLesEquipements = computed(() => typeEquipementStore.TypeEquipements)
-const equipementsSelectionnes = ref([])
-
 const tousLesServices = computed(() => serviceStore.Services)
-const servicesSelectionnes = ref([])
 
 const retirerEquipement = (id) => {
     newAnnonce.value.equipementsInclus = newAnnonce.value.equipementsInclus.filter(
@@ -108,29 +76,23 @@ const retirerService = (id) => {
 }
 
 const types = [
-
-    {name:"Maison"},
-    {name:"Appartement"},
-    {name:"Autres"},
-
-]
-
-const photosPreview = ref([]);
+    { id: 1, name: "Maison" },
+    { id: 2, name: "Appartement" },
+    { id: 3, name: "Autres" }
+];
 
 const handleFileUpload = (event) => {
-  const files = Array.from(event.target.files)
-  
+  const files = Array.from(event.target.files);
   files.forEach(file => {
     const photoObject = {   
-      file: File,
-      url: 'blob:http://localhost:5173/...'
-    }
-    newAnnonce.value.photos.push(photoObject)
-  })
-}
+      file: file,
+      url: URL.createObjectURL(file)
+    };
+    newAnnonce.value.photos.push(photoObject);
+  });
+};
 
 const removePhoto = (index) => {
-
   URL.revokeObjectURL(newAnnonce.photos[index].url)
   newAnnonce.value.photos.splice(index, 1)
 }
@@ -138,8 +100,8 @@ const removePhoto = (index) => {
 const query = ref('')
 const suggestions = ref([]) 
 const selectedAddress = ref(null)
-
 let timer = null
+
 const searchAddress = async () => {
     clearTimeout(timer)
     timer = setTimeout(async () => {
@@ -170,42 +132,50 @@ const selectSuggestion = (suggestion) => {
 
     const props = suggestion.properties;
   
-    newAnnonce.value.adresseBien = {
-        adresseId: 0,
-        nomRue: props.street || props.name || "",
-        voie: props.housenumber ? parseInt(props.housenumber) : 0, 
-        longitude: suggestion.geometry.coordinates[0],
-        latitude: suggestion.geometry.coordinates[1],
-        villeAdresse: {
-            villeId: 0,
-            codeInsee: props.citycode || "",
-            nomVille: props.city || "",
-            codePostalVille: props.postcode || "",
-            taxeSejour: 0,
-            departementAssocie: null
-        }
+    const selectSuggestion = (suggestion) => {
+        query.value = suggestion.properties.label;
+        selectedAddress.value = suggestion;
+        
+        const coords = suggestion.geometry.coordinates;
+        longitudeTest.value = coords[0];
+        latitudeTest.value = coords[1];
+        suggestions.value = [];
+
+        const props = suggestion.properties;
+    
+        // Mappage PLAT direct pour correspondre au JSON backend
+        newAnnonce.value.nomRue = props.street || props.name || "";
+        newAnnonce.value.voie = props.housenumber ? parseInt(props.housenumber) : 0;
+        newAnnonce.value.longitude = coords[0];
+        newAnnonce.value.latitude = coords[1];
+        newAnnonce.value.codeInsee = props.citycode || "";
+        newAnnonce.value.nomVille = props.city || "";
+        newAnnonce.value.codePostalVille = props.postcode || "";
+        newAnnonce.value.numeroDepartement = props.postcode ? props.postcode.substring(0, 2) : "";
+        
+        newAnnonce.value.nomDepartement = props.context ? props.context.split(', ')[1] : ""; 
     };
 }
 
 async function deposerAnnonce() {
     try {
-        // Clonage profond pour casser les Proxies Vue
         let payload = JSON.parse(JSON.stringify(newAnnonce.value));
         
-        // Mappage strict sur les ID pour les relations complexes
-        payload.equipementsInclus = payload.equipementsInclus.map(e => ({ equipementId: e.equipementId }));
-        payload.servicesProposes = payload.servicesProposes.map(s => ({ serviceId: s.serviceId }));
+        payload.equipementsId = payload.equipementsInclus.map(e => e.equipementId);
+        payload.servicesId = payload.servicesProposes.map(s => s.serviceId);
+
+        // On assigne null aux IDs non gérés pour l'instant
+        payload.conditionHebergementId = null;
+        payload.natureHebergementId = null;
+
+        delete payload.equipementsInclus;
+        delete payload.servicesProposes;
+        delete payload.photos;
         
-        // Nettoyage des propriétés non gérées à la création
-        payload.photos = [];
-        payload.avis = [];
-        payload.messages = [];
-        payload.recherchesEffectuees = [];
-        payload.reservations = [];
-        payload.utilisateursInteresses = [];
-        payload.joursSemaine = [];
-        payload.typesPaiement = [];
-        payload.exterieurs = [];
+        delete payload.conditionHebergementBien;
+        delete payload.adresseBien;
+
+        console.log("Payload envoyé à l'API :", payload);
 
         const resultat = await annonceStore.postAnnonce(payload);
         
@@ -218,7 +188,7 @@ async function deposerAnnonce() {
 
 const fermerEtRediriger = () => {
     showSuccessModal.value = false;
-    router.push('/'); // Redirection vers l'accueil
+    router.push('/');
 }
 </script>
 
@@ -283,13 +253,13 @@ const fermerEtRediriger = () => {
                 <h1>Dites-nous en plus</h1>
                 <h3>Choisissez votre type de bien<sup>*</sup></h3>
                 <div class="types">
-                    <div class="type" v-for="type in types">
+                    <div class="type" v-for="type in types" :key="type.id">
                         <input 
                             type="radio" 
                             name="typeBien" 
                             :id="type.name" 
-                            :value="type.name" 
-                            v-model="newAnnonce.typeHebergementBien.libelleTypeHebergement">
+                            :value="type.id" 
+                            v-model="newAnnonce.typeHebergementId">
                         <label :for="type.name">{{type.name}}</label>
                     </div>
                 </div>
@@ -346,14 +316,14 @@ const fermerEtRediriger = () => {
                                     </ul>
                                 </div>
                             </div>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <input v-model="newAnnonce.conditionHebergementBien.animauxAcceptes" type="checkbox" id="animaux"/>
                             <label for="animaux">Animaux acceptés</label>
                         </div>
                         <div class="input-group">
                             <input v-model="newAnnonce.conditionHebergementBien.fumeur" type="checkbox" id="fumeur"/>
                             <label for="fumeur">Fumeurs acceptés</label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="actions">
@@ -365,8 +335,10 @@ const fermerEtRediriger = () => {
                 <h3>Description de l'annonce<sup>*</sup></h3>
                 <textarea v-model="newAnnonce.descriptionAnnonce" id="" rows="10"></textarea>
                 <p>Vérifiez que le bien que vous proposez n'est pas dans une ville qui réglemente les locations de vacances. Si c'est le cas, vous devez désormais vous enregistrer sur le site de votre mairie. </p>
-                <Button @click="step-=1">Retour</Button>
-                <Button @click="step+=1">Continuer</Button>
+                <div class="actions">
+                    <Button @click="step-=1">Retour</Button>
+                    <Button @click="step+=1">Continuer</Button>
+                </div>
             </div>
             <div v-else-if="step == 6">
                 <h1>Quel est votre prix ?</h1>
