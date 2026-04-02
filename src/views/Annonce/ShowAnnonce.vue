@@ -37,8 +37,10 @@ const liked = ref(false)
             <div class="colonnes">
 
                 <div class="colonneGauche">
-                    <LikeButton class="like-button" v-model:liked="liked"></LikeButton>
-                    <ButtonShare class="share-button"></ButtonShare>
+                    <div class="boutons">
+                        <ButtonShare class="share-button"></ButtonShare>
+                        <LikeButton class="like-button" v-model:liked="liked"></LikeButton>
+                    </div>
                     <PhotosAnnonce :annonce="store.annonce"/>
                     <InfosPrincipalesAnnonce :annonce="store.annonce" class="infosPrincipales"/>
                 </div>
@@ -106,17 +108,19 @@ const liked = ref(false)
     flex: 1;
     top: 80px;
 }
-.like-button{
+.boutons{
+    display:flex;
     position: absolute;
     right: 10px;
     top: 10px;
     z-index: 10;
 }
+.like-button{
+    margin-left: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
 .share-button{
-    position: absolute;
-    right: 40px;
-    top: 10px;
-    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 @media (max-width: 768px) {
     .colonnes {
