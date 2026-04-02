@@ -15,7 +15,6 @@ function like() {
 
 <template>
     <div class="like-button" @click="like">
-        <slot></slot>
         <ion-icon v-if="liked" class="liked" name="heart"></ion-icon>
         <ion-icon v-else name="heart-outline"></ion-icon>
     </div>
@@ -23,10 +22,14 @@ function like() {
 
 <style>
     .like-button {
+        display: flex;
         background-color: white;
         width: 1.5rem;
+        height: 1.5rem;
         font-size: 1rem;
         border-radius: 50%;
+        justify-content: center;
+        vertical-align: center;
     }
 
     .like-button:hover {

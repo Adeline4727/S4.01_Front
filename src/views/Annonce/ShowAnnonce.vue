@@ -27,6 +27,7 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
 });
 
+const liked = ref(false)
 </script>
 
 <template>
@@ -36,6 +37,7 @@ onUnmounted(() => {
             <div class="colonnes">
 
                 <div class="colonneGauche">
+                    <LikeButton class="like-button" v-model:liked="liked"></LikeButton>
                     <PhotosAnnonce :annonce="store.annonce"/>
                     <InfosPrincipalesAnnonce :annonce="store.annonce" class="infosPrincipales"/>
                 </div>
@@ -103,7 +105,12 @@ onUnmounted(() => {
     flex: 1;
     top: 80px;
 }
-
+.like-button{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+}
 @media (max-width: 768px) {
     .colonnes {
       flex-direction: column;

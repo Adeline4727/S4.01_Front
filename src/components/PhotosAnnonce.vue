@@ -38,26 +38,21 @@ const urlPhoto = (lienurl) => "/" + lienurl
 </script>
 
 <template>
-    <!-- Grille de photos -->
     <div class="photos" @keydown="gererTouche" tabindex="0">
 
-        <!-- Aucune photo -->
         <div v-if="annonce.photos.length === 0" class="vide">
             Aucune photo disponible
         </div>
 
-        <!-- Une seule photo -->
         <div v-else-if="annonce.photos.length === 1" class="grille grille-1" @click="ouvrirModal(0)">
             <img :src="urlPhoto(annonce.photos[0].lienurl)" alt="" class="photo photo-principale"/>
         </div>
 
-        <!-- Deux photos -->
         <div v-else-if="annonce.photos.length === 2" class="grille grille-2" @click="ouvrirModal(0)">
             <img :src="urlPhoto(annonce.photos[0].lienurl)" alt="" class="photo"/>
             <img :src="urlPhoto(annonce.photos[1].lienurl)" alt="" class="photo"/>
         </div>
 
-        <!-- 3 photos ou plus -->
         <div v-else class="grille grille-3">
             <img :src="urlPhoto(annonce.photos[0].lienurl)" alt="" class="photo photo-grande" @click="ouvrirModal(0)"/>
             <div class="grille-droite">
@@ -71,31 +66,26 @@ const urlPhoto = (lienurl) => "/" + lienurl
             </div>
         </div>
 
-        <!-- Bouton "Voir toutes les photos" -->
         <button v-if="annonce.photos.length > 0" class="btn-toutes-photos" @click="ouvrirModal(0)">
             Voir les {{ annonce.photos.length }} photos
         </button>
     </div>
 
-    <!-- Modale -->
     <Teleport to="body">
         <div v-if="modalOuverte" class="modal-overlay" @click.self="fermerModal" @keydown="gererTouche" tabindex="0">
             <div class="modal-contenu">
 
-                <!-- Header -->
                 <div class="modal-header">
                     <span class="modal-compteur">{{ indexActuel + 1 }} / {{ annonce.photos.length }}</span>
                     <button class="btn-fermer" @click="fermerModal">✕</button>
                 </div>
 
-                <!-- Photo principale -->
                 <div class="modal-photo-container">
                     <button class="btn-nav btn-precedent" @click="photoPrecedente" v-if="annonce.photos.length > 1">‹</button>
                     <img :src="urlPhoto(annonce.photos[indexActuel].lienurl)" alt="" class="modal-photo"/>
                     <button class="btn-nav btn-suivant" @click="photoSuivante" v-if="annonce.photos.length > 1">›</button>
                 </div>
 
-                <!-- Miniatures -->
                 <div class="modal-miniatures" v-if="annonce.photos.length > 1">
                     <img
                         v-for="(photo, index) in annonce.photos"
@@ -114,7 +104,6 @@ const urlPhoto = (lienurl) => "/" + lienurl
 </template>
 
 <style scoped>
-/* --- Grille --- */
 .photos {
     position: relative;
     border-radius: 12px;
@@ -182,7 +171,6 @@ const urlPhoto = (lienurl) => "/" + lienurl
     font-size: 18px;
 }
 
-/* Bouton voir toutes les photos */
 .btn-toutes-photos {
     position: absolute;
     bottom: 35px;
@@ -200,7 +188,6 @@ const urlPhoto = (lienurl) => "/" + lienurl
 
 .btn-toutes-photos:hover { background: #f5f5f5; }
 
-/* --- Modale --- */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -287,7 +274,6 @@ const urlPhoto = (lienurl) => "/" + lienurl
 .btn-precedent { left: 12px; }
 .btn-suivant { right: 12px; }
 
-/* Miniatures */
 .modal-miniatures {
     display: flex;
     gap: 8px;
@@ -315,7 +301,6 @@ const urlPhoto = (lienurl) => "/" + lienurl
     border-color: white;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
     .photos { height: 250px; }
     .btn-nav { display: none; }
