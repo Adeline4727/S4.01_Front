@@ -1,14 +1,25 @@
 <script setup>
 import {ref, computed, useTemplateRef, onMounted} from 'vue';
+import { useRoute } from 'vue-router';
 import MapComponent from './MapComponent.vue';
 import Carrousel from './Carrousel.vue';
 import AnnonceCard from './AnnonceCard.vue';
+import { useTypeHebergementsStore } from '@/stores/typehebergement';
+
+const route = useRoute()
+const store = useTypeHebergementsStore()
+
 
 const props = defineProps({
     annonce : {
         required : true,
     }
 })
+
+onMounted(() => {
+    store.getTypeHebergementById(props.annonce.typeHebergementBien.typeHebergementId);
+    console.log(store.typehebergement)
+});
 
 const limiteAffichage = ref(6)
 
@@ -149,8 +160,8 @@ const limiteAffichage = ref(6)
         </RouterLink>
         </div>
     </Carrousel> -->
-    <Carrousel>
-                <div v-for="annonceCar in annonce.typeHebergementBien.annonces" :key="annonceCar.annonceId">
+    <Carrousel v-if="store.typehebergement">
+                <div v-for="annonceCar in store.typehebergement.annonces" :key="annonceCar.annonceId">
                     <AnnonceCard 
                         class="Card" 
                         :redirection="{ name: 'ShowAnnonce', params: { id: annonceCar.annonceId} }" 
@@ -158,7 +169,7 @@ const limiteAffichage = ref(6)
                         :title="annonceCar.titreAnnonce" 
                         :category="annonceCar.TypeHebergement" 
                         :capacity="annonceCar.CapacitePersonne" 
-                        :owner="getOwnerName(annonceCar)" 
+                        :owner='annonceCar.proprietaireBien.particulierAssocie?annonceCar.proprietaireBien.particulierAssocie.prenom:annonceCar.proprietaireBien.professionnelAssocie.nomProfessionnel'
                         :price="annonceCar.prix" 
                         :city="annonceCar.Adresse" 
                         :publishDate="annonceCar.Date" 

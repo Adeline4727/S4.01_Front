@@ -24,7 +24,13 @@ onUnmounted(() => {
 
 const handleSend = async () => {
     if (!currentText.value.trim()) return;
-    await store.sendMessage(user, currentText.value);
+    
+    // Pour l'instant, mets des faux IDs existants dans ta base de données pour tester (ex: 1, 2, 3)
+    const emetteurIdMock = 1; 
+    const recepteurIdMock = 2; 
+    const annonceIdMock = 3; 
+
+    await store.sendMessage(emetteurIdMock, recepteurIdMock, annonceIdMock, currentText.value);
     currentText.value = "";
 };
 </script>
@@ -49,8 +55,8 @@ const handleSend = async () => {
                 <Message fromWho="Bappou">
                     <p>Merci poto</p>
                 </Message>
-                <Message v-for="(msg, index) in store.messages" :key="index" :fromWho="msg.user">
-                    {{msg.message}}
+                <Message v-for="(msg, index) in store.messages" :key="index" :fromWho="msg.emetteur?.pseudo || 'Moi'">
+                    {{ msg.contenu }}
                 </Message>
             </div>
             <div class="send-message-bar">
