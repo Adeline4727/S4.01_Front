@@ -22,34 +22,104 @@ const dateDepart = ref(null)
 const handleDatesSelected = ({ debut, fin }) => {
   dateArrivee.value = debut
   dateDepart.value = fin
-  showDatePicker.value = false // On ferme la modale
+  showDatePicker.value = false
 }
 
 const allerAReservation = () => {
-  // Sécurité : On vérifie que les deux dates sont sélectionnées
   if (!dateArrivee.value || !dateDepart.value) {
     alert("Veuillez sélectionner vos dates d'arrivée et de départ.");
     return;
   }
 
-  // Redirection vers la page de réservation
   router.push({
     name: 'reservation-annonce', 
     params: { id: props.annonce.id }, 
-    // On passe les dates dans l'URL (ex: ?arrivee=2026-04-10&depart=2026-04-15)
     query: {
       arrivee: dateArrivee.value,
       depart: dateDepart.value
     }
   });
 }
+
+const formaterDateLocale = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const datesReservees = computed(() => {
+    const joursOccupes = new Set();
+    const reservations = store.annonce?.reservations || props.annonce?.reservations || [];
+
+    reservations.forEach(resa => {
+        if (resa.debutReservation && resa.finReservation) {
+            let dateEnCours = new Date(resa.debutReservation);
+            const dateFin = new Date(resa.finReservation);
+
+            while (dateEnCours <= dateFin) {
+                joursOccupes.add(formaterDateLocale(dateEnCours));
+                dateEnCours.setDate(dateEnCours.getDate() + 1);
+            }
+        }
+    });
+
+    return Array.from(joursOccupes);
+});
+
+const prochaineDateLibre = computed(() => {
+    const minNuits = store.annonce?.minmumNuite || props.annonce?.minmumNuite || 1;
+    
+    let dateTest = new Date();
+    dateTest.setHours(0, 0, 0, 0);
+
+    const limiteJours = 365;
+
+    for (let i = 0; i < limiteJours; i++) {
+        let plageEstLibre = true;
+
+        for (let j = 0; j < minNuits; j++) {
+            const jourAValider = new Date(dateTest);
+            jourAValider.setDate(jourAValider.getDate() + j);
+            
+            const dateStr = formaterDateLocale(jourAValider);
+
+            if (datesReservees.value.includes(dateStr)) {
+                plageEstLibre = false;
+                break; 
+            }
+        }
+
+        if (plageEstLibre) {
+            return jourAValiderAffichage(dateTest);
+        }
+
+        dateTest.setDate(dateTest.getDate() + 1);
+    }
+
+    return null;
+});
+
+const jourAValiderAffichage = (date) => {
+  return date.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+};
 </script>
 
 <template>
     <div class="rectangle">
         <p class="text">Sélectionnez vos dates de séjour :</p>
-        <p id="info"><div class="entoure">i</div> <div id="textInfo">La prochaine date d'arrivée disponible est le {{  }}</div></p><!--A compléter-->
-        <!--Parcourir les réservations + joursSemaine correspond aux jours disponible-->
+        <p id="info" v-if="prochaineDateLibre">
+            <div class="entoure">i</div> 
+            <div id="textInfo">La prochaine date d'arrivée disponible est le {{ prochaineDateLibre }}</div>
+        </p>
+        <p id="info" v-else style="background-color: #ffe1e1;">
+             <div class="entoure">!</div> 
+             <div id="textInfo">Aucune disponibilité pour les 365 prochains jours.</div>
+        </p>
         <div class="datePickers">
             <div class="text">
                 Arrivée 
@@ -112,6 +182,7 @@ const allerAReservation = () => {
     display: flex;  
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 #info{
