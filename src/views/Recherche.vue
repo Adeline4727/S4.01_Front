@@ -88,7 +88,8 @@ const mapMarkers = computed(() => {
                         :capacity="annonce.capacitePersonne" 
                         :price="annonce.prix" 
                         :city="annonce.adresseBien?.villeAdresse?.nomVille" 
-                        :publishDate="annonce.datePublication?.valeur" 
+                        :publishDate="annonce.datePublication?.valeur"
+                        :redirection="{ name: 'ShowAnnonce', params: { id: annonce.annonceId} }"
                     />
                 </div>
             </article>

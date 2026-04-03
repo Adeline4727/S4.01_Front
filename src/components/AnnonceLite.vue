@@ -20,6 +20,10 @@ defineProps({
   isPro: {
     type: Boolean,
     default: false
+  },
+  redirection: {
+    type: Object,
+    required: true
   }
 })
 
@@ -27,6 +31,7 @@ const liked = ref(false)
 </script>
 
 <template>
+    <RouterLink :to="redirection" class="routerlink">
     <div class="annonce-lite">
         <div class="annonce-image">
             <!-- Template for an actual image -->
@@ -53,9 +58,15 @@ const liked = ref(false)
             </div>
         </div>
     </div>
+    </RouterLink>
 </template>
 
 <style>
+.routerlink {
+  text-decoration: none;
+  color: black;
+}
+
     .annonce-lite {
         width: 100%;
         height: 160px;

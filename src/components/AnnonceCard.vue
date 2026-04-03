@@ -37,6 +37,8 @@ const liked = ref(false)
 
             <LikeButton v-model:liked="liked" />
         </div>
+
+      <RouterLink :to="redirection" class="routerlink">
         <div class="annonce-infos">
             <div class="annonce-top-part">
                 <h3 class="annonce-title">{{ title }}</h3>
@@ -48,11 +50,14 @@ const liked = ref(false)
                 <span v-if="publishDate!=''" class="annonce-date">{{ publishDate }}</span>
             </div>
         </div>
+      </RouterLink>
     </div>
 </template>
 
 <style>
     .routerlink {
+      text-decoration: none;
+      color: black;
     }
     .annonce-card {
         padding: 1rem;
