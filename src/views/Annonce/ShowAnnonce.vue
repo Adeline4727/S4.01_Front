@@ -115,7 +115,7 @@ const liked = ref(authStore.user?.annoncesFavorisees?.contains(defineProps.annon
     position: absolute;
     right: 10px;
     top: 10px;
-    z-index: 10;
+    z-index: 5;
 }
 .like-button{
     margin-left: 10px;
